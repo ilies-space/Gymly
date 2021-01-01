@@ -8,10 +8,11 @@ import Notifications from './app/Screens/Notifications/Notifications';
 import Settings from './app/Screens/Settings/Settings';
 import {myIcon} from './theme/Icons';
 import {NavigationContainer} from '@react-navigation/native';
+import DrawerNavigation from './app/DrawerNavigation';
 export default function App() {
   return (
     <NavigationContainer>
-      <BottomTabNavigator />
+      <DrawerNavigation />
     </NavigationContainer>
   );
 }
