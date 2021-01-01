@@ -8,7 +8,7 @@ import {
 } from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {menu, myIcon, notifications} from '../../../theme/Icons';
-
+import {memebersList} from '../../../temps/data';
 export default function Home() {
   const navigation = useNavigation();
   return (
@@ -75,7 +75,7 @@ export default function Home() {
             </View> */}
           </View>
 
-          {/* CARD view */}
+          {/* CARD  recently view */}
 
           <View>
             <Text style={{color: Colors.light, margin: '4%'}}>
@@ -85,74 +85,95 @@ export default function Home() {
 
           <FlatList
             horizontal
-            data={[
-              {
-                name: 'ilies',
-                img: 'img',
-                duration: '30',
-                memebershipType: 'days',
-                id: 'xx',
-              },
-              {
-                name: 'ilies',
-                img: 'img',
-                duration: '30',
-                memebershipType: 'days',
-                id: 'xxxxx',
-              },
-              {
-                name: 'ilies',
-                img: 'img',
-                duration: '30',
-                memebershipType: 'days',
-                id: 'xxx',
-              },
-              {
-                name: 'ilies',
-                img: 'img',
-                duration: '30',
-                memebershipType: 'days',
-                id: 'xxxzaxx',
-              },
-              {
-                name: 'ilies',
-                img: 'img',
-                duration: '30',
-                memebershipType: 'days',
-                id: 'xxddxxx',
-              },
-              {
-                name: 'ilies',
-                img: 'img',
-                duration: '30',
-                memebershipType: 'days',
-                id: 'da',
-              },
-              {
-                name: 'ilies',
-                img: 'img',
-                duration: '30',
-                memebershipType: 'days',
-                id: 'xxxakzxx',
-              },
-            ]}
+            data={memebersList}
             key={(item) => item.id}
             renderItem={({item}) => {
               return (
                 <View
                   style={{
-                    backgroundColor: 'white',
+                    backgroundColor: Colors.dark,
                     marginHorizontal: 10,
                     borderRadius: 10,
                     padding: 10,
+                    justifyContent: 'center',
+                    paddingHorizontal: 20,
+                    width: 150,
                   }}>
-                  <Text> {item.name} </Text>
-                  <Text> {item.duration} </Text>
-                  <Text> {item.memebershipType} </Text>
+                  <View style={{alignItems: 'center'}}>
+                    <View
+                      style={{
+                        height: 80,
+                        width: 80,
+                        backgroundColor: 'pink',
+                        borderRadius: 80 / 2,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Text> {item.img} </Text>
+                    </View>
+                  </View>
+
+                  <View style={{alignItems: 'center', marginVertical: 10}}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                        color: Colors.light,
+                      }}>
+                      {item.name.length > 10
+                        ? item.name.substring(0, 10) + '...'
+                        : item.name}
+                    </Text>
+                    <Text style={{color: Colors.lightGrey, fontSize: 14}}>
+                      {item.duration} {item.memebershipType}
+                    </Text>
+                  </View>
                 </View>
               );
             }}
           />
+
+          {/* outded memebers */}
+          <View style={{margin: '4%'}}>
+            <Text style={{color: Colors.light}}>Expire this week</Text>
+            {memebersList ? (
+              <View style={{marginVertical: 15}}>
+                {memebersList.map((item) => {
+                  return (
+                    <View
+                      key={(item) => item.id}
+                      style={{
+                        backgroundColor: Colors.dark,
+                        padding: 10,
+                        paddingHorizontal: 20,
+                        borderBottomWidth: 0.5,
+                        borderBottomColor: 'grey',
+                      }}>
+                      <View style={{marginVertical: 10}}>
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            fontSize: 18,
+                            color: Colors.light,
+                          }}>
+                          {item.name.length > 20
+                            ? item.name.substring(0, 20) + '...'
+                            : item.name}
+                        </Text>
+                        <Text style={{color: Colors.lightGrey, fontSize: 14}}>
+                          {item.duration} {item.memebershipType}
+                        </Text>
+                      </View>
+                    </View>
+                  );
+                })}
+              </View>
+            ) : (
+              <View>
+                <Text>EMPTY</Text>
+              </View>
+            )}
+          </View>
         </View>
       </ScrollView>
     </View>
