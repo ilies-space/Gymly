@@ -5,6 +5,7 @@ import Home from './app/Screens/Home/Home';
 import Members from './app/Screens/Members/Members';
 import Notifications from './app/Screens/Notifications/Notifications';
 import Settings from './app/Screens/Settings/Settings';
+import {myIcon} from './theme/Icons';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Notifications />
       <Settings />
       <About />
+      {myIcon}
     </View>
   );
 }
