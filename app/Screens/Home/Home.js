@@ -1,9 +1,12 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {menu, myIcon, notifications} from '../../../theme/Icons';
 
 export default function Home() {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -12,7 +15,12 @@ export default function Home() {
       }}>
       {/* Header */}
       <View style={{flexDirection: 'row', margin: '2%'}}>
-        <View>{menu}</View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.openDrawer();
+          }}>
+          {menu}
+        </TouchableOpacity>
         <Text
           style={{
             color: Colors.light,
