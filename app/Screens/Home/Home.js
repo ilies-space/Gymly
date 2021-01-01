@@ -83,61 +83,76 @@ export default function Home() {
             </Text>
           </View>
 
-          <FlatList
-            horizontal
-            data={memebersList}
-            key={(item) => item.id}
-            renderItem={({item}) => {
-              return (
-                <View
-                  style={{
-                    backgroundColor: Colors.dark,
-                    marginHorizontal: 10,
-                    borderRadius: 10,
-                    padding: 10,
-                    justifyContent: 'center',
-                    paddingHorizontal: 20,
-                    width: 150,
-                  }}>
-                  <View style={{alignItems: 'center'}}>
-                    <View
-                      style={{
-                        height: 80,
-                        width: 80,
-                        backgroundColor: 'pink',
-                        borderRadius: 80 / 2,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                      <Text> {item.img} </Text>
+          {memebersList && memebersList.length > 0 ? (
+            <FlatList
+              horizontal
+              data={memebersList}
+              key={(item) => item.id}
+              renderItem={({item}) => {
+                return (
+                  <View
+                    style={{
+                      backgroundColor: Colors.dark,
+                      marginHorizontal: 10,
+                      borderRadius: 10,
+                      padding: 10,
+                      justifyContent: 'center',
+                      paddingHorizontal: 20,
+                      width: 150,
+                    }}>
+                    <View style={{alignItems: 'center'}}>
+                      <View
+                        style={{
+                          height: 80,
+                          width: 80,
+                          backgroundColor: Colors.main,
+                          borderRadius: 80 / 2,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <Text> {item.img} </Text>
+                      </View>
+                    </View>
+
+                    <View style={{alignItems: 'center', marginVertical: 10}}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: 18,
+                          color: Colors.light,
+                        }}>
+                        {item.name.length > 10
+                          ? item.name.substring(0, 10) + '...'
+                          : item.name}
+                      </Text>
+                      <Text style={{color: Colors.lightGrey, fontSize: 14}}>
+                        {item.duration} {item.memebershipType}
+                      </Text>
                     </View>
                   </View>
-
-                  <View style={{alignItems: 'center', marginVertical: 10}}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        color: Colors.light,
-                      }}>
-                      {item.name.length > 10
-                        ? item.name.substring(0, 10) + '...'
-                        : item.name}
-                    </Text>
-                    <Text style={{color: Colors.lightGrey, fontSize: 14}}>
-                      {item.duration} {item.memebershipType}
-                    </Text>
-                  </View>
-                </View>
-              );
-            }}
-          />
+                );
+              }}
+            />
+          ) : (
+            <View
+              style={{
+                margin: '4%',
+                backgroundColor: Colors.dark,
+                height: 150,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text style={{color: Colors.light}}>NO MEMBER YET</Text>
+            </View>
+          )}
 
           {/* outded memebers */}
-          <View style={{margin: '4%'}}>
-            <Text style={{color: Colors.light}}>Expire this week</Text>
-            {memebersList ? (
-              <View style={{marginVertical: 15}}>
+          <View style={{}}>
+            <Text style={{color: Colors.light, margin: '4%'}}>
+              Expire this week
+            </Text>
+            {memebersList && memebersList.length > 0 ? (
+              <View style={{marginVertical: 15, margin: '4%'}}>
                 {memebersList.map((item) => {
                   return (
                     <View
@@ -169,8 +184,15 @@ export default function Home() {
                 })}
               </View>
             ) : (
-              <View>
-                <Text>EMPTY</Text>
+              <View
+                style={{
+                  margin: '4%',
+                  backgroundColor: Colors.dark,
+                  height: 150,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={{color: Colors.light}}>No memeberT</Text>
               </View>
             )}
           </View>
