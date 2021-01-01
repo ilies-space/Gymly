@@ -9,7 +9,7 @@ export default function Settings() {
         backgroundColor: Colors.dark,
         flex: 1,
       }}>
-      <Text>Settings SC</Text>
+      <Text style={{color: Colors.light}}>Settings Goes here</Text>
     </View>
   );
 }

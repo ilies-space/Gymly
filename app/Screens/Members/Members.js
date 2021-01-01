@@ -9,7 +9,7 @@ export default function Members() {
         backgroundColor: Colors.dark,
         flex: 1,
       }}>
-      <Text>Members SC</Text>
+      <Text style={{color: Colors.light}}>Members Goes here</Text>
     </View>
   );
 }
