@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {
@@ -10,6 +11,7 @@ import Colors from '../../../theme/Colors';
 import {plus} from '../../../theme/Icons';
 
 export default function Members() {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -140,7 +142,7 @@ export default function Members() {
         }}>
         <TouchableOpacity
           onPress={() => {
-            alert('ADD NEW MEMBER');
+            navigation.push('addMember');
           }}
           style={{}}>
           {plus}

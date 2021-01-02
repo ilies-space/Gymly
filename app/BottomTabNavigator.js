@@ -9,6 +9,7 @@ import Feather from 'react-native-vector-icons/Feather';
 
 import Settings from './Screens/Settings/Settings';
 import Colors from '../theme/Colors';
+import MembersNavigation from './Screens/Members/MembersNavigation';
 
 export default function BottomTabNavigator() {
   const Tab = createBottomTabNavigator();
@@ -44,7 +45,7 @@ export default function BottomTabNavigator() {
 
       <Tab.Screen
         name="Members"
-        component={Members}
+        component={MembersNavigation}
         options={{
           tabBarLabel: 'Members',
           tabBarIcon: ({color, size}) => (
