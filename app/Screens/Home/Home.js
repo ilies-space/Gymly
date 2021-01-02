@@ -21,7 +21,15 @@ export default function Home() {
         flex: 1,
       }}>
       {/* Header */}
-      <View style={{flexDirection: 'row', margin: '4%'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: '3%',
+          borderBottomWidth: 0.5,
+          borderColor: Colors.dark,
+          elevation: 3,
+          margin: '1%',
+        }}>
         <TouchableOpacity
           onPress={() => {
             navigation.openDrawer();
@@ -37,7 +45,24 @@ export default function Home() {
           }}>
           GymName
         </Text>
-        <View>{notifications}</View>
+        <View>
+          <View>{notifications}</View>
+          {/* BADG */}
+          {true ? (
+            <View
+              style={{
+                backgroundColor: Colors.main,
+                height: 10,
+                width: 10,
+                borderRadius: 10 / 2,
+                position: 'absolute',
+                right: 0,
+              }}
+            />
+          ) : (
+            <View />
+          )}
+        </View>
       </View>
 
       {/* Main view  */}
@@ -48,7 +73,7 @@ export default function Home() {
             style={{
               backgroundColor: Colors.dark,
               borderRadius: 12,
-              padding: '4%',
+              padding: '3%',
               margin: '4%',
               flexDirection: 'row',
             }}>
@@ -140,7 +165,7 @@ export default function Home() {
           {/* CARD  recently view */}
 
           <View>
-            <Text style={{color: Colors.light, margin: '4%'}}>
+            <Text style={{color: Colors.light, margin: '3%'}}>
               Recently subscribed
             </Text>
           </View>
@@ -167,9 +192,6 @@ export default function Home() {
                         style={{
                           height: 80,
                           width: 80,
-                          // backgroundColor: Colors.main,
-                          // alignItems: 'center',
-                          // justifyContent: 'center',
                         }}>
                         <Image
                           style={{
@@ -222,7 +244,7 @@ export default function Home() {
               Expire this week
             </Text>
             {memebersList && memebersList.length > 0 ? (
-              <View style={{marginVertical: 15, margin: '4%'}}>
+              <View style={{marginVertical: 1, margin: '4%'}}>
                 {memebersList.map((item) => {
                   return (
                     <View
@@ -232,22 +254,40 @@ export default function Home() {
                         padding: 10,
                         paddingHorizontal: 20,
                         borderBottomWidth: 0.5,
-                        borderBottomColor: 'grey',
+                        borderBottomColor: Colors.grey,
                       }}>
-                      <View style={{marginVertical: 10}}>
-                        <Text
+                      <View
+                        style={{
+                          marginVertical: 4,
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <View style={{flex: 1}}>
+                          <Text
+                            style={{
+                              fontWeight: 'bold',
+                              fontSize: 16,
+                              color: Colors.light,
+                            }}>
+                            {item.name.length > 20
+                              ? item.name.substring(0, 20) + '...'
+                              : item.name}
+                          </Text>
+                          <Text style={{color: Colors.red, fontSize: 12}}>
+                            - {item.duration} days
+                          </Text>
+                        </View>
+
+                        <Image
                           style={{
-                            fontWeight: 'bold',
-                            fontSize: 18,
-                            color: Colors.light,
-                          }}>
-                          {item.name.length > 20
-                            ? item.name.substring(0, 20) + '...'
-                            : item.name}
-                        </Text>
-                        <Text style={{color: Colors.lightGrey, fontSize: 14}}>
-                          {item.duration} {item.memebershipType}
-                        </Text>
+                            width: 60,
+                            height: 60,
+                          }}
+                          source={{
+                            uri: item.img,
+                          }}
+                        />
                       </View>
                     </View>
                   );
