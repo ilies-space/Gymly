@@ -4,6 +4,7 @@ import About from './Screens/About/About';
 import BottomTabNavigator from './BottomTabNavigator';
 import Colors from '../theme/Colors';
 import MembersArchived from './Screens/Members/MembersArchived';
+import Settings from './Screens/Settings/Settings';
 
 export default function DrawerNavigation() {
   const Drawer = createDrawerNavigator();
@@ -23,6 +24,11 @@ export default function DrawerNavigation() {
         name="MembersArchived"
         component={MembersArchived}
         options={{title: 'Archivied memebers'}}
+      />
+      <Drawer.Screen
+        name="Settings"
+        component={Settings}
+        options={{title: 'Settings'}}
       />
       <Drawer.Screen name="About" component={About} />
     </Drawer.Navigator>

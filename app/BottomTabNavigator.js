@@ -21,7 +21,7 @@ export default function BottomTabNavigator() {
         activeBackgroundColor: Colors.dark,
         inactiveBackgroundColor: Colors.grey,
       }}>
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Settings"
         component={Settings}
         options={{
@@ -30,7 +30,7 @@ export default function BottomTabNavigator() {
             <Feather name="settings" color={color} size={size} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Home"
         component={Home}
