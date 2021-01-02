@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
-import {menu, myIcon, notifications} from '../../../theme/Icons';
+import {menu, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
-import {PieChart, ProgressChart} from 'react-native-chart-kit';
+import {PieChart} from 'react-native-chart-kit';
 export default function Home() {
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
