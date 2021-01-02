@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text, Dimensions} from 'react-native';
+import {View, Text, Dimensions, Image} from 'react-native';
 import {
   FlatList,
   ScrollView,
@@ -9,7 +9,7 @@ import {
 import Colors from '../../../theme/Colors';
 import {menu, myIcon, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
-import {ProgressChart} from 'react-native-chart-kit';
+import {PieChart, ProgressChart} from 'react-native-chart-kit';
 export default function Home() {
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
@@ -48,11 +48,11 @@ export default function Home() {
             style={{
               backgroundColor: Colors.dark,
               borderRadius: 12,
-              padding: '5%',
+              padding: '4%',
               margin: '4%',
               flexDirection: 'row',
             }}>
-            <View style={{flex: 1}}>
+            <View style={{flex: 1, justifyContent: 'center'}}>
               <Text style={{color: Colors.light}}>All subscribers</Text>
               <View
                 style={{
@@ -75,7 +75,43 @@ export default function Home() {
 
             <View style={{}}>
               {/* Chart graph START  */}
-              <ProgressChart
+              <PieChart
+                data={[
+                  {
+                    name: 'Active',
+                    population: 10,
+                    color: Colors.mainLight,
+                    legendFontColor: Colors.light,
+                    legendFontSize: 12,
+                  },
+                  {
+                    name: 'inActive',
+                    population: 5,
+                    color: Colors.red,
+                    legendFontColor: Colors.light,
+                    legendFontSize: 12,
+                  },
+                ]}
+                width={screenWidth / 2}
+                height={90}
+                chartConfig={{
+                  backgroundGradientFrom: '#1E2923',
+                  backgroundGradientTo: '#08130D',
+
+                  backgroundGradientFromOpacity: 0,
+                  backgroundGradientToOpacity: 0.5,
+                  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+                  strokeWidth: 2, // optional, default 3
+                  barPercentage: 0.5,
+                  useShadowColorFromDataset: false, // optional
+                }}
+                accessor={'population'}
+                backgroundColor={'transparent'}
+                paddingLeft={'2'}
+                center={[2, 2]}
+                absolute
+              />
+              {/* <ProgressChart
                 data={{
                   labels: ['active', 'inactive'], // optional
                   data: [0.4, 0.6],
@@ -96,7 +132,7 @@ export default function Home() {
                   useShadowColorFromDataset: false, // optional
                 }}
                 hideLegend={false}
-              />
+              /> */}
               {/* Chart graph END  */}
             </View>
           </View>
@@ -131,12 +167,20 @@ export default function Home() {
                         style={{
                           height: 80,
                           width: 80,
-                          backgroundColor: Colors.main,
-                          borderRadius: 80 / 2,
-                          alignItems: 'center',
-                          justifyContent: 'center',
+                          // backgroundColor: Colors.main,
+                          // alignItems: 'center',
+                          // justifyContent: 'center',
                         }}>
-                        <Text> {item.img} </Text>
+                        <Image
+                          style={{
+                            width: 80,
+                            height: 80,
+                            borderRadius: 80 / 2,
+                          }}
+                          source={{
+                            uri: item.img,
+                          }}
+                        />
                       </View>
                     </View>
 
