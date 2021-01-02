@@ -45,24 +45,29 @@ export default function Home() {
           }}>
           GymName
         </Text>
-        <View>
-          <View>{notifications}</View>
-          {/* BADG */}
-          {true ? (
-            <View
-              style={{
-                backgroundColor: Colors.main,
-                height: 10,
-                width: 10,
-                borderRadius: 10 / 2,
-                position: 'absolute',
-                right: 0,
-              }}
-            />
-          ) : (
-            <View />
-          )}
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.push('Notifications');
+          }}>
+          <View>
+            <View>{notifications}</View>
+            {/* BADG */}
+            {true ? (
+              <View
+                style={{
+                  backgroundColor: Colors.main,
+                  height: 10,
+                  width: 10,
+                  borderRadius: 10 / 2,
+                  position: 'absolute',
+                  right: 0,
+                }}
+              />
+            ) : (
+              <View />
+            )}
+          </View>
+        </TouchableOpacity>
       </View>
 
       {/* Main view  */}
