@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Modal, Button} from 'react-native';
 import {
   FlatList,
   TextInput,
@@ -15,6 +15,8 @@ import {useEffect} from 'react';
 export default function Members() {
   const navigation = useNavigation();
   const [listFilter, setlistFilter] = useState('All');
+  const [profilePreviewModal, setprofilePreviewModal] = useState(false);
+  const [selectedMember, setselectedMember] = useState('');
 
   // filtring listner
   useEffect(() => {
@@ -66,6 +68,8 @@ export default function Members() {
         </View>
       </View>
 
+      {/* profile preview  */}
+
       {/* Lst of memebers   */}
       <View style={{marginVertical: 1, margin: '4%', flex: 1}}>
         {memebersList && memebersList.length ? (
@@ -83,7 +87,8 @@ export default function Members() {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    alert(JSON.stringify(item));
+                    setprofilePreviewModal(true);
+                    setselectedMember(item);
                   }}>
                   <View
                     style={{
@@ -173,6 +178,31 @@ export default function Members() {
           {plus}
         </TouchableOpacity>
       </View>
+      <Modal visible={profilePreviewModal} transparent animationType={'slide'}>
+        <View
+          style={{
+            backgroundColor: 'black',
+            height: '100%',
+            opacity: 0.7,
+          }}
+        />
+        <View
+          style={{
+            height: '80%',
+            backgroundColor: 'white',
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+          }}>
+          <Button
+            title={'close'}
+            onPress={() => {
+              setprofilePreviewModal(false);
+            }}
+          />
+          <Text> {JSON.stringify(selectedMember)} </Text>
+        </View>
+      </Modal>
     </View>
   );
 }
