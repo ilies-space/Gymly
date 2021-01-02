@@ -5,6 +5,7 @@ import BottomTabNavigator from './BottomTabNavigator';
 import Colors from '../theme/Colors';
 import MembersArchived from './Screens/Members/MembersArchived';
 import Settings from './Screens/Settings/Settings';
+import Statistics from './Screens/Statistics/Statistics';
 
 export default function DrawerNavigation() {
   const Drawer = createDrawerNavigator();
@@ -30,6 +31,7 @@ export default function DrawerNavigation() {
         component={Settings}
         options={{title: 'Settings'}}
       />
+      <Drawer.Screen name="Statistics" component={Statistics} />
       <Drawer.Screen name="About" component={About} />
     </Drawer.Navigator>
   );
