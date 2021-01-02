@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Dimensions} from 'react-native';
 import {
   FlatList,
   ScrollView,
@@ -9,8 +9,11 @@ import {
 import Colors from '../../../theme/Colors';
 import {menu, myIcon, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
+import {ProgressChart} from 'react-native-chart-kit';
 export default function Home() {
   const navigation = useNavigation();
+  const screenWidth = Dimensions.get('window').width;
+
   return (
     <View
       style={{
@@ -47,8 +50,9 @@ export default function Home() {
               borderRadius: 12,
               padding: '5%',
               margin: '4%',
+              flexDirection: 'row',
             }}>
-            <View>
+            <View style={{flex: 1}}>
               <Text style={{color: Colors.light}}>All subscribers</Text>
               <View
                 style={{
@@ -69,10 +73,32 @@ export default function Home() {
               </View>
             </View>
 
-            {/* <View>
-              <Text style={{color: Colors.light}}>TEXT 2</Text>
-              <Text style={{color: Colors.light}}>TEXT 3</Text>
-            </View> */}
+            <View style={{}}>
+              {/* Chart graph START  */}
+              <ProgressChart
+                data={{
+                  labels: ['active', 'inactive'], // optional
+                  data: [0.4, 0.6],
+                }}
+                width={screenWidth / 2}
+                height={100}
+                strokeWidth={5}
+                radius={20}
+                chartConfig={{
+                  backgroundGradientFrom: '#1E2923',
+                  backgroundGradientTo: '#08130D',
+
+                  backgroundGradientFromOpacity: 0,
+                  backgroundGradientToOpacity: 0.5,
+                  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+                  strokeWidth: 2, // optional, default 3
+                  barPercentage: 0.5,
+                  useShadowColorFromDataset: false, // optional
+                }}
+                hideLegend={false}
+              />
+              {/* Chart graph END  */}
+            </View>
           </View>
 
           {/* CARD  recently view */}
@@ -87,7 +113,7 @@ export default function Home() {
             <FlatList
               horizontal
               data={memebersList}
-              key={(item) => item.id}
+              key={(item, index) => item.id + index}
               renderItem={({item}) => {
                 return (
                   <View
@@ -156,7 +182,7 @@ export default function Home() {
                 {memebersList.map((item) => {
                   return (
                     <View
-                      key={(item) => item.id}
+                      key={item.id}
                       style={{
                         backgroundColor: Colors.dark,
                         padding: 10,

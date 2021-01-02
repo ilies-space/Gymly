@@ -1,12 +1,5 @@
 export const memebersList = [
   {
-    name: 'illxxlkzldklkslsklsies',
-    img: 'img',
-    duration: '30',
-    memebershipType: 'days',
-    id: 'xx44',
-  },
-  {
     name: 'ilies',
     img: 'img',
     duration: '30',
@@ -14,31 +7,18 @@ export const memebersList = [
     id: 'xxxakzxx',
   },
   {
-    name: 'ilies',
+    name: 'Moh',
     img: 'img',
-    duration: '30',
+    duration: '1',
     memebershipType: 'days',
-    id: 'xdax',
+    id: 'xxzmldklkxadzlkkzxx',
   },
+
   {
-    name: 'ilieazldkas',
+    name: 'Ghali',
     img: 'img',
-    duration: '30',
+    duration: '60',
     memebershipType: 'days',
-    id: 'xxxdaakzxx',
-  },
-  {
-    name: 'ilies',
-    img: 'img',
-    duration: '30',
-    memebershipType: 'days',
-    id: 'xdadzdzx',
-  },
-  {
-    name: 'ilieazldkas',
-    img: 'img',
-    duration: '30',
-    memebershipType: 'days',
-    id: 'xzdxxdaakzxx',
+    id: 'AFDAOKS',
   },
 ];
