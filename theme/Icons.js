@@ -11,3 +11,5 @@ export const notifications = (
   <Ionicons name="notifications-outline" size={25} color={Colors.light} />
 );
 export const menu = <Feather name="menu" size={25} color={Colors.light} />;
+
+export const plus = <Feather name="plus" size={30} color={Colors.light} />;
