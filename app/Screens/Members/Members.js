@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Image} from 'react-native';
 import {
   FlatList,
@@ -9,9 +9,17 @@ import {
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
 import {plus} from '../../../theme/Icons';
+import {Picker} from '@react-native-picker/picker';
+import {useEffect} from 'react';
 
 export default function Members() {
   const navigation = useNavigation();
+  const [listFilter, setlistFilter] = useState('All');
+
+  // filtring listner
+  useEffect(() => {
+    alert('filtermember by : ' + listFilter);
+  }, [listFilter]);
   return (
     <View
       style={{
@@ -28,16 +36,33 @@ export default function Members() {
             color: Colors.light,
             paddingHorizontal: 10,
             borderRadius: 5,
-            flex: 4,
+            flex: 2,
           }}
           placeholderTextColor={Colors.light}
         />
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <TouchableOpacity>
-            <Text style={{color: Colors.main, paddingHorizontal: 10}}>
-              ALL v
-            </Text>
-          </TouchableOpacity>
+        <View style={{flex: 1}}>
+          <Picker
+            style={{color: Colors.light}}
+            dropdownIconColor={'white'}
+            mode={'dropdown'}
+            selectedValue={listFilter}
+            onValueChange={(itemValue) => setlistFilter(itemValue)}>
+            <Picker.Item
+              //  color={Colors.dark}
+              label="All"
+              value="All"
+            />
+            <Picker.Item
+              //  color={Colors.dark}
+              label="active"
+              value="active"
+            />
+            <Picker.Item
+              // color={Colors.light}
+              label="inactive"
+              value="inactive"
+            />
+          </Picker>
         </View>
       </View>
 
