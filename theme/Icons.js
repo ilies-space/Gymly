@@ -13,3 +13,7 @@ export const notifications = (
 export const menu = <Feather name="menu" size={25} color={Colors.light} />;
 
 export const plus = <Feather name="plus" size={30} color={Colors.light} />;
+
+export const goback = (
+  <Feather name="arrow-left" size={25} color={Colors.light} />
+);

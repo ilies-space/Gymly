@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, Image} from 'react-native';
 import {
@@ -7,15 +8,46 @@ import {
 } from 'react-native-gesture-handler';
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
-import {plus} from '../../../theme/Icons';
+import {goback} from '../../../theme/Icons';
 
-export default function Members() {
+export default function MembersArchived() {
+  const navigation = useNavigation();
   return (
     <View
       style={{
         backgroundColor: Colors.dark,
         flex: 1,
       }}>
+      {/* Header */}
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: '3%',
+          borderBottomWidth: 0.5,
+          borderColor: Colors.dark,
+          elevation: 3,
+          margin: '1%',
+        }}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          {goback}
+        </TouchableOpacity>
+        <Text
+          style={{
+            color: Colors.light,
+            fontWeight: 'bold',
+            flex: 1,
+            textAlign: 'center',
+            justifyContent: 'center',
+            marginRight: 25,
+            paddingTop: 1,
+          }}>
+          Archivied members
+        </Text>
+      </View>
+
       {/* Search Area  */}
       <View style={{flexDirection: 'row', alignItems: 'center', margin: '4%'}}>
         <TextInput
@@ -26,17 +58,10 @@ export default function Members() {
             color: Colors.light,
             paddingHorizontal: 10,
             borderRadius: 5,
-            flex: 4,
+            flex: 1,
           }}
           placeholderTextColor={Colors.light}
         />
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <TouchableOpacity>
-            <Text style={{color: Colors.main, paddingHorizontal: 10}}>
-              ALL v
-            </Text>
-          </TouchableOpacity>
-        </View>
       </View>
 
       {/* Lst of memebers   */}
@@ -121,30 +146,9 @@ export default function Members() {
               justifyContent: 'center',
               flex: 1,
             }}>
-            <Text style={{color: Colors.light}}>No member</Text>
+            <Text style={{color: Colors.light}}>No member archivied</Text>
           </View>
         )}
-      </View>
-
-      <View
-        style={{
-          backgroundColor: Colors.main,
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: 50,
-          width: 50,
-          borderRadius: 50 / 2,
-          position: 'absolute',
-          bottom: 20,
-          right: 20,
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            alert('ADD NEW MEMBER');
-          }}
-          style={{}}>
-          {plus}
-        </TouchableOpacity>
       </View>
     </View>
   );

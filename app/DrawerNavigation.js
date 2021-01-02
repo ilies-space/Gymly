@@ -3,6 +3,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import About from './Screens/About/About';
 import BottomTabNavigator from './BottomTabNavigator';
 import Colors from '../theme/Colors';
+import MembersArchived from './Screens/Members/MembersArchived';
 
 export default function DrawerNavigation() {
   const Drawer = createDrawerNavigator();
@@ -18,6 +19,11 @@ export default function DrawerNavigation() {
         inactiveTintColor: Colors.lightGrey,
       }}>
       <Drawer.Screen name="Home" component={BottomTabNavigator} />
+      <Drawer.Screen
+        name="MembersArchived"
+        component={MembersArchived}
+        options={{title: 'Archivied memebers'}}
+      />
       <Drawer.Screen name="About" component={About} />
     </Drawer.Navigator>
   );
