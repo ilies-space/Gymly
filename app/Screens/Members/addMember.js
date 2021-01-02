@@ -1,13 +1,29 @@
-import React from 'react';
-import {View, Text, Button} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Image} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
-import {goback} from '../../../theme/Icons';
+import {goback, camera} from '../../../theme/Icons';
 
 export default function addMember() {
   const navigation = useNavigation();
+  const [avatarSource, setavatarSource] = useState(
+    require('../../../assets/profilepichholder.png'),
+  );
 
+  //   function uploadImage() {
+  //     launchCamera(options, (response) => {
+  //       console.log('Response = ', response);
+  //       if (response.didCancel) {
+  //         console.log('User cancelled image picker');
+  //       } else if (response.error) {
+  //         console.log('Image Picker Error: ', response.error);
+  //       } else {
+  //         let source = {uri: response.uri};
+  //         setavatarSource(source);
+  //       }
+  //     });
+  //   }
   return (
     <View
       style={{
@@ -45,7 +61,57 @@ export default function addMember() {
       </View>
 
       <ScrollView>
-        <Text>ADD member</Text>
+        <TouchableOpacity
+          onPress={() => {
+            console.log('uploadImage();');
+          }}
+          style={{}}>
+          <View style={{width: 100, height: 120, alignSelf: 'center'}}>
+            <Image
+              source={avatarSource}
+              style={{
+                width: 100,
+                height: 100,
+                alignSelf: 'center',
+                margin: 10,
+                borderRadius: 50,
+                backgroundColor: Colors.main,
+              }}
+            />
+            {/* Camera icon */}
+            {true ? (
+              <View
+                style={{
+                  position: 'absolute',
+                  right: '2%',
+                  bottom: '2%',
+                  backgroundColor: Colors.light,
+                  height: 30,
+                  width: 30,
+                  borderRadius: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {camera}
+              </View>
+            ) : (
+              <View />
+            )}
+          </View>
+        </TouchableOpacity>
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+          <Text
+            style={{
+              color: Colors.light,
+              fontWeight: 'bold',
+              flex: 1,
+              textAlign: 'center',
+              justifyContent: 'center',
+              paddingTop: 12,
+            }}>
+            Member Name
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );

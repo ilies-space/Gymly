@@ -18,7 +18,7 @@ export default function Members() {
 
   // filtring listner
   useEffect(() => {
-    alert('filtermember by : ' + listFilter);
+    console.log('filtermember by : ' + listFilter);
   }, [listFilter]);
   return (
     <View
