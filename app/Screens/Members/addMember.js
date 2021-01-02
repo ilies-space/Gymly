@@ -4,6 +4,7 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback, camera} from '../../../theme/Icons';
+import {launchCamera} from 'react-native-image-picker';
 
 export default function addMember() {
   const navigation = useNavigation();
@@ -11,19 +12,27 @@ export default function addMember() {
     require('../../../assets/profilepichholder.png'),
   );
 
-  //   function uploadImage() {
-  //     launchCamera(options, (response) => {
-  //       console.log('Response = ', response);
-  //       if (response.didCancel) {
-  //         console.log('User cancelled image picker');
-  //       } else if (response.error) {
-  //         console.log('Image Picker Error: ', response.error);
-  //       } else {
-  //         let source = {uri: response.uri};
-  //         setavatarSource(source);
-  //       }
-  //     });
-  //   }
+  function uploadImage() {
+    launchCamera(
+      {
+        title: 'my pic app',
+        takePhotoButtonTitle: 'Take photo with your camera',
+        chooseFromLibraryButtonTitle: 'Choose photo from library',
+      },
+      (response) => {
+        console.log('Response = ', response);
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('Image Picker Error: ', response.error);
+        } else {
+          setavatarSource({
+            uri: response.uri,
+          });
+        }
+      },
+    );
+  }
   return (
     <View
       style={{
@@ -63,6 +72,7 @@ export default function addMember() {
       <ScrollView>
         <TouchableOpacity
           onPress={() => {
+            uploadImage();
             console.log('uploadImage();');
           }}
           style={{}}>
