@@ -52,6 +52,8 @@ export default function Settings() {
         <View style={{paddingVertical: 20}} />
         <Button title={'set a password'} />
         <View style={{paddingVertical: 20}} />
+        <Button title={'Change language'} />
+        <View style={{paddingVertical: 20}} />
         <Button title={'extract databse exel'} />
       </ScrollView>
     </View>

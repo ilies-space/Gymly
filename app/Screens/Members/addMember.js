@@ -5,7 +5,8 @@ import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback, camera} from '../../../theme/Icons';
 import {launchCamera} from 'react-native-image-picker';
-
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {Sae} from 'react-native-textinput-effects';
 export default function addMember() {
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState(
@@ -121,6 +122,46 @@ export default function addMember() {
             }}>
             Member Name
           </Text>
+        </View>
+
+        {/* Form  */}
+
+        <View
+          style={{
+            margin: '5%',
+          }}>
+          <Sae
+            label={'Full name'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'white'}
+            inputPadding={16}
+            labelHeight={24}
+            // active border height
+            borderHeight={2}
+            // TextInput props
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            iconColor={Colors.main}
+            labelStyle={{color: Colors.light}}
+            inputStyle={{color: Colors.light}}
+          />
+          <Sae
+            label={'Email'}
+            iconClass={FontAwesomeIcon}
+            iconName={'pencil'}
+            iconColor={'white'}
+            inputPadding={16}
+            labelHeight={24}
+            // active border height
+            borderHeight={2}
+            // TextInput props
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            iconColor={Colors.main}
+            labelStyle={{color: Colors.light}}
+            inputStyle={{color: Colors.light}}
+          />
         </View>
       </ScrollView>
     </View>
