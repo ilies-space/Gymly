@@ -103,12 +103,12 @@ export default function addMember() {
             console.log('uploadImage();');
           }}
           style={{}}>
-          <View style={{width: 100, height: 120, alignSelf: 'center'}}>
+          <View style={{width: 100, height: 100, alignSelf: 'center'}}>
             <Image
               source={avatarSource}
               style={{
-                width: 100,
-                height: 100,
+                width: 90,
+                height: 90,
                 alignSelf: 'center',
                 margin: 10,
                 borderRadius: 50,

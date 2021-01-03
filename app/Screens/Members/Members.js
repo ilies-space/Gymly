@@ -5,10 +5,11 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
-import {plus} from '../../../theme/Icons';
+import {goback, plus, archive} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
 import {useEffect} from 'react';
 
@@ -190,18 +191,74 @@ export default function Members() {
         <View
           style={{
             height: '80%',
-            backgroundColor: 'white',
+            backgroundColor: Colors.grey,
             position: 'absolute',
             bottom: 0,
             width: '100%',
           }}>
-          <Button
-            title={'close'}
-            onPress={() => {
-              setprofilePreviewModal(false);
-            }}
-          />
-          <Text> {JSON.stringify(selectedMember)} </Text>
+          {/* Header */}
+          {/* Header */}
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingVertical: '3%',
+              paddingLeft: '3%',
+              borderBottomWidth: 0.5,
+              borderColor: Colors.dark,
+              elevation: 3,
+              margin: '1%',
+            }}>
+            <TouchableOpacity
+              onPress={() => {
+                // navigation.goBack();
+                setprofilePreviewModal(false);
+              }}>
+              {goback}
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: Colors.light,
+                fontWeight: 'bold',
+                flex: 1,
+                textAlign: 'center',
+                justifyContent: 'center',
+                marginRight: 25,
+                paddingTop: 1,
+              }}>
+              {selectedMember.name}
+            </Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                console.log('archive member: ' + memberName);
+              }}
+              style={{
+                alignItems: 'center',
+              }}>
+              {archive}
+            </TouchableOpacity>
+          </View>
+          {/* main conetent */}
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            <View
+              style={{
+                height: 80,
+                width: 80,
+                backgroundColor: Colors.red,
+              }}>
+              <Text>selectedMember.img</Text>
+            </View>
+
+            <Text> {JSON.stringify(selectedMember)} </Text>
+
+            <Button
+              title={'close'}
+              onPress={() => {
+                // navigation.goBack();
+                setprofilePreviewModal(false);
+              }}
+            />
+          </View>
         </View>
       </Modal>
     </View>
