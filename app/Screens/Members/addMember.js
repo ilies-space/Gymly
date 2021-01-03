@@ -6,12 +6,15 @@ import {useNavigation} from '@react-navigation/native';
 import {goback, camera} from '../../../theme/Icons';
 import {launchCamera} from 'react-native-image-picker';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import DatePicker from 'react-native-date-picker';
 import {Sae} from 'react-native-textinput-effects';
 export default function addMember() {
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState(
     require('../../../assets/profilepichholder.png'),
   );
+
+  const [date, setDate] = useState(new Date());
 
   function uploadImage() {
     launchCamera(
@@ -146,22 +149,9 @@ export default function addMember() {
             labelStyle={{color: Colors.light}}
             inputStyle={{color: Colors.light}}
           />
-          <Sae
-            label={'Email'}
-            iconClass={FontAwesomeIcon}
-            iconName={'pencil'}
-            iconColor={'white'}
-            inputPadding={16}
-            labelHeight={24}
-            // active border height
-            borderHeight={2}
-            // TextInput props
-            autoCapitalize={'none'}
-            autoCorrect={false}
-            iconColor={Colors.main}
-            labelStyle={{color: Colors.light}}
-            inputStyle={{color: Colors.light}}
-          />
+
+          {/* date picker  */}
+          <DatePicker date={date} onDateChange={setDate} mode="date" />
         </View>
       </ScrollView>
     </View>
