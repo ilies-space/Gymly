@@ -8,6 +8,8 @@ import {launchCamera} from 'react-native-image-picker';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
 import {Sae} from 'react-native-textinput-effects';
+import CheckBox from '@react-native-community/checkbox';
+
 export default function addMember() {
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState(
@@ -15,6 +17,7 @@ export default function addMember() {
   );
 
   const [date, setDate] = useState(new Date());
+  const [toggleCheckBox, setToggleCheckBox] = useState(true);
 
   function uploadImage() {
     launchCamera(
@@ -149,10 +152,46 @@ export default function addMember() {
             labelStyle={{color: Colors.light}}
             inputStyle={{color: Colors.light}}
           />
-
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <CheckBox
+              value={toggleCheckBox}
+              onValueChange={(newValue) => setToggleCheckBox(newValue)}
+            />
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+              Start from today
+            </Text>
+          </View>
           {/* date picker  */}
-          <DatePicker date={date} onDateChange={setDate} mode="date" />
+          {toggleCheckBox ? (
+            <View />
+          ) : (
+            <View>
+              <View style={{alignItems: 'center', marginVertical: 20}}>
+                <DatePicker
+                  date={date}
+                  onDateChange={setDate}
+                  mode="date"
+                  textColor={Colors.main}
+                  fadeToColor={Colors.grey}
+                />
+              </View>
+            </View>
+          )}
         </View>
+        <TouchableOpacity
+          style={{
+            alignItems: 'center',
+            backgroundColor: Colors.main,
+            paddingVertical: 20,
+            marginHorizontal: 10,
+          }}>
+          <Text>Save</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
