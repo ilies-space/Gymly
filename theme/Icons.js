@@ -19,3 +19,7 @@ export const camera = <Feather name="camera" size={20} color={Colors.dark} />;
 export const goback = (
   <Feather name="arrow-left" size={25} color={Colors.light} />
 );
+
+export const save = (
+  <Feather name="check-square" size={30} color={Colors.main} />
+);

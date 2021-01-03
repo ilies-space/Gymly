@@ -3,7 +3,7 @@ import {View, Text, Image} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
-import {goback, camera} from '../../../theme/Icons';
+import {goback, camera, menu, save} from '../../../theme/Icons';
 import {launchCamera} from 'react-native-image-picker';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
@@ -18,6 +18,7 @@ export default function addMember() {
 
   const [date, setDate] = useState(new Date());
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
+  const [memberName, setmemberName] = useState('');
 
   function uploadImage() {
     launchCamera(
@@ -50,7 +51,8 @@ export default function addMember() {
       <View
         style={{
           flexDirection: 'row',
-          padding: '3%',
+          paddingVertical: '3%',
+          paddingLeft: '3%',
           borderBottomWidth: 0.5,
           borderColor: Colors.dark,
           elevation: 3,
@@ -74,6 +76,18 @@ export default function addMember() {
           }}>
           Add member
         </Text>
+
+        <TouchableOpacity
+          onPress={() => {
+            console.log('save member: ' + memberName);
+          }}
+          style={{
+            alignItems: 'center',
+            // backgroundColor: Colors.mainLight,
+            // paddingHorizontal: 10,
+          }}>
+          {save}
+        </TouchableOpacity>
       </View>
 
       <ScrollView>
@@ -92,9 +106,14 @@ export default function addMember() {
                 alignSelf: 'center',
                 margin: 10,
                 borderRadius: 50,
-                backgroundColor: Colors.main,
+                backgroundColor: Colors.dark,
               }}
             />
+
+            <View style={{position: 'absolute', top: '50%', right: 25}}>
+              <Text style={{color: Colors.light}}>UPLOAD</Text>
+            </View>
+
             {/* Camera icon */}
             {true ? (
               <View
@@ -126,7 +145,7 @@ export default function addMember() {
               justifyContent: 'center',
               paddingTop: 12,
             }}>
-            Member Name
+            {memberName}
           </Text>
         </View>
 
@@ -137,6 +156,10 @@ export default function addMember() {
             margin: '5%',
           }}>
           <Sae
+            value={memberName}
+            onChangeText={(NameInput) => {
+              setmemberName(NameInput);
+            }}
             label={'Full name'}
             iconClass={FontAwesomeIcon}
             iconName={'pencil'}
@@ -183,15 +206,6 @@ export default function addMember() {
             </View>
           )}
         </View>
-        <TouchableOpacity
-          style={{
-            alignItems: 'center',
-            backgroundColor: Colors.main,
-            paddingVertical: 20,
-            marginHorizontal: 10,
-          }}>
-          <Text>Save</Text>
-        </TouchableOpacity>
       </ScrollView>
     </View>
   );
