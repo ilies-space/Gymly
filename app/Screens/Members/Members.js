@@ -14,7 +14,7 @@ import {useEffect} from 'react';
 
 export default function Members() {
   const navigation = useNavigation();
-  const [listFilter, setlistFilter] = useState('All');
+  const [listFilter, setlistFilter] = useState('Days');
   const [profilePreviewModal, setprofilePreviewModal] = useState(false);
   const [selectedMember, setselectedMember] = useState('');
 

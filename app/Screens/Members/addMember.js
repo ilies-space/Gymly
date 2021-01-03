@@ -1,6 +1,10 @@
 import React, {useState} from 'react';
 import {View, Text, Image} from 'react-native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback, camera, menu, save} from '../../../theme/Icons';
@@ -9,16 +13,18 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
 import {Sae} from 'react-native-textinput-effects';
 import CheckBox from '@react-native-community/checkbox';
+import {Picker} from '@react-native-picker/picker';
 
 export default function addMember() {
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState(
     require('../../../assets/profilepichholder.png'),
   );
-
+  const [listFilter, setlistFilter] = useState('All');
   const [date, setDate] = useState(new Date());
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
   const [memberName, setmemberName] = useState('');
+  const [MembershipDuration, setMembershipDuration] = useState(30);
 
   function uploadImage() {
     launchCamera(
@@ -135,7 +141,7 @@ export default function addMember() {
             )}
           </View>
         </TouchableOpacity>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        {/* <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <Text
             style={{
               color: Colors.light,
@@ -147,7 +153,7 @@ export default function addMember() {
             }}>
             {memberName}
           </Text>
-        </View>
+        </View> */}
 
         {/* Form  */}
 
@@ -155,7 +161,7 @@ export default function addMember() {
           style={{
             margin: '5%',
           }}>
-          <Sae
+          {/* <Sae
             value={memberName}
             onChangeText={(NameInput) => {
               setmemberName(NameInput);
@@ -174,6 +180,32 @@ export default function addMember() {
             iconColor={Colors.main}
             labelStyle={{color: Colors.light}}
             inputStyle={{color: Colors.light}}
+          /> */}
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+              Member full name
+            </Text>
+          </View>
+          <TextInput
+            placeholderTextColor={Colors.lightGrey}
+            style={{
+              flex: 3,
+              borderColor: Colors.main,
+              borderWidth: 1,
+              color: Colors.light,
+              textAlign: 'center',
+            }}
+            value={memberName}
+            onChangeText={(NameInput) => {
+              setmemberName(NameInput);
+            }}
+            placeholder={'Full name'}
           />
           <View
             style={{
@@ -181,21 +213,112 @@ export default function addMember() {
               alignItems: 'center',
               marginVertical: 20,
             }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+              MemberShip duration
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <TextInput
+              placeholderTextColor={Colors.lightGrey}
+              style={{
+                flex: 3,
+                borderColor: Colors.main,
+                borderWidth: 1,
+                color: Colors.light,
+                textAlign: 'center',
+              }}
+              value={MembershipDuration.toString()}
+              onChangeText={(duratuinInput) => {
+                setMembershipDuration(duratuinInput);
+              }}
+              keyboardType={'number-pad'}
+              placeholder={'00'}
+            />
+            <View style={{flex: 2, justifyContent: 'center'}}>
+              <Picker
+                style={{color: Colors.light}}
+                dropdownIconColor={'white'}
+                mode={'dropdown'}
+                selectedValue={listFilter}
+                onValueChange={(itemValue) => setlistFilter(itemValue)}>
+                <Picker.Item
+                  //  color={Colors.dark}
+                  label="Days"
+                  value="Days"
+                />
+                <Picker.Item
+                  //  color={Colors.dark}
+                  label="Months"
+                  value="Months"
+                />
+                <Picker.Item
+                  // color={Colors.light}
+                  label="Years"
+                  value="Years"
+                />
+              </Picker>
+            </View>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+              subscribtion starting date
+            </Text>
+          </View>
+          {/* <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
             <CheckBox
+              tintColor={Colors.light}
               value={toggleCheckBox}
               onValueChange={(newValue) => setToggleCheckBox(newValue)}
             />
-            <Text style={{color: Colors.light, fontWeight: 'bold'}}>
-              Start from today
-            </Text>
-          </View>
+            <TouchableOpacity
+              onPress={() => setToggleCheckBox(!toggleCheckBox)}>
+              <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+                Start from today
+              </Text>
+            </TouchableOpacity>
+          </View> */}
+
           {/* date picker  */}
           {toggleCheckBox ? (
-            <View />
+            <TouchableOpacity
+              onPress={() => setToggleCheckBox(!toggleCheckBox)}>
+              <View
+                style={{
+                  marginVertical: 5,
+                  backgroundColor: Colors.grey,
+                  alignItems: 'center',
+                  paddingVertical: 15,
+                }}>
+                <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+                  {JSON.stringify(date)}
+                </Text>
+              </View>
+            </TouchableOpacity>
           ) : (
             <View>
-              <View style={{alignItems: 'center', marginVertical: 20}}>
+              <View
+                style={
+                  {
+                    // alignItems: 'center',
+                  }
+                }>
                 <DatePicker
+                  style={{height: 100}}
                   date={date}
                   onDateChange={setDate}
                   mode="date"
