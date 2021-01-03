@@ -160,7 +160,7 @@ export default function Members() {
 
       <View
         style={{
-          backgroundColor: Colors.main,
+          backgroundColor: Colors.light,
           alignItems: 'center',
           justifyContent: 'center',
           height: 50,
@@ -169,6 +169,7 @@ export default function Members() {
           position: 'absolute',
           bottom: 20,
           right: 20,
+          elevation: 10,
         }}>
         <TouchableOpacity
           onPress={() => {
