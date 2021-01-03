@@ -1,5 +1,7 @@
 TODO : 
-- add member button ( add style evaluatoin )  
+- add member button ( add style evaluatoin )  /DONE
+
+- Connect Redux 
 
 
 ********************
