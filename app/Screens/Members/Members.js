@@ -127,13 +127,19 @@ export default function Members() {
                         </Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            21/01/2021
+                            {JSON.stringify(item.subscription.starting_date)}
                           </Text>
-                          <Text style={{color: Colors.lightGrey, fontSize: 12}}>
+                          <Text
+                            style={{
+                              color: Colors.lightGrey,
+                              fontSize: 12,
+                              paddingHorizontal: 10,
+                            }}>
                             -
                           </Text>
+                          {console.log(item.subscription)}
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            21/02/2021
+                            {JSON.stringify(item.subscription.end_date)}
                           </Text>
                         </View>
                       </View>

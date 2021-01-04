@@ -31,6 +31,11 @@ const DatabaseReducer = (state = initialState, action) => {
         archiviedMembers: state.archiviedMembers,
       };
 
+    case 'EraceAllData':
+      return {
+        allMembers: [],
+        archiviedMembers: [],
+      };
     default:
       return state;
   }

@@ -68,9 +68,9 @@ export default function addMember() {
         subscription: {
           duration: MembershipDuration,
           unit: durationUnit,
+          starting_date: startingDate,
+          end_date: 'not calculated',
         },
-        Subscription_starting_date: startingDate,
-        Subscription_end_date: 'not calculated',
         profile_image: imageSource,
         phone_number: memberPhoneNumber,
         email: memberEmail,
