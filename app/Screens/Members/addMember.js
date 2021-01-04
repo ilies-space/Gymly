@@ -25,6 +25,7 @@ export default function addMember() {
   const [memberName, setmemberName] = useState('');
   const [MembershipDuration, setMembershipDuration] = useState(30);
   const [memberPhoneNumber, setmemberPhoneNumber] = useState('');
+  const [memberEmail, setmemberEmail] = useState('');
 
   function uploadImage() {
     launchCamera(
@@ -110,9 +111,9 @@ export default function addMember() {
               startingDate: startingDate,
               profileImg: avatarSource,
               memberPhoneNumber: memberPhoneNumber,
+              memberEmail: memberEmail,
             };
             // checkFormInput
-
             if (MembershipDuration <= 0 || isNaN(MembershipDuration)) {
               alert('memeberShipDuration is invalide');
             } else if (memberName === '') {
@@ -388,10 +389,36 @@ export default function addMember() {
               textAlign: 'center',
             }}
             value={memberPhoneNumber}
-            onChangeText={(NameInput) => {
-              setmemberPhoneNumber(NameInput);
+            onChangeText={(numberPhoneInput) => {
+              setmemberPhoneNumber(numberPhoneInput);
             }}
             placeholder={'Phone Number optional'}
+            keyboardType={'number-pad'}
+          />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>Email</Text>
+          </View>
+          <TextInput
+            keyboardType={'email-address'}
+            placeholderTextColor={Colors.lightGrey}
+            style={{
+              flex: 3,
+              borderColor: Colors.main,
+              borderWidth: 0.5,
+              color: Colors.light,
+              textAlign: 'center',
+            }}
+            value={memberEmail}
+            onChangeText={(emailInput) => {
+              setmemberEmail(emailInput);
+            }}
+            placeholder={'E-mail optional'}
           />
         </View>
       </ScrollView>
