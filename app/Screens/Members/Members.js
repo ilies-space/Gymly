@@ -15,7 +15,7 @@ import ImagePreview from 'react-native-image-preview';
 
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
-import {goback, plus, archive, phone} from '../../../theme/Icons';
+import {goback, plus, archive, phone, email} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -30,7 +30,22 @@ export default function Members() {
   const navigation = useNavigation();
   const [listFilter, setlistFilter] = useState('Days');
   const [profilePreviewModal, setprofilePreviewModal] = useState(false);
-  const [selectedMember, setselectedMember] = useState('');
+  const [selectedMember, setselectedMember] = useState(
+    // must't be undifined becaus it's been used in the modal
+    memebersList.length > 0
+      ? memebersList[0]
+      : {
+          subscription: {
+            duration: '',
+            unit: '',
+            starting_date: '',
+            end_date: '',
+          },
+          profile_image: '',
+          phone_number: '',
+          email: '',
+        },
+  );
   const [imageViewer, setimageViewer] = useState(false);
   // filtring listner
   useEffect(() => {
@@ -335,13 +350,17 @@ export default function Members() {
                         fontWeight: 'bold',
                         color: Colors.main,
                       }}>
-                      15
+                      {selectedMember.subscription.end_date
+                        ? selectedMember.subscription.end_date
+                        : '00'}
                     </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={{color: Colors.lightGrey}}>active since</Text>
                     <Text style={{fontWeight: 'bold', color: Colors.main}}>
-                      21/01/2021
+                      {JSON.stringify(
+                        selectedMember.subscription.starting_date,
+                      )}
                     </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
@@ -373,7 +392,9 @@ export default function Members() {
                     fontWeight: 'bold',
                     color: Colors.light,
                   }}>
-                  21/01/2021
+                  {selectedMember.subscription.end_date
+                    ? selectedMember.subscription.end_date
+                    : '00'}
                 </Text>
               </View>
               <View
@@ -393,7 +414,8 @@ export default function Members() {
                     fontWeight: 'bold',
                     color: Colors.light,
                   }}>
-                  30 days
+                  {selectedMember.subscription.duration}{' '}
+                  {selectedMember.subscription.unit}
                 </Text>
               </View>
               <View
@@ -414,19 +436,64 @@ export default function Members() {
                     color: Colors.light,
                     flex: 1,
                   }}>
-                  0776749201
+                  {selectedMember.phone_number === ''
+                    ? 'not provided'
+                    : selectedMember.phone_number}
                 </Text>
-                <TouchableOpacity
+                {selectedMember.phone_number === '' ? (
+                  <View />
+                ) : (
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: true ? Colors.green : Colors.lightGrey,
+                      padding: 5,
+                      borderRadius: 10,
+                    }}
+                    onPress={() => {
+                      alert('Calling memeber ');
+                    }}>
+                    {phone}
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              <View
+                style={{
+                  alignItems: 'flex-start',
+                  borderBottomWidth: 0.3,
+                  paddingVertical: 12,
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  borderBottomColor: Colors.light,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: Colors.light}}>Email : </Text>
+                <Text
                   style={{
-                    backgroundColor: true ? Colors.green : Colors.lightGrey,
-                    padding: 5,
-                    borderRadius: 10,
-                  }}
-                  onPress={() => {
-                    alert('Calling memeber ');
+                    fontWeight: 'bold',
+                    color: Colors.light,
+                    flex: 1,
                   }}>
-                  {phone}
-                </TouchableOpacity>
+                  {selectedMember.email === ''
+                    ? 'not provided'
+                    : selectedMember.email}
+                </Text>
+                {selectedMember.email === '' ? (
+                  <View />
+                ) : (
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: true ? Colors.green : Colors.lightGrey,
+                      padding: 5,
+                      borderRadius: 10,
+                    }}
+                    onPress={() => {
+                      alert('send mail to memeber ');
+                    }}>
+                    {email}
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
 

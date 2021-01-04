@@ -312,7 +312,7 @@ export default function Home() {
                               : item.fullName}
                           </Text>
                           <Text style={{color: Colors.red, fontSize: 12}}>
-                            {item.subscription.end_date} days
+                            {item.subscription.end_date}
                           </Text>
                         </View>
 
