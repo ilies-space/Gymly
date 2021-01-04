@@ -430,6 +430,19 @@ export default function Members() {
                 backgroundColor: Colors.dark,
               }}
             />
+
+            <Text
+              style={{
+                color: Colors.lightGrey,
+                flex: 1,
+                margin: '4%',
+                textAlign: 'auto',
+                padding: 10,
+              }}>
+              Stay updated with your memebership details and how much days left
+              from your app by scning this qrcode using : Gymly client side app
+              on play store .
+            </Text>
           </ScrollView>
         </View>
       </Modal>
