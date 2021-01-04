@@ -24,4 +24,4 @@ export const save = (
   <Feather name="check-square" size={30} color={Colors.main} />
 );
 
-export const archive = <Feather name="archive" size={30} color={Colors.main} />;
+export const archive = <Feather name="archive" size={30} color={Colors.red} />;

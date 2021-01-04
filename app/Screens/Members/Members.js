@@ -1,10 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {View, Text, Image, Modal, Button} from 'react-native';
+import {View, Text, Image, Modal, Button, TouchableOpacity} from 'react-native';
 import {
   FlatList,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import {memebersList} from '../../../temps/data';
@@ -215,6 +214,7 @@ export default function Members() {
               }}>
               {goback}
             </TouchableOpacity>
+
             <Text
               style={{
                 color: Colors.light,
@@ -234,6 +234,7 @@ export default function Members() {
               }}
               style={{
                 alignItems: 'center',
+                marginRight: 15,
               }}>
               {archive}
             </TouchableOpacity>
@@ -250,14 +251,6 @@ export default function Members() {
             </View>
 
             <Text> {JSON.stringify(selectedMember)} </Text>
-
-            <Button
-              title={'close'}
-              onPress={() => {
-                // navigation.goBack();
-                setprofilePreviewModal(false);
-              }}
-            />
           </View>
         </View>
       </Modal>
