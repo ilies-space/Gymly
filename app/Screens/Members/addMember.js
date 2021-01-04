@@ -13,8 +13,11 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
+import {useDispatch} from 'react-redux';
 
 export default function addMember() {
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState(
     require('../../../assets/profilepichholder.png'),
@@ -47,6 +50,28 @@ export default function addMember() {
         }
       },
     );
+  }
+
+  function addNewMember(imageSource) {
+    const newMember = {
+      id: memberName + Math.random(),
+      fullName: memberName,
+      subscription: {
+        duration: MembershipDuration,
+        unit: durationUnit,
+      },
+      Subscription_starting_date: startingDate,
+      Subscription_end_date: 'not calculated',
+      profile_image: imageSource,
+      phone_number: memberPhoneNumber,
+      email: memberEmail,
+    };
+
+    dispatch({
+      type: 'addNewMember',
+      newMember: newMember,
+    });
+    navigation.goBack();
   }
   return (
     <View
@@ -104,15 +129,6 @@ export default function addMember() {
 
         <TouchableOpacity
           onPress={() => {
-            const newMember = {
-              name: memberName,
-              MembershipDuration: MembershipDuration,
-              memeberShipUnit: durationUnit,
-              startingDate: startingDate,
-              profileImg: avatarSource,
-              memberPhoneNumber: memberPhoneNumber,
-              memberEmail: memberEmail,
-            };
             // checkFormInput
             if (MembershipDuration <= 0 || isNaN(MembershipDuration)) {
               alert('memeberShipDuration is invalide');
@@ -120,18 +136,9 @@ export default function addMember() {
               alert('full name is invalide');
             } else {
               if (avatarSource.uri) {
-                // alert(avatarSource);
-                newMember.profileImg = avatarSource;
-
-                console.log('post data');
-                console.log('save member: ' + JSON.stringify(newMember));
+                addNewMember(avatarSource);
               } else {
-                // alert('noImage');
-                newMember.profileImg =
-                  "require('../../../assets/profilepichholder.png')";
-
-                console.log('post data');
-                console.log('save member: ' + JSON.stringify(newMember));
+                addNewMember(require('../../../assets/profilepichholder.png'));
               }
             }
           }}

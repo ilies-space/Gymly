@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -17,9 +17,15 @@ import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
 import {goback, plus, archive, phone} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
-import {useEffect} from 'react';
+import {useSelector} from 'react-redux';
 
 export default function Members() {
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+
+  const [memebersList, setmemebersList] = useState([]);
+  useEffect(() => {
+    setmemebersList(DatabaseReducer.allMembers);
+  }, [DatabaseReducer]);
   const navigation = useNavigation();
   const [listFilter, setlistFilter] = useState('Days');
   const [profilePreviewModal, setprofilePreviewModal] = useState(false);
@@ -81,21 +87,15 @@ export default function Members() {
       <View style={{marginVertical: 1, margin: '4%', flex: 1}}>
         {memebersList && memebersList.length ? (
           <FlatList
-            style={
-              {
-                // marginVertical: '4%',
-                // borderWidth: 1,
-                // borderColor: Colors.light,
-              }
-            }
             keyExtractor={(item, index) => item.id + index}
             data={memebersList}
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    setprofilePreviewModal(true);
                     setselectedMember(item);
+
+                    setprofilePreviewModal(true);
                   }}>
                   <View
                     style={{
@@ -119,10 +119,10 @@ export default function Members() {
                             fontSize: 16,
                             color: Colors.light,
                           }}>
-                          {item.name
-                            ? item.name.length > 20
-                              ? item.name.substring(0, 20) + '...'
-                              : item.name
+                          {item.fullName
+                            ? item.fullName.length > 20
+                              ? item.fullName.substring(0, 20) + '...'
+                              : item.fullName
                             : ''}
                         </Text>
                         <View style={{flexDirection: 'row'}}>
@@ -143,10 +143,9 @@ export default function Members() {
                           width: 60,
                           height: 60,
                         }}
-                        source={{
-                          uri: item.img,
-                        }}
+                        source={item.profile_image}
                       />
+                      {console.log(item.profile_image)}
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -237,7 +236,7 @@ export default function Members() {
                 marginRight: 25,
                 paddingTop: 1,
               }}>
-              {selectedMember.name}
+              {selectedMember.fullName}
             </Text>
 
             <TouchableOpacity
@@ -271,7 +270,7 @@ export default function Members() {
               <View>
                 <TouchableOpacity onPress={() => setimageViewer(true)}>
                   <Image
-                    source={{uri: selectedMember.img}}
+                    source={selectedMember.profile_image}
                     style={{
                       width: 90,
                       height: 90,
@@ -284,7 +283,7 @@ export default function Members() {
                   <ImagePreview
                     close={() => setimageViewer(false)}
                     visible={imageViewer}
-                    source={{uri: selectedMember.img}}
+                    source={selectedMember.profile_image}
                   />
                 </TouchableOpacity>
                 <View
