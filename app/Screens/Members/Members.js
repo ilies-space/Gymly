@@ -1,14 +1,23 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {View, Text, Image, Modal, Button, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Modal,
+  Button,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {
   FlatList,
+  ScrollView,
   TextInput,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
-import {goback, plus, archive} from '../../../theme/Icons';
+import {goback, plus, archive, phone} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
 import {useEffect} from 'react';
 
@@ -230,7 +239,21 @@ export default function Members() {
 
             <TouchableOpacity
               onPress={() => {
-                console.log('archive member: ' + memberName);
+                Alert.alert(
+                  'warning',
+                  'confir to archive : ' + selectedMember.name,
+                  [
+                    {
+                      text: 'cancel',
+                    },
+                    {
+                      text: 'archive',
+                      onPress: () => {
+                        console.log('Archiving ' + selectedMember + '....');
+                      },
+                    },
+                  ],
+                );
               }}
               style={{
                 alignItems: 'center',
@@ -240,18 +263,153 @@ export default function Members() {
             </TouchableOpacity>
           </View>
           {/* main conetent */}
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            <View
-              style={{
-                height: 80,
-                width: 80,
-                backgroundColor: Colors.red,
-              }}>
-              <Text>selectedMember.img</Text>
+          <ScrollView>
+            <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <View>
+                <Image
+                  source={{uri: selectedMember.img}}
+                  style={{
+                    width: 90,
+                    height: 90,
+                    alignSelf: 'center',
+                    margin: 10,
+                    borderRadius: 50,
+                    backgroundColor: Colors.dark,
+                  }}
+                />
+                <View
+                  style={{
+                    height: 20,
+                    width: 20,
+                    borderRadius: 20 / 2,
+                    backgroundColor: true ? Colors.green : Colors.red,
+                    position: 'absolute',
+                    top: 15,
+                    right: 10,
+                  }}
+                />
+              </View>
+              {/* name */}
+              <View>
+                <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+                  {selectedMember.name}
+                </Text>
+              </View>
+              {/* statistique  */}
+              <View style={{width: '100%', paddingVertical: 10}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    // width: '100%',
+                    marginVertical: 20,
+                    padding: 10,
+                    borderWidth: 0.5,
+                    borderColor: Colors.light,
+                    margin: '4%',
+                  }}>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={{color: Colors.lightGrey}}>Days left</Text>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: Colors.main,
+                      }}>
+                      15
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={{color: Colors.lightGrey}}>active since</Text>
+                    <Text style={{fontWeight: 'bold', color: Colors.main}}>
+                      21/01/2021
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={{color: Colors.lightGrey}}>passed days</Text>
+
+                    <Text style={{fontWeight: 'bold', color: Colors.main}}>
+                      15
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
 
-            <Text> {JSON.stringify(selectedMember)} </Text>
-          </View>
+            {/* more info  */}
+
+            <View style={{margin: '4%'}}>
+              <View
+                style={{
+                  alignItems: 'flex-start',
+                  borderBottomWidth: 0.3,
+                  paddingVertical: 12,
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  borderBottomColor: Colors.light,
+                }}>
+                <Text style={{color: Colors.light}}>subscribtion end : </Text>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: Colors.light,
+                  }}>
+                  21/01/2021
+                </Text>
+              </View>
+              <View
+                style={{
+                  alignItems: 'flex-start',
+                  borderBottomWidth: 0.3,
+                  paddingVertical: 12,
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  borderBottomColor: Colors.light,
+                }}>
+                <Text style={{color: Colors.light}}>
+                  subscribtion duration :{' '}
+                </Text>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: Colors.light,
+                  }}>
+                  30 days
+                </Text>
+              </View>
+              <View
+                style={{
+                  alignItems: 'flex-start',
+                  borderBottomWidth: 0.3,
+                  paddingVertical: 12,
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  borderBottomColor: Colors.light,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: Colors.light}}>Phone number : </Text>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: Colors.light,
+                    flex: 1,
+                  }}>
+                  0776749201
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: true ? Colors.green : Colors.lightGrey,
+                    padding: 5,
+                    borderRadius: 10,
+                  }}
+                  onPress={() => {
+                    alert('Calling memeber ');
+                  }}>
+                  {phone}
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
         </View>
       </Modal>
     </View>
