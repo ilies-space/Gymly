@@ -409,6 +409,27 @@ export default function Members() {
                 </TouchableOpacity>
               </View>
             </View>
+
+            <Text
+              style={{
+                fontWeight: 'bold',
+                color: Colors.light,
+                flex: 1,
+                margin: '4%',
+              }}>
+              Invite member
+            </Text>
+
+            <Image
+              source={require('../../../assets/iliesgithubqrcode.png')}
+              style={{
+                width: 150,
+                height: 150,
+                alignSelf: 'center',
+                margin: 10,
+                backgroundColor: Colors.dark,
+              }}
+            />
           </ScrollView>
         </View>
       </Modal>
