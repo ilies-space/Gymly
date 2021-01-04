@@ -27,3 +27,5 @@ export const save = (
 export const archive = <Feather name="archive" size={30} color={Colors.red} />;
 
 export const phone = <Feather name="phone" size={25} color={Colors.light} />;
+
+export const edit = <Feather name="edit" size={25} color={Colors.main} />;

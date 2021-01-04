@@ -7,7 +7,7 @@ import {
 } from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
-import {goback, camera, menu, save} from '../../../theme/Icons';
+import {goback, camera, menu, save, edit} from '../../../theme/Icons';
 import {launchCamera} from 'react-native-image-picker';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
@@ -24,6 +24,7 @@ export default function addMember() {
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
   const [memberName, setmemberName] = useState('');
   const [MembershipDuration, setMembershipDuration] = useState(30);
+  const [memberPhoneNumber, setmemberPhoneNumber] = useState('');
 
   function uploadImage() {
     launchCamera(
@@ -108,6 +109,7 @@ export default function addMember() {
               memeberShipUnit: durationUnit,
               startingDate: startingDate,
               profileImg: avatarSource,
+              memberPhoneNumber: memberPhoneNumber,
             };
             // checkFormInput
 
@@ -161,9 +163,13 @@ export default function addMember() {
               }}
             />
 
-            <View style={{position: 'absolute', top: '50%', right: 25}}>
-              <Text style={{color: Colors.light}}>UPLOAD</Text>
-            </View>
+            {avatarSource.uri ? (
+              <View />
+            ) : (
+              <View style={{position: 'absolute', top: '50%', right: 25}}>
+                <Text style={{color: Colors.light}}>UPLOAD</Text>
+              </View>
+            )}
 
             {/* Camera icon */}
             {true ? (
@@ -221,7 +227,7 @@ export default function addMember() {
             style={{
               flex: 3,
               borderColor: Colors.main,
-              borderWidth: 1,
+              borderWidth: 0.5,
               color: Colors.light,
               textAlign: 'center',
             }}
@@ -231,6 +237,9 @@ export default function addMember() {
             }}
             placeholder={'Full name'}
           />
+
+          {/* phone number  */}
+
           <View
             style={{
               flexDirection: 'row',
@@ -252,7 +261,7 @@ export default function addMember() {
               style={{
                 flex: 3,
                 borderColor: Colors.main,
-                borderWidth: 1,
+                borderWidth: 0.5,
                 color: Colors.light,
                 textAlign: 'center',
               }}
@@ -327,10 +336,18 @@ export default function addMember() {
                   backgroundColor: Colors.grey,
                   alignItems: 'center',
                   paddingVertical: 15,
+                  flexDirection: 'row',
+                  paddingHorizontal: 10,
                 }}>
-                <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+                <Text
+                  style={{
+                    color: Colors.light,
+                    fontWeight: 'bold',
+                    flex: 1,
+                  }}>
                   {JSON.stringify(startingDate)}
                 </Text>
+                {edit}
               </View>
             </TouchableOpacity>
           ) : (
@@ -350,6 +367,32 @@ export default function addMember() {
               </View>
             </View>
           )}
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+              Phone Number
+            </Text>
+          </View>
+          <TextInput
+            placeholderTextColor={Colors.lightGrey}
+            style={{
+              flex: 3,
+              borderColor: Colors.main,
+              borderWidth: 0.5,
+              color: Colors.light,
+              textAlign: 'center',
+            }}
+            value={memberPhoneNumber}
+            onChangeText={(NameInput) => {
+              setmemberPhoneNumber(NameInput);
+            }}
+            placeholder={'Phone Number optional'}
+          />
         </View>
       </ScrollView>
     </View>

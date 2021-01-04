@@ -15,6 +15,8 @@ import {
   TextInput,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
+import ImagePreview from 'react-native-image-preview';
+
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
 import {goback, plus, archive, phone} from '../../../theme/Icons';
@@ -26,7 +28,7 @@ export default function Members() {
   const [listFilter, setlistFilter] = useState('Days');
   const [profilePreviewModal, setprofilePreviewModal] = useState(false);
   const [selectedMember, setselectedMember] = useState('');
-
+  const [imageViewer, setimageViewer] = useState(false);
   // filtring listner
   useEffect(() => {
     console.log('filtermember by : ' + listFilter);
@@ -266,17 +268,24 @@ export default function Members() {
           <ScrollView>
             <View style={{alignItems: 'center', justifyContent: 'center'}}>
               <View>
-                <Image
-                  source={{uri: selectedMember.img}}
-                  style={{
-                    width: 90,
-                    height: 90,
-                    alignSelf: 'center',
-                    margin: 10,
-                    borderRadius: 50,
-                    backgroundColor: Colors.dark,
-                  }}
-                />
+                <TouchableOpacity onPress={() => setimageViewer(true)}>
+                  <Image
+                    source={{uri: selectedMember.img}}
+                    style={{
+                      width: 90,
+                      height: 90,
+                      alignSelf: 'center',
+                      margin: 10,
+                      borderRadius: 50,
+                      backgroundColor: Colors.dark,
+                    }}
+                  />
+                  <ImagePreview
+                    close={() => setimageViewer(false)}
+                    visible={imageViewer}
+                    source={{uri: selectedMember.img}}
+                  />
+                </TouchableOpacity>
                 <View
                   style={{
                     height: 20,
