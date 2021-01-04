@@ -1,23 +1,39 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {View, Text, Dimensions, Image} from 'react-native';
+import React, {useState} from 'react';
 import {
-  FlatList,
+  View,
+  Text,
+  Dimensions,
+  Image,
   ScrollView,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+  RefreshControl,
+} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {menu, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
 import {useSelector} from 'react-redux';
+
+const wait = (timeout) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+};
+
 export default function Home() {
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
 
-  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+  // refreshing : **********
+  const [refreshing, setRefreshing] = useState(false);
 
-  console.log(DatabaseReducer);
+  const onRefresh = React.useCallback(() => {
+    console.log('Refreshing data');
+    setRefreshing(true);
+
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
 
   return (
     <View
@@ -76,7 +92,10 @@ export default function Home() {
       </View>
 
       {/* Main view  */}
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={{flex: 1}}>
           {/* Total members Card */}
           <View
