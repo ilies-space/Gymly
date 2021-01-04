@@ -1,10 +1,9 @@
 TODO : 
 - add member button ( add style evaluatoin )  /DONE
 
-- Connect Redux 
+- Connect Redux  /Done
+
+- impliment Moments JS
 
 
 ********************
-
-
-DONE : ""
