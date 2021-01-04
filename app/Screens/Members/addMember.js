@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Alert} from 'react-native';
 import {
   ScrollView,
   TextInput,
@@ -19,8 +19,8 @@ export default function addMember() {
   const [avatarSource, setavatarSource] = useState(
     require('../../../assets/profilepichholder.png'),
   );
-  const [listFilter, setlistFilter] = useState('All');
-  const [date, setDate] = useState(new Date());
+  const [durationUnit, setdurationUnit] = useState('Days');
+  const [startingDate, setstartingDate] = useState(new Date());
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
   const [memberName, setmemberName] = useState('');
   const [MembershipDuration, setMembershipDuration] = useState(30);
@@ -65,7 +65,25 @@ export default function addMember() {
         }}>
         <TouchableOpacity
           onPress={() => {
-            navigation.goBack();
+            if (memberName === '') {
+              navigation.goBack();
+            } else {
+              Alert.alert(
+                'warrnig',
+                'all your current data will be cleard on return ?',
+                [
+                  {
+                    text: 'cancel',
+                  },
+                  {
+                    text: 'confirm return',
+                    onPress: () => {
+                      navigation.goBack();
+                    },
+                  },
+                ],
+              );
+            }
           }}>
           {goback}
         </TouchableOpacity>
@@ -84,7 +102,35 @@ export default function addMember() {
 
         <TouchableOpacity
           onPress={() => {
-            console.log('save member: ' + memberName);
+            const newMember = {
+              name: memberName,
+              MembershipDuration: MembershipDuration,
+              memeberShipUnit: durationUnit,
+              startingDate: startingDate,
+              profileImg: avatarSource,
+            };
+            // checkFormInput
+
+            if (MembershipDuration <= 0 || isNaN(MembershipDuration)) {
+              alert('memeberShipDuration is invalide');
+            } else if (memberName === '') {
+              alert('full name is invalide');
+            } else {
+              if (avatarSource.uri) {
+                // alert(avatarSource);
+                newMember.profileImg = avatarSource;
+
+                console.log('post data');
+                console.log('save member: ' + JSON.stringify(newMember));
+              } else {
+                // alert('noImage');
+                newMember.profileImg =
+                  "require('../../../assets/profilepichholder.png')";
+
+                console.log('post data');
+                console.log('save member: ' + JSON.stringify(newMember));
+              }
+            }
           }}
           style={{
             alignItems: 'center',
@@ -222,8 +268,8 @@ export default function addMember() {
                 style={{color: Colors.light}}
                 dropdownIconColor={'white'}
                 mode={'dropdown'}
-                selectedValue={listFilter}
-                onValueChange={(itemValue) => setlistFilter(itemValue)}>
+                selectedValue={durationUnit}
+                onValueChange={(itemValue) => setdurationUnit(itemValue)}>
                 <Picker.Item
                   //  color={Colors.dark}
                   label="Days"
@@ -283,22 +329,20 @@ export default function addMember() {
                   paddingVertical: 15,
                 }}>
                 <Text style={{color: Colors.light, fontWeight: 'bold'}}>
-                  {JSON.stringify(date)}
+                  {JSON.stringify(startingDate)}
                 </Text>
               </View>
             </TouchableOpacity>
           ) : (
             <View>
               <View
-                style={
-                  {
-                    // alignItems: 'center',
-                  }
-                }>
+                style={{
+                  alignItems: 'center',
+                }}>
                 <DatePicker
                   style={{height: 100}}
-                  date={date}
-                  onDateChange={setDate}
+                  date={startingDate}
+                  onDateChange={setstartingDate}
                   mode="date"
                   textColor={Colors.main}
                   fadeToColor={Colors.grey}
