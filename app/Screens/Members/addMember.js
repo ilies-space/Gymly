@@ -13,8 +13,11 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function addMember() {
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState(
     require('../../../assets/profilepichholder.png'),
@@ -25,7 +28,9 @@ export default function addMember() {
   const [memberName, setmemberName] = useState('');
   const [MembershipDuration, setMembershipDuration] = useState(30);
   const [memberPhoneNumber, setmemberPhoneNumber] = useState('');
+  const [memberEmail, setmemberEmail] = useState('');
 
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   function uploadImage() {
     launchCamera(
       {
@@ -46,6 +51,37 @@ export default function addMember() {
         }
       },
     );
+  }
+
+  function addNewMember(imageSource) {
+    // check if member with the entred name already exist
+    let lookup = DatabaseReducer.allMembers.find((element) => {
+      return element.fullName.toLowerCase() === memberName.toLowerCase();
+    });
+    // add new member after checking everthing
+    if (lookup) {
+      alert('a member with this name already exist ! ');
+    } else {
+      const newMember = {
+        id: memberName + Math.random(),
+        fullName: memberName,
+        subscription: {
+          duration: MembershipDuration,
+          unit: durationUnit,
+          starting_date: startingDate,
+          end_date: 'not calculated',
+        },
+        profile_image: imageSource,
+        phone_number: memberPhoneNumber,
+        email: memberEmail,
+      };
+
+      dispatch({
+        type: 'addNewMember',
+        newMember: newMember,
+      });
+      navigation.goBack();
+    }
   }
   return (
     <View
@@ -103,34 +139,16 @@ export default function addMember() {
 
         <TouchableOpacity
           onPress={() => {
-            const newMember = {
-              name: memberName,
-              MembershipDuration: MembershipDuration,
-              memeberShipUnit: durationUnit,
-              startingDate: startingDate,
-              profileImg: avatarSource,
-              memberPhoneNumber: memberPhoneNumber,
-            };
             // checkFormInput
-
             if (MembershipDuration <= 0 || isNaN(MembershipDuration)) {
               alert('memeberShipDuration is invalide');
             } else if (memberName === '') {
               alert('full name is invalide');
             } else {
               if (avatarSource.uri) {
-                // alert(avatarSource);
-                newMember.profileImg = avatarSource;
-
-                console.log('post data');
-                console.log('save member: ' + JSON.stringify(newMember));
+                addNewMember(avatarSource);
               } else {
-                // alert('noImage');
-                newMember.profileImg =
-                  "require('../../../assets/profilepichholder.png')";
-
-                console.log('post data');
-                console.log('save member: ' + JSON.stringify(newMember));
+                addNewMember(require('../../../assets/profilepichholder.png'));
               }
             }
           }}
@@ -388,10 +406,36 @@ export default function addMember() {
               textAlign: 'center',
             }}
             value={memberPhoneNumber}
-            onChangeText={(NameInput) => {
-              setmemberPhoneNumber(NameInput);
+            onChangeText={(numberPhoneInput) => {
+              setmemberPhoneNumber(numberPhoneInput);
             }}
             placeholder={'Phone Number optional'}
+            keyboardType={'number-pad'}
+          />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>Email</Text>
+          </View>
+          <TextInput
+            keyboardType={'email-address'}
+            placeholderTextColor={Colors.lightGrey}
+            style={{
+              flex: 3,
+              borderColor: Colors.main,
+              borderWidth: 0.5,
+              color: Colors.light,
+              textAlign: 'center',
+            }}
+            value={memberEmail}
+            onChangeText={(emailInput) => {
+              setmemberEmail(emailInput);
+            }}
+            placeholder={'E-mail optional'}
           />
         </View>
       </ScrollView>

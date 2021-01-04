@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,15 +15,37 @@ import ImagePreview from 'react-native-image-preview';
 
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
-import {goback, plus, archive, phone} from '../../../theme/Icons';
+import {goback, plus, archive, phone, email} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
-import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function Members() {
+  const dispatch = useDispatch();
+
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+  const [memebersList, setmemebersList] = useState([]);
+  useEffect(() => {
+    setmemebersList(DatabaseReducer.allMembers);
+  }, [DatabaseReducer]);
   const navigation = useNavigation();
   const [listFilter, setlistFilter] = useState('Days');
   const [profilePreviewModal, setprofilePreviewModal] = useState(false);
-  const [selectedMember, setselectedMember] = useState('');
+  const [selectedMember, setselectedMember] = useState(
+    // must't be undifined becaus it's been used in the modal
+    memebersList.length > 0
+      ? memebersList[0]
+      : {
+          subscription: {
+            duration: '',
+            unit: '',
+            starting_date: '',
+            end_date: '',
+          },
+          profile_image: '',
+          phone_number: '',
+          email: '',
+        },
+  );
   const [imageViewer, setimageViewer] = useState(false);
   // filtring listner
   useEffect(() => {
@@ -81,21 +103,15 @@ export default function Members() {
       <View style={{marginVertical: 1, margin: '4%', flex: 1}}>
         {memebersList && memebersList.length ? (
           <FlatList
-            style={
-              {
-                // marginVertical: '4%',
-                // borderWidth: 1,
-                // borderColor: Colors.light,
-              }
-            }
             keyExtractor={(item, index) => item.id + index}
             data={memebersList}
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    setprofilePreviewModal(true);
                     setselectedMember(item);
+
+                    setprofilePreviewModal(true);
                   }}>
                   <View
                     style={{
@@ -119,21 +135,27 @@ export default function Members() {
                             fontSize: 16,
                             color: Colors.light,
                           }}>
-                          {item.name
-                            ? item.name.length > 20
-                              ? item.name.substring(0, 20) + '...'
-                              : item.name
+                          {item.fullName
+                            ? item.fullName.length > 20
+                              ? item.fullName.substring(0, 20) + '...'
+                              : item.fullName
                             : ''}
                         </Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            21/01/2021
+                            {JSON.stringify(item.subscription.starting_date)}
                           </Text>
-                          <Text style={{color: Colors.lightGrey, fontSize: 12}}>
+                          <Text
+                            style={{
+                              color: Colors.lightGrey,
+                              fontSize: 12,
+                              paddingHorizontal: 10,
+                            }}>
                             -
                           </Text>
+                          {console.log(item.subscription)}
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            21/02/2021
+                            {JSON.stringify(item.subscription.end_date)}
                           </Text>
                         </View>
                       </View>
@@ -143,10 +165,9 @@ export default function Members() {
                           width: 60,
                           height: 60,
                         }}
-                        source={{
-                          uri: item.img,
-                        }}
+                        source={item.profile_image}
                       />
+                      {console.log(item.profile_image)}
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -237,14 +258,14 @@ export default function Members() {
                 marginRight: 25,
                 paddingTop: 1,
               }}>
-              {selectedMember.name}
+              {selectedMember.fullName}
             </Text>
 
             <TouchableOpacity
               onPress={() => {
                 Alert.alert(
                   'warning',
-                  'confir to archive : ' + selectedMember.name,
+                  'confirme to archive : ' + selectedMember.fullName,
                   [
                     {
                       text: 'cancel',
@@ -252,7 +273,11 @@ export default function Members() {
                     {
                       text: 'archive',
                       onPress: () => {
-                        console.log('Archiving ' + selectedMember + '....');
+                        dispatch({
+                          type: 'addNewMemberToArchive',
+                          newMember: selectedMember,
+                        });
+                        setprofilePreviewModal(false);
                       },
                     },
                   ],
@@ -271,7 +296,7 @@ export default function Members() {
               <View>
                 <TouchableOpacity onPress={() => setimageViewer(true)}>
                   <Image
-                    source={{uri: selectedMember.img}}
+                    source={selectedMember.profile_image}
                     style={{
                       width: 90,
                       height: 90,
@@ -284,7 +309,7 @@ export default function Members() {
                   <ImagePreview
                     close={() => setimageViewer(false)}
                     visible={imageViewer}
-                    source={{uri: selectedMember.img}}
+                    source={selectedMember.profile_image}
                   />
                 </TouchableOpacity>
                 <View
@@ -325,13 +350,17 @@ export default function Members() {
                         fontWeight: 'bold',
                         color: Colors.main,
                       }}>
-                      15
+                      {selectedMember.subscription.end_date
+                        ? selectedMember.subscription.end_date
+                        : '00'}
                     </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
                     <Text style={{color: Colors.lightGrey}}>active since</Text>
                     <Text style={{fontWeight: 'bold', color: Colors.main}}>
-                      21/01/2021
+                      {JSON.stringify(
+                        selectedMember.subscription.starting_date,
+                      )}
                     </Text>
                   </View>
                   <View style={{alignItems: 'center'}}>
@@ -363,7 +392,9 @@ export default function Members() {
                     fontWeight: 'bold',
                     color: Colors.light,
                   }}>
-                  21/01/2021
+                  {selectedMember.subscription.end_date
+                    ? selectedMember.subscription.end_date
+                    : '00'}
                 </Text>
               </View>
               <View
@@ -383,7 +414,8 @@ export default function Members() {
                     fontWeight: 'bold',
                     color: Colors.light,
                   }}>
-                  30 days
+                  {selectedMember.subscription.duration}{' '}
+                  {selectedMember.subscription.unit}
                 </Text>
               </View>
               <View
@@ -404,19 +436,64 @@ export default function Members() {
                     color: Colors.light,
                     flex: 1,
                   }}>
-                  0776749201
+                  {selectedMember.phone_number === ''
+                    ? 'not provided'
+                    : selectedMember.phone_number}
                 </Text>
-                <TouchableOpacity
+                {selectedMember.phone_number === '' ? (
+                  <View />
+                ) : (
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: true ? Colors.green : Colors.lightGrey,
+                      padding: 5,
+                      borderRadius: 10,
+                    }}
+                    onPress={() => {
+                      alert('Calling memeber ');
+                    }}>
+                    {phone}
+                  </TouchableOpacity>
+                )}
+              </View>
+
+              <View
+                style={{
+                  alignItems: 'flex-start',
+                  borderBottomWidth: 0.3,
+                  paddingVertical: 12,
+                  marginVertical: 5,
+                  flexDirection: 'row',
+                  borderBottomColor: Colors.light,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: Colors.light}}>Email : </Text>
+                <Text
                   style={{
-                    backgroundColor: true ? Colors.green : Colors.lightGrey,
-                    padding: 5,
-                    borderRadius: 10,
-                  }}
-                  onPress={() => {
-                    alert('Calling memeber ');
+                    fontWeight: 'bold',
+                    color: Colors.light,
+                    flex: 1,
                   }}>
-                  {phone}
-                </TouchableOpacity>
+                  {selectedMember.email === ''
+                    ? 'not provided'
+                    : selectedMember.email}
+                </Text>
+                {selectedMember.email === '' ? (
+                  <View />
+                ) : (
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: true ? Colors.green : Colors.lightGrey,
+                      padding: 5,
+                      borderRadius: 10,
+                    }}
+                    onPress={() => {
+                      alert('send mail to memeber ');
+                    }}>
+                    {email}
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
 
