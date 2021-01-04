@@ -11,7 +11,6 @@ import {goback, camera, menu, save} from '../../../theme/Icons';
 import {launchCamera} from 'react-native-image-picker';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
-import {Sae} from 'react-native-textinput-effects';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
 
@@ -161,27 +160,6 @@ export default function addMember() {
           style={{
             margin: '5%',
           }}>
-          {/* <Sae
-            value={memberName}
-            onChangeText={(NameInput) => {
-              setmemberName(NameInput);
-            }}
-            label={'Full name'}
-            iconClass={FontAwesomeIcon}
-            iconName={'pencil'}
-            iconColor={'white'}
-            inputPadding={16}
-            labelHeight={24}
-            // active border height
-            borderHeight={2}
-            // TextInput props
-            autoCapitalize={'none'}
-            autoCorrect={false}
-            iconColor={Colors.main}
-            labelStyle={{color: Colors.light}}
-            inputStyle={{color: Colors.light}}
-          /> */}
-
           <View
             style={{
               flexDirection: 'row',
