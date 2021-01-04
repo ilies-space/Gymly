@@ -6,4 +6,5 @@ export default {
   light: '#eeeeee',
   red: '#e94560',
   mainLight: '#16c79a',
+  green: '#16c79a',
 };

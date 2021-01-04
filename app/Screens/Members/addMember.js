@@ -7,14 +7,17 @@ import {
 } from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
-import {goback, camera, menu, save} from '../../../theme/Icons';
+import {goback, camera, menu, save, edit} from '../../../theme/Icons';
 import {launchCamera} from 'react-native-image-picker';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function addMember() {
+  const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState(
     require('../../../assets/profilepichholder.png'),
@@ -24,7 +27,10 @@ export default function addMember() {
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
   const [memberName, setmemberName] = useState('');
   const [MembershipDuration, setMembershipDuration] = useState(30);
+  const [memberPhoneNumber, setmemberPhoneNumber] = useState('');
+  const [memberEmail, setmemberEmail] = useState('');
 
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   function uploadImage() {
     launchCamera(
       {
@@ -45,6 +51,37 @@ export default function addMember() {
         }
       },
     );
+  }
+
+  function addNewMember(imageSource) {
+    // check if member with the entred name already exist
+    let lookup = DatabaseReducer.allMembers.find((element) => {
+      return element.fullName.toLowerCase() === memberName.toLowerCase();
+    });
+    // add new member after checking everthing
+    if (lookup) {
+      alert('a member with this name already exist ! ');
+    } else {
+      const newMember = {
+        id: memberName + Math.random(),
+        fullName: memberName,
+        subscription: {
+          duration: MembershipDuration,
+          unit: durationUnit,
+          starting_date: startingDate,
+          end_date: 'not calculated',
+        },
+        profile_image: imageSource,
+        phone_number: memberPhoneNumber,
+        email: memberEmail,
+      };
+
+      dispatch({
+        type: 'addNewMember',
+        newMember: newMember,
+      });
+      navigation.goBack();
+    }
   }
   return (
     <View
@@ -102,33 +139,16 @@ export default function addMember() {
 
         <TouchableOpacity
           onPress={() => {
-            const newMember = {
-              name: memberName,
-              MembershipDuration: MembershipDuration,
-              memeberShipUnit: durationUnit,
-              startingDate: startingDate,
-              profileImg: avatarSource,
-            };
             // checkFormInput
-
             if (MembershipDuration <= 0 || isNaN(MembershipDuration)) {
               alert('memeberShipDuration is invalide');
             } else if (memberName === '') {
               alert('full name is invalide');
             } else {
               if (avatarSource.uri) {
-                // alert(avatarSource);
-                newMember.profileImg = avatarSource;
-
-                console.log('post data');
-                console.log('save member: ' + JSON.stringify(newMember));
+                addNewMember(avatarSource);
               } else {
-                // alert('noImage');
-                newMember.profileImg =
-                  "require('../../../assets/profilepichholder.png')";
-
-                console.log('post data');
-                console.log('save member: ' + JSON.stringify(newMember));
+                addNewMember(require('../../../assets/profilepichholder.png'));
               }
             }
           }}
@@ -161,9 +181,13 @@ export default function addMember() {
               }}
             />
 
-            <View style={{position: 'absolute', top: '50%', right: 25}}>
-              <Text style={{color: Colors.light}}>UPLOAD</Text>
-            </View>
+            {avatarSource.uri ? (
+              <View />
+            ) : (
+              <View style={{position: 'absolute', top: '50%', right: 25}}>
+                <Text style={{color: Colors.light}}>UPLOAD</Text>
+              </View>
+            )}
 
             {/* Camera icon */}
             {true ? (
@@ -221,7 +245,7 @@ export default function addMember() {
             style={{
               flex: 3,
               borderColor: Colors.main,
-              borderWidth: 1,
+              borderWidth: 0.5,
               color: Colors.light,
               textAlign: 'center',
             }}
@@ -231,6 +255,9 @@ export default function addMember() {
             }}
             placeholder={'Full name'}
           />
+
+          {/* phone number  */}
+
           <View
             style={{
               flexDirection: 'row',
@@ -252,7 +279,7 @@ export default function addMember() {
               style={{
                 flex: 3,
                 borderColor: Colors.main,
-                borderWidth: 1,
+                borderWidth: 0.5,
                 color: Colors.light,
                 textAlign: 'center',
               }}
@@ -327,10 +354,18 @@ export default function addMember() {
                   backgroundColor: Colors.grey,
                   alignItems: 'center',
                   paddingVertical: 15,
+                  flexDirection: 'row',
+                  paddingHorizontal: 10,
                 }}>
-                <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+                <Text
+                  style={{
+                    color: Colors.light,
+                    fontWeight: 'bold',
+                    flex: 1,
+                  }}>
                   {JSON.stringify(startingDate)}
                 </Text>
+                {edit}
               </View>
             </TouchableOpacity>
           ) : (
@@ -350,6 +385,58 @@ export default function addMember() {
               </View>
             </View>
           )}
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+              Phone Number
+            </Text>
+          </View>
+          <TextInput
+            placeholderTextColor={Colors.lightGrey}
+            style={{
+              flex: 3,
+              borderColor: Colors.main,
+              borderWidth: 0.5,
+              color: Colors.light,
+              textAlign: 'center',
+            }}
+            value={memberPhoneNumber}
+            onChangeText={(numberPhoneInput) => {
+              setmemberPhoneNumber(numberPhoneInput);
+            }}
+            placeholder={'Phone Number optional'}
+            keyboardType={'number-pad'}
+          />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            <Text style={{color: Colors.light, fontWeight: 'bold'}}>Email</Text>
+          </View>
+          <TextInput
+            keyboardType={'email-address'}
+            placeholderTextColor={Colors.lightGrey}
+            style={{
+              flex: 3,
+              borderColor: Colors.main,
+              borderWidth: 0.5,
+              color: Colors.light,
+              textAlign: 'center',
+            }}
+            value={memberEmail}
+            onChangeText={(emailInput) => {
+              setmemberEmail(emailInput);
+            }}
+            placeholder={'E-mail optional'}
+          />
         </View>
       </ScrollView>
     </View>

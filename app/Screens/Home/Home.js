@@ -1,18 +1,47 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {View, Text, Dimensions, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {
-  FlatList,
+  View,
+  Text,
+  Dimensions,
+  Image,
   ScrollView,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+  RefreshControl,
+} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {menu, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
+import {useSelector} from 'react-redux';
+
+const wait = (timeout) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, timeout);
+  });
+};
+
 export default function Home() {
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+
+  const [allMembercounter, setallMembercounter] = useState('66');
+  const [allMembers, setallMembers] = useState([]);
+
+  useEffect(() => {
+    setallMembers(DatabaseReducer.allMembers);
+  }, [DatabaseReducer]);
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
+
+  // refreshing : **********
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    console.log('Refreshing data');
+    setRefreshing(true);
+
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
 
   return (
     <View
@@ -71,7 +100,10 @@ export default function Home() {
       </View>
 
       {/* Main view  */}
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={{flex: 1}}>
           {/* Total members Card */}
           <View
@@ -97,7 +129,7 @@ export default function Home() {
                     paddingRight: 4,
                     color: Colors.light,
                   }}>
-                  20
+                  {allMembers.length ? allMembers.length : '00'}
                 </Text>
                 {/* <Text style={{color: Colors.light, fontSize: 10}}>members</Text> */}
               </View>
@@ -109,14 +141,14 @@ export default function Home() {
                 data={[
                   {
                     name: 'Active',
-                    population: 10,
+                    population: 5,
                     color: Colors.mainLight,
                     legendFontColor: Colors.light,
                     legendFontSize: 12,
                   },
                   {
                     name: 'inActive',
-                    population: 5,
+                    population: 1,
                     color: Colors.red,
                     legendFontColor: Colors.light,
                     legendFontSize: 12,
@@ -175,10 +207,12 @@ export default function Home() {
             </Text>
           </View>
 
-          {memebersList && memebersList.length > 0 ? (
+          {/* display only the last 4 members */}
+
+          {allMembers && allMembers.length > 0 ? (
             <FlatList
               horizontal
-              data={memebersList}
+              data={allMembers.slice(0, 4)}
               key={(item, index) => item.id + index}
               renderItem={({item}) => {
                 return (
@@ -204,9 +238,7 @@ export default function Home() {
                             height: 80,
                             borderRadius: 80 / 2,
                           }}
-                          source={{
-                            uri: item.img,
-                          }}
+                          source={item.profile_image}
                         />
                       </View>
                     </View>
@@ -218,12 +250,12 @@ export default function Home() {
                           fontSize: 18,
                           color: Colors.light,
                         }}>
-                        {item.name.length > 10
-                          ? item.name.substring(0, 10) + '...'
-                          : item.name}
+                        {item.fullName.length > 9
+                          ? item.fullName.substring(0, 8) + '..'
+                          : item.fullName}
                       </Text>
                       <Text style={{color: Colors.lightGrey, fontSize: 14}}>
-                        {item.duration} {item.memebershipType}
+                        {item.subscription.duration} {item.subscription.unit}
                       </Text>
                     </View>
                   </View>
@@ -248,9 +280,9 @@ export default function Home() {
             <Text style={{color: Colors.light, margin: '4%'}}>
               Expire this week
             </Text>
-            {memebersList && memebersList.length > 0 ? (
+            {allMembers && allMembers.length > 0 ? (
               <View style={{marginVertical: 1, margin: '4%'}}>
-                {memebersList.map((item) => {
+                {allMembers.map((item) => {
                   return (
                     <View
                       key={item.id}
@@ -275,12 +307,12 @@ export default function Home() {
                               fontSize: 16,
                               color: Colors.light,
                             }}>
-                            {item.name.length > 20
-                              ? item.name.substring(0, 20) + '...'
-                              : item.name}
+                            {item.fullName.length > 20
+                              ? item.fullName.substring(0, 20) + '...'
+                              : item.fullName}
                           </Text>
                           <Text style={{color: Colors.red, fontSize: 12}}>
-                            - {item.duration} days
+                            {item.subscription.end_date}
                           </Text>
                         </View>
 
@@ -289,9 +321,7 @@ export default function Home() {
                             width: 60,
                             height: 60,
                           }}
-                          source={{
-                            uri: item.img,
-                          }}
+                          source={item.profile_image}
                         />
                       </View>
                     </View>

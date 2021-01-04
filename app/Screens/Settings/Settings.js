@@ -1,12 +1,14 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, Alert} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback} from '../../../theme/Icons';
+import {useDispatch} from 'react-redux';
 
 export default function Settings() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <View
@@ -48,6 +50,25 @@ export default function Settings() {
       <ScrollView style={{paddingHorizontal: '4%'}}>
         <View style={{paddingVertical: 20}} />
 
+        <Button
+          title={'ERACE AL DATA'}
+          onPress={() => {
+            Alert.alert(
+              'worning',
+              "this action will delete all your member and can't be returned after this action !!",
+              [
+                {
+                  text: 'Confirme',
+                  onPress: () => {
+                    dispatch({
+                      type: 'EraceAllData',
+                    });
+                  },
+                },
+              ],
+            );
+          }}
+        />
         <Button title={'Chage gym name'} />
         <View style={{paddingVertical: 20}} />
         <Button title={'set a password'} />

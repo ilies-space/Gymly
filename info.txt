@@ -1,0 +1,14 @@
+database structre : 
+ const newMember = {
+      id: memberName + Math.random(),
+      fullName: memberName,
+      subscription: {
+        duration: MembershipDuration,
+        unit: durationUnit,
+      },
+      Subscription_starting_date: startingDate,
+      Subscription_end_date: 'not calculated',
+      profile_image: imageSource,
+      phone_number: memberPhoneNumber,
+      email: memberEmail,
+    };
