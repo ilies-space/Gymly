@@ -17,11 +17,12 @@ import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
 import {goback, plus, archive, phone} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function Members() {
-  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+  const dispatch = useDispatch();
 
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   const [memebersList, setmemebersList] = useState([]);
   useEffect(() => {
     setmemebersList(DatabaseReducer.allMembers);
@@ -249,7 +250,7 @@ export default function Members() {
               onPress={() => {
                 Alert.alert(
                   'warning',
-                  'confir to archive : ' + selectedMember.name,
+                  'confirme to archive : ' + selectedMember.fullName,
                   [
                     {
                       text: 'cancel',
@@ -257,7 +258,11 @@ export default function Members() {
                     {
                       text: 'archive',
                       onPress: () => {
-                        console.log('Archiving ' + selectedMember + '....');
+                        dispatch({
+                          type: 'addNewMemberToArchive',
+                          newMember: selectedMember,
+                        });
+                        setprofilePreviewModal(false);
                       },
                     },
                   ],

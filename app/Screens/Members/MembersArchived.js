@@ -1,16 +1,23 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, Image} from 'react-native';
 import {
   FlatList,
   TextInput,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-import {memebersList} from '../../../temps/data';
+import {useSelector} from 'react-redux';
 import Colors from '../../../theme/Colors';
 import {goback} from '../../../theme/Icons';
 
 export default function MembersArchived() {
+  const [archiviedMembers, setarchiviedMembers] = useState([]);
+
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+  useEffect(() => {
+    setarchiviedMembers(DatabaseReducer.archiviedMembers);
+  }, [DatabaseReducer]);
+
   const navigation = useNavigation();
   return (
     <View
@@ -66,17 +73,10 @@ export default function MembersArchived() {
 
       {/* Lst of memebers   */}
       <View style={{marginVertical: 1, margin: '4%', flex: 1}}>
-        {memebersList && memebersList.length ? (
+        {archiviedMembers && archiviedMembers.length ? (
           <FlatList
-            style={
-              {
-                // marginVertical: '4%',
-                // borderWidth: 1,
-                // borderColor: Colors.light,
-              }
-            }
             keyExtractor={(item, index) => item.id + index}
-            data={memebersList}
+            data={archiviedMembers}
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
@@ -105,21 +105,27 @@ export default function MembersArchived() {
                             fontSize: 16,
                             color: Colors.light,
                           }}>
-                          {item.name
-                            ? item.name.length > 20
-                              ? item.name.substring(0, 20) + '...'
-                              : item.name
+                          {item.fullName
+                            ? item.fullName.length > 20
+                              ? item.fullName.substring(0, 20) + '...'
+                              : item.fullName
                             : ''}
                         </Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            21/01/2021
+                            {JSON.stringify(item.subscription.starting_date)}
                           </Text>
-                          <Text style={{color: Colors.lightGrey, fontSize: 12}}>
+                          <Text
+                            style={{
+                              color: Colors.lightGrey,
+                              fontSize: 12,
+                              paddingHorizontal: 10,
+                            }}>
                             -
                           </Text>
+                          {console.log(item.subscription)}
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            21/02/2021
+                            {JSON.stringify(item.subscription.end_date)}
                           </Text>
                         </View>
                       </View>
@@ -129,9 +135,7 @@ export default function MembersArchived() {
                           width: 60,
                           height: 60,
                         }}
-                        source={{
-                          uri: item.img,
-                        }}
+                        source={item.profile_image}
                       />
                     </View>
                   </View>
