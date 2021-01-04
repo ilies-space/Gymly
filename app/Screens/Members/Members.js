@@ -8,13 +8,9 @@ import {
   Button,
   TouchableOpacity,
   Alert,
-} from 'react-native';
-import {
-  FlatList,
-  ScrollView,
-  TextInput,
   TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+} from 'react-native';
+import {FlatList, ScrollView, TextInput} from 'react-native-gesture-handler';
 import ImagePreview from 'react-native-image-preview';
 
 import {memebersList} from '../../../temps/data';
@@ -191,13 +187,18 @@ export default function Members() {
         </TouchableOpacity>
       </View>
       <Modal visible={profilePreviewModal} transparent animationType={'slide'}>
-        <View
-          style={{
-            backgroundColor: 'black',
-            height: '100%',
-            opacity: 0.7,
-          }}
-        />
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setprofilePreviewModal(false);
+          }}>
+          <View
+            style={{
+              backgroundColor: 'black',
+              height: '100%',
+              opacity: 0.7,
+            }}
+          />
+        </TouchableWithoutFeedback>
         <View
           style={{
             height: '80%',
