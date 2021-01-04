@@ -10,9 +10,14 @@ import Colors from '../../../theme/Colors';
 import {menu, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
+import {useSelector} from 'react-redux';
 export default function Home() {
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
+
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+
+  console.log(DatabaseReducer);
 
   return (
     <View

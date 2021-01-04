@@ -1,5 +1,14 @@
 const initialState = {
-  allMembers: [],
+  allMembers: [
+    {
+      name: 'ilies ouldmenouer',
+      img:
+        'https://avatars3.githubusercontent.com/u/63064471?s=460&u=670c8aa11e214d1101514e10887fa81d22e900d0&v=4',
+      duration: '30',
+      memebershipType: 'days',
+      id: '0001',
+    },
+  ],
   archiviedMembers: [],
 };
 
