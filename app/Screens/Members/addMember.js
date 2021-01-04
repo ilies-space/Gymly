@@ -13,7 +13,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function addMember() {
   const dispatch = useDispatch();
@@ -30,6 +30,7 @@ export default function addMember() {
   const [memberPhoneNumber, setmemberPhoneNumber] = useState('');
   const [memberEmail, setmemberEmail] = useState('');
 
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   function uploadImage() {
     launchCamera(
       {
@@ -53,25 +54,34 @@ export default function addMember() {
   }
 
   function addNewMember(imageSource) {
-    const newMember = {
-      id: memberName + Math.random(),
-      fullName: memberName,
-      subscription: {
-        duration: MembershipDuration,
-        unit: durationUnit,
-      },
-      Subscription_starting_date: startingDate,
-      Subscription_end_date: 'not calculated',
-      profile_image: imageSource,
-      phone_number: memberPhoneNumber,
-      email: memberEmail,
-    };
-
-    dispatch({
-      type: 'addNewMember',
-      newMember: newMember,
+    // check if member with the entred name already exist
+    let lookup = DatabaseReducer.allMembers.find((element) => {
+      return element.fullName.toLowerCase() === memberName.toLowerCase();
     });
-    navigation.goBack();
+    // add new member after checking everthing
+    if (lookup) {
+      alert('a member with this name already exist ! ');
+    } else {
+      const newMember = {
+        id: memberName + Math.random(),
+        fullName: memberName,
+        subscription: {
+          duration: MembershipDuration,
+          unit: durationUnit,
+        },
+        Subscription_starting_date: startingDate,
+        Subscription_end_date: 'not calculated',
+        profile_image: imageSource,
+        phone_number: memberPhoneNumber,
+        email: memberEmail,
+      };
+
+      dispatch({
+        type: 'addNewMember',
+        newMember: newMember,
+      });
+      navigation.goBack();
+    }
   }
   return (
     <View
