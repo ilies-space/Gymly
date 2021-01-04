@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -22,6 +22,14 @@ const wait = (timeout) => {
 };
 
 export default function Home() {
+  const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+
+  const [allMembercounter, setallMembercounter] = useState('66');
+  const [allMembers, setallMembers] = useState([]);
+
+  useEffect(() => {
+    setallMembers(DatabaseReducer.allMembers);
+  }, [DatabaseReducer]);
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
 
@@ -121,7 +129,7 @@ export default function Home() {
                     paddingRight: 4,
                     color: Colors.light,
                   }}>
-                  20
+                  {allMembers.length ? allMembers.length : '00'}
                 </Text>
                 {/* <Text style={{color: Colors.light, fontSize: 10}}>members</Text> */}
               </View>
@@ -133,14 +141,14 @@ export default function Home() {
                 data={[
                   {
                     name: 'Active',
-                    population: 10,
+                    population: 5,
                     color: Colors.mainLight,
                     legendFontColor: Colors.light,
                     legendFontSize: 12,
                   },
                   {
                     name: 'inActive',
-                    population: 5,
+                    population: 1,
                     color: Colors.red,
                     legendFontColor: Colors.light,
                     legendFontSize: 12,
