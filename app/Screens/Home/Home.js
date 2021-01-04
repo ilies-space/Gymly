@@ -218,8 +218,8 @@ export default function Home() {
                           fontSize: 18,
                           color: Colors.light,
                         }}>
-                        {item.name.length > 10
-                          ? item.name.substring(0, 10) + '...'
+                        {item.name.length > 9
+                          ? item.name.substring(0, 8) + '..'
                           : item.name}
                       </Text>
                       <Text style={{color: Colors.lightGrey, fontSize: 14}}>
