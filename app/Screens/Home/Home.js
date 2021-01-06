@@ -14,6 +14,7 @@ import {menu, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -238,7 +239,7 @@ export default function Home() {
                             height: 80,
                             borderRadius: 80 / 2,
                           }}
-                          source={item.profile_image}
+                          source={item.profile_image.uri}
                         />
                       </View>
                     </View>
@@ -312,7 +313,9 @@ export default function Home() {
                               : item.fullName}
                           </Text>
                           <Text style={{color: Colors.red, fontSize: 12}}>
-                            {item.subscription.end_date}
+                            {moment(item.subscription.end_date).format(
+                              'DD MMMM YYYY',
+                            )}
                           </Text>
                         </View>
 
@@ -321,7 +324,7 @@ export default function Home() {
                             width: 60,
                             height: 60,
                           }}
-                          source={item.profile_image}
+                          source={item.profile_image.uri}
                         />
                       </View>
                     </View>

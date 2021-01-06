@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import {FlatList, ScrollView, TextInput} from 'react-native-gesture-handler';
 import ImagePreview from 'react-native-image-preview';
-
+import moment from 'moment';
 import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
 import {goback, plus, archive, phone, email} from '../../../theme/Icons';
@@ -41,7 +41,9 @@ export default function Members() {
             starting_date: '',
             end_date: '',
           },
-          profile_image: '',
+          profile_image: {
+            uri: require('../../../assets/profilepichholder.png'),
+          },
           phone_number: '',
           email: '',
         },
@@ -143,7 +145,9 @@ export default function Members() {
                         </Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {JSON.stringify(item.subscription.starting_date)}
+                            {moment(item.subscription.startingDate).format(
+                              'DD MMMM YYYY',
+                            )}
                           </Text>
                           <Text
                             style={{
@@ -153,9 +157,11 @@ export default function Members() {
                             }}>
                             -
                           </Text>
-                          {console.log(item.subscription)}
+                          {/* {console.log(item.subscription)} */}
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {JSON.stringify(item.subscription.end_date)}
+                            {moment(item.subscription.end_date).format(
+                              'DD MMMM YYYY',
+                            )}
                           </Text>
                         </View>
                       </View>
@@ -165,9 +171,13 @@ export default function Members() {
                           width: 60,
                           height: 60,
                         }}
-                        source={item.profile_image}
+                        // in case undifined img , to prevent ap from crash
+                        source={
+                          item.profile_image.uri
+                            ? item.profile_image.uri
+                            : require('../../../assets/profilepichholder.png')
+                        }
                       />
-                      {console.log(item.profile_image)}
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -296,7 +306,7 @@ export default function Members() {
               <View>
                 <TouchableOpacity onPress={() => setimageViewer(true)}>
                   <Image
-                    source={selectedMember.profile_image}
+                    source={selectedMember.profile_image.uri}
                     style={{
                       width: 90,
                       height: 90,
@@ -309,7 +319,7 @@ export default function Members() {
                   <ImagePreview
                     close={() => setimageViewer(false)}
                     visible={imageViewer}
-                    source={selectedMember.profile_image}
+                    source={selectedMember.profile_image.uri}
                   />
                 </TouchableOpacity>
                 <View
@@ -344,30 +354,62 @@ export default function Members() {
                     margin: '4%',
                   }}>
                   <View style={{alignItems: 'center'}}>
+                    <Text style={{color: Colors.lightGrey}}>passed days </Text>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        color: Colors.main,
+                      }}>
+                      {/* {moment(selectedMember.subscription.end_date).format(
+                        'DD/MMMM',
+                      )} */}
+                      {parseInt(
+                        moment
+                          .duration(
+                            moment().diff(
+                              selectedMember.subscription.startingDate,
+                            ),
+                          )
+                          .asDays(),
+                      ) === 0
+                        ? '01'
+                        : parseInt(
+                            moment
+                              .duration(
+                                moment().diff(
+                                  selectedMember.subscription.startingDate,
+                                ),
+                              )
+                              .asDays(),
+                          )}
+                    </Text>
+                  </View>
+
+                  <View style={{alignItems: 'center'}}>
+                    <Text style={{color: Colors.lightGrey}}>Ending date</Text>
+                    <Text style={{fontWeight: 'bold', color: Colors.main}}>
+                      {moment(selectedMember.subscription.end_date).format(
+                        'DD/MM/YY',
+                      )}
+                    </Text>
+                  </View>
+                  <View style={{alignItems: 'center'}}>
                     <Text style={{color: Colors.lightGrey}}>Days left</Text>
                     <Text
                       style={{
                         fontWeight: 'bold',
                         color: Colors.main,
                       }}>
-                      {selectedMember.subscription.end_date
-                        ? selectedMember.subscription.end_date
-                        : '00'}
-                    </Text>
-                  </View>
-                  <View style={{alignItems: 'center'}}>
-                    <Text style={{color: Colors.lightGrey}}>active since</Text>
-                    <Text style={{fontWeight: 'bold', color: Colors.main}}>
-                      {JSON.stringify(
-                        selectedMember.subscription.starting_date,
+                      {/* {moment(selectedMember.subscription.end_date).format(
+                        'DD/MMMM',
+                      )} */}
+                      {parseInt(
+                        moment
+                          .duration(
+                            moment().diff(selectedMember.subscription.end_date),
+                          )
+                          .asDays(),
                       )}
-                    </Text>
-                  </View>
-                  <View style={{alignItems: 'center'}}>
-                    <Text style={{color: Colors.lightGrey}}>passed days</Text>
-
-                    <Text style={{fontWeight: 'bold', color: Colors.main}}>
-                      15
                     </Text>
                   </View>
                 </View>
@@ -386,15 +428,15 @@ export default function Members() {
                   flexDirection: 'row',
                   borderBottomColor: Colors.light,
                 }}>
-                <Text style={{color: Colors.light}}>subscribtion end : </Text>
+                <Text style={{color: Colors.light}}>starting date : </Text>
                 <Text
                   style={{
                     fontWeight: 'bold',
                     color: Colors.light,
                   }}>
-                  {selectedMember.subscription.end_date
-                    ? selectedMember.subscription.end_date
-                    : '00'}
+                  {moment(selectedMember.subscription.starting_date).format(
+                    'DD MMMM YYYY',
+                  )}
                 </Text>
               </View>
               <View

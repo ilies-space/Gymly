@@ -9,6 +9,7 @@ import {
 import {useSelector} from 'react-redux';
 import Colors from '../../../theme/Colors';
 import {goback} from '../../../theme/Icons';
+import moment from 'moment';
 
 export default function MembersArchived() {
   const [archiviedMembers, setarchiviedMembers] = useState([]);
@@ -113,7 +114,9 @@ export default function MembersArchived() {
                         </Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {JSON.stringify(item.subscription.starting_date)}
+                            {moment(item.subscription.starting_date).format(
+                              'DD MMMM YYYY',
+                            )}
                           </Text>
                           <Text
                             style={{
@@ -125,7 +128,9 @@ export default function MembersArchived() {
                           </Text>
                           {console.log(item.subscription)}
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {JSON.stringify(item.subscription.end_date)}
+                            {moment(item.subscription.end_date).format(
+                              'DD MMMM YYYY',
+                            )}
                           </Text>
                         </View>
                       </View>
@@ -135,7 +140,7 @@ export default function MembersArchived() {
                           width: 60,
                           height: 60,
                         }}
-                        source={item.profile_image}
+                        source={item.profile_image.uri}
                       />
                     </View>
                   </View>
