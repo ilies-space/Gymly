@@ -380,7 +380,7 @@ export default function addMember() {
                     fontWeight: 'bold',
                     flex: 1,
                   }}>
-                  {JSON.stringify(startingDate)}
+                  {moment(startingDate).format('DD MMMM YYYY')}
                 </Text>
                 {edit}
               </View>

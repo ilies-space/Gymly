@@ -53,6 +53,13 @@ export default function Members() {
   useEffect(() => {
     console.log('filtermember by : ' + listFilter);
   }, [listFilter]);
+
+  function isExpired(endDate) {
+    const diff = moment.duration(moment().diff(endDate)).asDays();
+    console.log(parseInt(diff));
+    return diff < 0;
+  }
+
   return (
     <View
       style={{
@@ -177,6 +184,19 @@ export default function Members() {
                             ? item.profile_image.uri
                             : require('../../../assets/profilepichholder.png')
                         }
+                      />
+                      <View
+                        style={{
+                          height: 12,
+                          width: 12,
+                          backgroundColor: isExpired(item.subscription.end_date)
+                            ? Colors.green
+                            : Colors.red,
+                          position: 'absolute',
+                          top: 0,
+                          right: 0,
+                          borderBottomLeftRadius: 10,
+                        }}
                       />
                     </View>
                   </View>
@@ -327,7 +347,11 @@ export default function Members() {
                     height: 20,
                     width: 20,
                     borderRadius: 20 / 2,
-                    backgroundColor: true ? Colors.green : Colors.red,
+                    backgroundColor: isExpired(
+                      selectedMember.subscription.end_date,
+                    )
+                      ? Colors.green
+                      : Colors.red,
                     position: 'absolute',
                     top: 15,
                     right: 10,
@@ -354,61 +378,10 @@ export default function Members() {
                     margin: '4%',
                   }}>
                   <View style={{alignItems: 'center'}}>
-                    <Text style={{color: Colors.lightGrey}}>passed days </Text>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        color: Colors.main,
-                      }}>
-                      {/* {moment(selectedMember.subscription.end_date).format(
-                        'DD/MMMM',
-                      )} */}
-                      {parseInt(
-                        moment
-                          .duration(
-                            moment().diff(
-                              selectedMember.subscription.startingDate,
-                            ),
-                          )
-                          .asDays(),
-                      ) === 0
-                        ? '01'
-                        : parseInt(
-                            moment
-                              .duration(
-                                moment().diff(
-                                  selectedMember.subscription.startingDate,
-                                ),
-                              )
-                              .asDays(),
-                          )}
-                    </Text>
-                  </View>
-
-                  <View style={{alignItems: 'center'}}>
                     <Text style={{color: Colors.lightGrey}}>Ending date</Text>
                     <Text style={{fontWeight: 'bold', color: Colors.main}}>
                       {moment(selectedMember.subscription.end_date).format(
                         'DD/MM/YY',
-                      )}
-                    </Text>
-                  </View>
-                  <View style={{alignItems: 'center'}}>
-                    <Text style={{color: Colors.lightGrey}}>Days left</Text>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        color: Colors.main,
-                      }}>
-                      {/* {moment(selectedMember.subscription.end_date).format(
-                        'DD/MMMM',
-                      )} */}
-                      {parseInt(
-                        moment
-                          .duration(
-                            moment().diff(selectedMember.subscription.end_date),
-                          )
-                          .asDays(),
                       )}
                     </Text>
                   </View>
