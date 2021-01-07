@@ -5,3 +5,13 @@ export function isExpired(endDate) {
   console.log(parseInt(diff));
   return diff < 0;
 }
+
+export function filterList(name, memebersList) {
+  name = name.toLowerCase();
+  let filtredList = memebersList.filter(function (element) {
+    let ElementsName = element.fullName.toLocaleLowerCase();
+    return ElementsName.includes(name);
+  });
+
+  return filtredList;
+}

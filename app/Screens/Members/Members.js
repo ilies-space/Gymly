@@ -19,14 +19,16 @@ import {goback, plus, archive, phone, email} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {isExpired} from '../../utilities/functions';
+import {isExpired, filterList} from '../../utilities/functions';
 
 export default function Members() {
   const dispatch = useDispatch();
 
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
-  const [memebersList, setmemebersList] = useState([]);
-  const [memebersListFiltred, setmemebersListFiltred] = useState([]);
+  const [memebersList, setmemebersList] = useState(DatabaseReducer.allMembers);
+  const [memebersListFiltred, setmemebersListFiltred] = useState(
+    memebersListFiltred,
+  );
 
   useEffect(() => {
     setmemebersList(DatabaseReducer.allMembers);
@@ -74,6 +76,10 @@ export default function Members() {
             flex: 2,
           }}
           placeholderTextColor={Colors.light}
+          onChangeText={(text) => {
+            setmemebersListFiltred(filterList(text, memebersList));
+            console.log({memebersListFiltred});
+          }}
         />
         <View style={{flex: 1}}>
           <Picker
@@ -108,7 +114,7 @@ export default function Members() {
         {memebersList && memebersList.length ? (
           <FlatList
             keyExtractor={(item, index) => item.id + index}
-            data={memebersList}
+            data={memebersListFiltred}
             renderItem={({item}) => {
               // isExpired(item.subscription.end_date)
               return (
