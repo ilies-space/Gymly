@@ -15,3 +15,16 @@ export function filterList(name, memebersList) {
 
   return filtredList;
 }
+
+export function calculateActiveMemners(memebersList) {
+  var counter = 0;
+  memebersList.forEach((element) => {
+    if (isExpired(element.subscription.end_date)) {
+      counter++;
+    }
+  });
+
+  console.log(memebersList);
+
+  return counter;
+}

@@ -27,11 +27,13 @@ export default function Members() {
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   const [memebersList, setmemebersList] = useState(DatabaseReducer.allMembers);
   const [memebersListFiltred, setmemebersListFiltred] = useState(
-    memebersListFiltred,
+    DatabaseReducer.allMembers,
   );
 
   useEffect(() => {
     setmemebersList(DatabaseReducer.allMembers);
+    setmemebersListFiltred(DatabaseReducer.allMembers);
+    setlistFilter('all');
   }, [DatabaseReducer]);
   const navigation = useNavigation();
   const [listFilter, setlistFilter] = useState('all');
@@ -78,7 +80,6 @@ export default function Members() {
           placeholderTextColor={Colors.light}
           onChangeText={(text) => {
             setmemebersListFiltred(filterList(text, memebersList));
-            console.log({memebersListFiltred});
           }}
         />
         <View style={{flex: 1}}>

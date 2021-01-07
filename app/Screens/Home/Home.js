@@ -15,6 +15,7 @@ import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
+import {calculateActiveMemners} from '../../utilities/functions';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -27,7 +28,6 @@ export default function Home() {
   const [gymName, setgymName] = useState('XO');
   const [allMembers, setallMembers] = useState([]);
 
-  console.log(DatabaseReducer);
   useEffect(() => {
     setallMembers(DatabaseReducer.allMembers);
     setgymName(DatabaseReducer.gymName);
@@ -143,14 +143,15 @@ export default function Home() {
                 data={[
                   {
                     name: 'Active',
-                    population: 5,
+                    population: calculateActiveMemners(allMembers),
                     color: Colors.mainLight,
                     legendFontColor: Colors.light,
                     legendFontSize: 12,
                   },
                   {
                     name: 'inActive',
-                    population: 1,
+                    population:
+                      allMembers.length - calculateActiveMemners(allMembers),
                     color: Colors.red,
                     legendFontColor: Colors.light,
                     legendFontSize: 12,
