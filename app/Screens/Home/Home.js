@@ -27,6 +27,7 @@ export default function Home() {
   const [gymName, setgymName] = useState('XO');
   const [allMembers, setallMembers] = useState([]);
 
+  console.log(DatabaseReducer);
   useEffect(() => {
     setallMembers(DatabaseReducer.allMembers);
     setgymName(DatabaseReducer.gymName);

@@ -65,7 +65,7 @@ export default function Settings() {
           placeholder={'Change Gym Name'}
           onSubmitEditing={(name) => {
             dispatch({
-              type: 'gymName',
+              type: 'setGymName',
               gymName: name.nativeEvent.text,
             });
           }}

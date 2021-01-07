@@ -1,7 +1,7 @@
 const initialState = {
   allMembers: [],
   archiviedMembers: [],
-  gymName: 'exmple',
+  gymName: 'gymName',
 };
 
 const DatabaseReducer = (state = initialState, action) => {
@@ -46,7 +46,7 @@ const DatabaseReducer = (state = initialState, action) => {
       return {
         allMembers: [],
         archiviedMembers: [],
-        gymName: '',
+        gymName: 'gymName',
       };
     default:
       return state;
