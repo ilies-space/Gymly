@@ -140,7 +140,11 @@ export default function MembersArchived() {
                           width: 60,
                           height: 60,
                         }}
-                        source={item.profile_image.uri}
+                        source={
+                          item.profile_image.uploaded
+                            ? item.profile_image.uri
+                            : require('../../../assets/profilepichholder.png')
+                        }
                       />
                     </View>
                   </View>
