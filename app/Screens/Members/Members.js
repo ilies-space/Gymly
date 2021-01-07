@@ -19,16 +19,20 @@ import {goback, plus, archive, phone, email} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {isExpired} from '../../utilities/functions';
+
 export default function Members() {
   const dispatch = useDispatch();
 
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   const [memebersList, setmemebersList] = useState([]);
+  const [memebersListFiltred, setmemebersListFiltred] = useState([]);
+
   useEffect(() => {
     setmemebersList(DatabaseReducer.allMembers);
   }, [DatabaseReducer]);
   const navigation = useNavigation();
-  const [listFilter, setlistFilter] = useState('Days');
+  const [listFilter, setlistFilter] = useState('all');
   const [profilePreviewModal, setprofilePreviewModal] = useState(false);
   const [selectedMember, setselectedMember] = useState(
     // must't be undifined becaus it's been used in the modal
@@ -48,17 +52,8 @@ export default function Members() {
           email: '',
         },
   );
-  const [imageViewer, setimageViewer] = useState(false);
-  // filtring listner
-  useEffect(() => {
-    console.log('filtermember by : ' + listFilter);
-  }, [listFilter]);
 
-  function isExpired(endDate) {
-    const diff = moment.duration(moment().diff(endDate)).asDays();
-    console.log(parseInt(diff));
-    return diff < 0;
-  }
+  const [imageViewer, setimageViewer] = useState(false);
 
   return (
     <View
@@ -89,8 +84,8 @@ export default function Members() {
             onValueChange={(itemValue) => setlistFilter(itemValue)}>
             <Picker.Item
               //  color={Colors.dark}
-              label="All"
-              value="All"
+              label="all"
+              value="all"
             />
             <Picker.Item
               //  color={Colors.dark}
@@ -115,92 +110,317 @@ export default function Members() {
             keyExtractor={(item, index) => item.id + index}
             data={memebersList}
             renderItem={({item}) => {
+              // isExpired(item.subscription.end_date)
               return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setselectedMember(item);
+                <View>
+                  {listFilter === 'active' ? (
+                    <View>
+                      {isExpired(item.subscription.end_date) ? (
+                        <TouchableOpacity
+                          onPress={() => {
+                            setselectedMember(item);
 
-                    setprofilePreviewModal(true);
-                  }}>
-                  <View
-                    style={{
-                      backgroundColor: Colors.dark,
-                      padding: 10,
-                      paddingHorizontal: 10,
-                      borderBottomWidth: 0.5,
-                      borderBottomColor: Colors.grey,
-                    }}>
-                    <View
-                      style={{
-                        marginVertical: 4,
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      <View style={{flex: 1}}>
-                        <Text
-                          style={{
-                            fontWeight: 'bold',
-                            fontSize: 16,
-                            color: Colors.light,
+                            setprofilePreviewModal(true);
                           }}>
-                          {item.fullName
-                            ? item.fullName.length > 20
-                              ? item.fullName.substring(0, 20) + '...'
-                              : item.fullName
-                            : ''}
-                        </Text>
-                        <View style={{flexDirection: 'row'}}>
-                          <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {moment(item.subscription.startingDate).format(
-                              'DD MMMM YYYY',
-                            )}
-                          </Text>
-                          <Text
+                          <View
                             style={{
-                              color: Colors.lightGrey,
-                              fontSize: 12,
+                              backgroundColor: Colors.dark,
+                              padding: 10,
                               paddingHorizontal: 10,
+                              borderBottomWidth: 0.5,
+                              borderBottomColor: Colors.grey,
                             }}>
-                            -
-                          </Text>
-                          {/* {console.log(item.subscription)} */}
-                          <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {moment(item.subscription.end_date).format(
-                              'DD MMMM YYYY',
-                            )}
-                          </Text>
-                        </View>
-                      </View>
+                            <View
+                              style={{
+                                marginVertical: 4,
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}>
+                              <View style={{flex: 1}}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 16,
+                                    color: Colors.light,
+                                  }}>
+                                  {item.fullName
+                                    ? item.fullName.length > 20
+                                      ? item.fullName.substring(0, 20) + '...'
+                                      : item.fullName
+                                    : ''}
+                                </Text>
+                                <View style={{flexDirection: 'row'}}>
+                                  <Text
+                                    style={{
+                                      color: Colors.lightGrey,
+                                      fontSize: 12,
+                                    }}>
+                                    {moment(
+                                      item.subscription.startingDate,
+                                    ).format('DD MMMM YYYY')}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      color: Colors.lightGrey,
+                                      fontSize: 12,
+                                      paddingHorizontal: 10,
+                                    }}>
+                                    -
+                                  </Text>
+                                  {/* {console.log(item.subscription)} */}
+                                  <Text
+                                    style={{
+                                      color: Colors.lightGrey,
+                                      fontSize: 12,
+                                    }}>
+                                    {moment(item.subscription.end_date).format(
+                                      'DD MMMM YYYY',
+                                    )}
+                                  </Text>
+                                </View>
+                              </View>
 
-                      <Image
-                        style={{
-                          width: 60,
-                          height: 60,
-                        }}
-                        // in case undifined img , to prevent ap from crash
-                        source={
-                          item.profile_image.uri
-                            ? item.profile_image.uri
-                            : require('../../../assets/profilepichholder.png')
-                        }
-                      />
-                      <View
-                        style={{
-                          height: 12,
-                          width: 12,
-                          backgroundColor: isExpired(item.subscription.end_date)
-                            ? Colors.green
-                            : Colors.red,
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          borderBottomLeftRadius: 10,
-                        }}
-                      />
+                              <Image
+                                style={{
+                                  width: 60,
+                                  height: 60,
+                                }}
+                                // in case undifined img , to prevent ap from crash
+                                source={
+                                  item.profile_image.uri
+                                    ? item.profile_image.uri
+                                    : require('../../../assets/profilepichholder.png')
+                                }
+                              />
+                              <View
+                                style={{
+                                  height: 12,
+                                  width: 12,
+                                  backgroundColor: isExpired(
+                                    item.subscription.end_date,
+                                  )
+                                    ? Colors.green
+                                    : Colors.red,
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 0,
+                                  borderBottomLeftRadius: 10,
+                                }}
+                              />
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      ) : (
+                        <View />
+                      )}
                     </View>
-                  </View>
-                </TouchableOpacity>
+                  ) : (
+                    <View>
+                      {listFilter === 'all' ? (
+                        <TouchableOpacity
+                          onPress={() => {
+                            setselectedMember(item);
+
+                            setprofilePreviewModal(true);
+                          }}>
+                          <View
+                            style={{
+                              backgroundColor: Colors.dark,
+                              padding: 10,
+                              paddingHorizontal: 10,
+                              borderBottomWidth: 0.5,
+                              borderBottomColor: Colors.grey,
+                            }}>
+                            <View
+                              style={{
+                                marginVertical: 4,
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}>
+                              <View style={{flex: 1}}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 16,
+                                    color: Colors.light,
+                                  }}>
+                                  {item.fullName
+                                    ? item.fullName.length > 20
+                                      ? item.fullName.substring(0, 20) + '...'
+                                      : item.fullName
+                                    : ''}
+                                </Text>
+                                <View style={{flexDirection: 'row'}}>
+                                  <Text
+                                    style={{
+                                      color: Colors.lightGrey,
+                                      fontSize: 12,
+                                    }}>
+                                    {moment(
+                                      item.subscription.startingDate,
+                                    ).format('DD MMMM YYYY')}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      color: Colors.lightGrey,
+                                      fontSize: 12,
+                                      paddingHorizontal: 10,
+                                    }}>
+                                    -
+                                  </Text>
+                                  {/* {console.log(item.subscription)} */}
+                                  <Text
+                                    style={{
+                                      color: Colors.lightGrey,
+                                      fontSize: 12,
+                                    }}>
+                                    {moment(item.subscription.end_date).format(
+                                      'DD MMMM YYYY',
+                                    )}
+                                  </Text>
+                                </View>
+                              </View>
+
+                              <Image
+                                style={{
+                                  width: 60,
+                                  height: 60,
+                                }}
+                                // in case undifined img , to prevent ap from crash
+                                source={
+                                  item.profile_image.uri
+                                    ? item.profile_image.uri
+                                    : require('../../../assets/profilepichholder.png')
+                                }
+                              />
+                              <View
+                                style={{
+                                  height: 12,
+                                  width: 12,
+                                  backgroundColor: isExpired(
+                                    item.subscription.end_date,
+                                  )
+                                    ? Colors.green
+                                    : Colors.red,
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 0,
+                                  borderBottomLeftRadius: 10,
+                                }}
+                              />
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      ) : (
+                        // <Text>Not active</Text>
+                        <View>
+                          {isExpired(item.subscription.end_date) ? (
+                            <View />
+                          ) : (
+                            <TouchableOpacity
+                              onPress={() => {
+                                setselectedMember(item);
+
+                                setprofilePreviewModal(true);
+                              }}>
+                              <View
+                                style={{
+                                  backgroundColor: Colors.dark,
+                                  padding: 10,
+                                  paddingHorizontal: 10,
+                                  borderBottomWidth: 0.5,
+                                  borderBottomColor: Colors.grey,
+                                }}>
+                                <View
+                                  style={{
+                                    marginVertical: 4,
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                  }}>
+                                  <View style={{flex: 1}}>
+                                    <Text
+                                      style={{
+                                        fontWeight: 'bold',
+                                        fontSize: 16,
+                                        color: Colors.light,
+                                      }}>
+                                      {item.fullName
+                                        ? item.fullName.length > 20
+                                          ? item.fullName.substring(0, 20) +
+                                            '...'
+                                          : item.fullName
+                                        : ''}
+                                    </Text>
+                                    <View style={{flexDirection: 'row'}}>
+                                      <Text
+                                        style={{
+                                          color: Colors.lightGrey,
+                                          fontSize: 12,
+                                        }}>
+                                        {moment(
+                                          item.subscription.startingDate,
+                                        ).format('DD MMMM YYYY')}
+                                      </Text>
+                                      <Text
+                                        style={{
+                                          color: Colors.lightGrey,
+                                          fontSize: 12,
+                                          paddingHorizontal: 10,
+                                        }}>
+                                        -
+                                      </Text>
+                                      {/* {console.log(item.subscription)} */}
+                                      <Text
+                                        style={{
+                                          color: Colors.lightGrey,
+                                          fontSize: 12,
+                                        }}>
+                                        {moment(
+                                          item.subscription.end_date,
+                                        ).format('DD MMMM YYYY')}
+                                      </Text>
+                                    </View>
+                                  </View>
+
+                                  <Image
+                                    style={{
+                                      width: 60,
+                                      height: 60,
+                                    }}
+                                    // in case undifined img , to prevent ap from crash
+                                    source={
+                                      item.profile_image.uri
+                                        ? item.profile_image.uri
+                                        : require('../../../assets/profilepichholder.png')
+                                    }
+                                  />
+                                  <View
+                                    style={{
+                                      height: 12,
+                                      width: 12,
+                                      backgroundColor: isExpired(
+                                        item.subscription.end_date,
+                                      )
+                                        ? Colors.green
+                                        : Colors.red,
+                                      position: 'absolute',
+                                      top: 0,
+                                      right: 0,
+                                      borderBottomLeftRadius: 10,
+                                    }}
+                                  />
+                                </View>
+                              </View>
+                            </TouchableOpacity>
+                          )}
+                        </View>
+                      )}
+                    </View>
+                  )}
+                </View>
               );
             }}
           />
