@@ -6,6 +6,11 @@ export function isExpired(endDate) {
   return diff < 0;
 }
 
+export function calculateDaysLeft(endDate) {
+  const diff = moment.duration(moment().diff(endDate)).asDays();
+  return parseInt(-diff);
+}
+
 export function filterList(name, memebersList) {
   name = name.toLowerCase();
   let filtredList = memebersList.filter(function (element) {

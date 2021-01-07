@@ -15,7 +15,10 @@ import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
-import {calculateActiveMemners} from '../../utilities/functions';
+import {
+  calculateActiveMemners,
+  calculateDaysLeft,
+} from '../../utilities/functions';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -287,48 +290,59 @@ export default function Home() {
               <View style={{marginVertical: 1, margin: '4%'}}>
                 {allMembers.map((item) => {
                   return (
-                    <View
-                      key={item.id}
-                      style={{
-                        backgroundColor: Colors.dark,
-                        padding: 10,
-                        paddingHorizontal: 20,
-                        borderBottomWidth: 0.5,
-                        borderBottomColor: Colors.grey,
-                      }}>
-                      <View
-                        style={{
-                          marginVertical: 4,
-                          flexDirection: 'row',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        <View style={{flex: 1}}>
-                          <Text
-                            style={{
-                              fontWeight: 'bold',
-                              fontSize: 16,
-                              color: Colors.light,
-                            }}>
-                            {item.fullName.length > 20
-                              ? item.fullName.substring(0, 20) + '...'
-                              : item.fullName}
-                          </Text>
-                          <Text style={{color: Colors.red, fontSize: 12}}>
-                            {moment(item.subscription.end_date).format(
-                              'DD MMMM YYYY',
-                            )}
-                          </Text>
-                        </View>
-
-                        <Image
+                    <View>
+                      {calculateDaysLeft(item.subscription.end_date) <= 7 &&
+                      calculateDaysLeft(item.subscription.end_date) > 0 ? (
+                        <View
+                          key={item.id}
                           style={{
-                            width: 60,
-                            height: 60,
-                          }}
-                          source={item.profile_image.uri}
-                        />
-                      </View>
+                            backgroundColor: Colors.dark,
+                            padding: 10,
+                            paddingHorizontal: 20,
+                            borderBottomWidth: 0.5,
+                            borderBottomColor: Colors.grey,
+                          }}>
+                          <View
+                            style={{
+                              marginVertical: 4,
+                              flexDirection: 'row',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            }}>
+                            <View style={{flex: 1}}>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                  fontSize: 16,
+                                  color: Colors.light,
+                                }}>
+                                {item.fullName.length > 20
+                                  ? item.fullName.substring(0, 20) + '...'
+                                  : item.fullName}
+                              </Text>
+                              <Text style={{color: Colors.red, fontSize: 12}}>
+                                {/* {moment(item.subscription.end_date).format(
+                                  'DD MMMM YYYY',
+                                )} */}
+                                {calculateDaysLeft(item.subscription.end_date)}{' '}
+                                days left
+                              </Text>
+                            </View>
+
+                            <Image
+                              style={{
+                                width: 60,
+                                height: 60,
+                              }}
+                              source={item.profile_image.uri}
+                            />
+                          </View>
+                        </View>
+                      ) : (
+                        <View key={item.id}>
+                          {/* <Text>NO this week</Text> */}
+                        </View>
+                      )}
                     </View>
                   );
                 })}
