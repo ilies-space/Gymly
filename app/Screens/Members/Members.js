@@ -196,7 +196,7 @@ export default function Members() {
                                 }}
                                 // in case undifined img , to prevent ap from crash
                                 source={
-                                  item.profile_image.uri
+                                  item.profile_image.uploaded
                                     ? item.profile_image.uri
                                     : require('../../../assets/profilepichholder.png')
                                 }
@@ -298,7 +298,7 @@ export default function Members() {
                                 }}
                                 // in case undifined img , to prevent ap from crash
                                 source={
-                                  item.profile_image.uri
+                                  item.profile_image.uploaded
                                     ? item.profile_image.uri
                                     : require('../../../assets/profilepichholder.png')
                                 }
@@ -400,7 +400,7 @@ export default function Members() {
                                     }}
                                     // in case undifined img , to prevent ap from crash
                                     source={
-                                      item.profile_image.uri
+                                      item.profile_image.uploaded
                                         ? item.profile_image.uri
                                         : require('../../../assets/profilepichholder.png')
                                     }

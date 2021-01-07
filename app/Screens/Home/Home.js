@@ -272,7 +272,11 @@ export default function Home() {
                               height: 80,
                               borderRadius: 80 / 2,
                             }}
-                            source={item.profile_image.uri}
+                            source={
+                              item.profile_image.uploaded
+                                ? item.profile_image.uri
+                                : require('../../../assets/profilepichholder.png')
+                            }
                           />
                         </View>
                       </View>
@@ -319,7 +323,7 @@ export default function Home() {
               <View style={{marginVertical: 1, margin: '4%'}}>
                 {allMembers.map((item) => {
                   return (
-                    <View>
+                    <View key={item.id}>
                       {calculateDaysLeft(item.subscription.end_date) <= 7 &&
                       calculateDaysLeft(item.subscription.end_date) > 0 ? (
                         <TouchableOpacity
@@ -329,7 +333,6 @@ export default function Home() {
                             setprofilePreviewModal(true);
                           }}>
                           <View
-                            key={item.id}
                             style={{
                               backgroundColor: Colors.dark,
                               padding: 10,
@@ -371,7 +374,11 @@ export default function Home() {
                                   width: 60,
                                   height: 60,
                                 }}
-                                source={item.profile_image.uri}
+                                source={
+                                  item.profile_image.uploaded
+                                    ? item.profile_image.uri
+                                    : require('../../../assets/profilepichholder.png')
+                                }
                               />
                             </View>
                           </View>

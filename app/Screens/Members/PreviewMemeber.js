@@ -128,7 +128,11 @@ export default function PreviewMemeber({
             <View>
               <TouchableOpacity onPress={() => setimageViewer(true)}>
                 <Image
-                  source={selectedMember.profile_image.uri}
+                  source={
+                    selectedMember.profile_image.uploaded
+                      ? selectedMember.profile_image.uri
+                      : require('../../../assets/profilepichholder.png')
+                  }
                   style={{
                     width: 90,
                     height: 90,
@@ -141,7 +145,11 @@ export default function PreviewMemeber({
                 <ImagePreview
                   close={() => setimageViewer(false)}
                   visible={imageViewer}
-                  source={selectedMember.profile_image.uri}
+                  source={
+                    selectedMember.profile_image.uploaded
+                      ? selectedMember.profile_image.uri
+                      : require('../../../assets/profilepichholder.png')
+                  }
                 />
               </TouchableOpacity>
               <View

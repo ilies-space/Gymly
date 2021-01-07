@@ -22,6 +22,7 @@ export default function addMember() {
   const navigation = useNavigation();
   const [avatarSource, setavatarSource] = useState({
     uri: require('../../../assets/profilepichholder.png'),
+    uploaded: false,
   });
   const [durationUnit, setdurationUnit] = useState('Days');
   const [startingDate, setstartingDate] = useState(new Date());
@@ -48,6 +49,7 @@ export default function addMember() {
         } else {
           setavatarSource({
             uri: response,
+            uploaded: true,
           });
         }
       },
