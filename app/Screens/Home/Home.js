@@ -19,6 +19,7 @@ import {
   calculateActiveMemners,
   calculateDaysLeft,
 } from '../../utilities/functions';
+import PreviewMemeber from '../Members/PreviewMemeber';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -47,6 +48,27 @@ export default function Home() {
 
     wait(1000).then(() => setRefreshing(false));
   }, []);
+
+  const [selectedMember, setselectedMember] = useState(
+    // must't be undifined becaus it's been used in the modal
+    allMembers.length > 0
+      ? allMembers[0]
+      : {
+          subscription: {
+            duration: '',
+            unit: '',
+            starting_date: '',
+            end_date: '',
+          },
+          profile_image: {
+            uri: require('../../../assets/profilepichholder.png'),
+          },
+          phone_number: '',
+          email: '',
+        },
+  );
+  const [imageViewer, setimageViewer] = useState(false);
+  const [profilePreviewModal, setprofilePreviewModal] = useState(false);
 
   return (
     <View
@@ -222,49 +244,56 @@ export default function Home() {
               key={(item, index) => item.id + index}
               renderItem={({item}) => {
                 return (
-                  <View
-                    style={{
-                      backgroundColor: Colors.dark,
-                      marginHorizontal: 10,
-                      borderRadius: 10,
-                      padding: 10,
-                      justifyContent: 'center',
-                      paddingHorizontal: 20,
-                      width: 150,
+                  <TouchableOpacity
+                    onPress={() => {
+                      setselectedMember(item);
+
+                      setprofilePreviewModal(true);
                     }}>
-                    <View style={{alignItems: 'center'}}>
-                      <View
-                        style={{
-                          height: 80,
-                          width: 80,
-                        }}>
-                        <Image
+                    <View
+                      style={{
+                        backgroundColor: Colors.dark,
+                        marginHorizontal: 10,
+                        borderRadius: 10,
+                        padding: 10,
+                        justifyContent: 'center',
+                        paddingHorizontal: 20,
+                        width: 150,
+                      }}>
+                      <View style={{alignItems: 'center'}}>
+                        <View
                           style={{
-                            width: 80,
                             height: 80,
-                            borderRadius: 80 / 2,
-                          }}
-                          source={item.profile_image.uri}
-                        />
+                            width: 80,
+                          }}>
+                          <Image
+                            style={{
+                              width: 80,
+                              height: 80,
+                              borderRadius: 80 / 2,
+                            }}
+                            source={item.profile_image.uri}
+                          />
+                        </View>
+                      </View>
+
+                      <View style={{alignItems: 'center', marginVertical: 10}}>
+                        <Text
+                          style={{
+                            fontWeight: 'bold',
+                            fontSize: 18,
+                            color: Colors.light,
+                          }}>
+                          {item.fullName.length > 9
+                            ? item.fullName.substring(0, 8) + '..'
+                            : item.fullName}
+                        </Text>
+                        <Text style={{color: Colors.lightGrey, fontSize: 14}}>
+                          {item.subscription.duration} {item.subscription.unit}
+                        </Text>
                       </View>
                     </View>
-
-                    <View style={{alignItems: 'center', marginVertical: 10}}>
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                          fontSize: 18,
-                          color: Colors.light,
-                        }}>
-                        {item.fullName.length > 9
-                          ? item.fullName.substring(0, 8) + '..'
-                          : item.fullName}
-                      </Text>
-                      <Text style={{color: Colors.lightGrey, fontSize: 14}}>
-                        {item.subscription.duration} {item.subscription.unit}
-                      </Text>
-                    </View>
-                  </View>
+                  </TouchableOpacity>
                 );
               }}
             />
@@ -293,51 +322,60 @@ export default function Home() {
                     <View>
                       {calculateDaysLeft(item.subscription.end_date) <= 7 &&
                       calculateDaysLeft(item.subscription.end_date) > 0 ? (
-                        <View
-                          key={item.id}
-                          style={{
-                            backgroundColor: Colors.dark,
-                            padding: 10,
-                            paddingHorizontal: 20,
-                            borderBottomWidth: 0.5,
-                            borderBottomColor: Colors.grey,
+                        <TouchableOpacity
+                          onPress={() => {
+                            setselectedMember(item);
+
+                            setprofilePreviewModal(true);
                           }}>
                           <View
+                            key={item.id}
                             style={{
-                              marginVertical: 4,
-                              flexDirection: 'row',
-                              justifyContent: 'center',
-                              alignItems: 'center',
+                              backgroundColor: Colors.dark,
+                              padding: 10,
+                              paddingHorizontal: 20,
+                              borderBottomWidth: 0.5,
+                              borderBottomColor: Colors.grey,
                             }}>
-                            <View style={{flex: 1}}>
-                              <Text
-                                style={{
-                                  fontWeight: 'bold',
-                                  fontSize: 16,
-                                  color: Colors.light,
-                                }}>
-                                {item.fullName.length > 20
-                                  ? item.fullName.substring(0, 20) + '...'
-                                  : item.fullName}
-                              </Text>
-                              <Text style={{color: Colors.red, fontSize: 12}}>
-                                {/* {moment(item.subscription.end_date).format(
+                            <View
+                              style={{
+                                marginVertical: 4,
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}>
+                              <View style={{flex: 1}}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 16,
+                                    color: Colors.light,
+                                  }}>
+                                  {item.fullName.length > 20
+                                    ? item.fullName.substring(0, 20) + '...'
+                                    : item.fullName}
+                                </Text>
+                                <Text style={{color: Colors.red, fontSize: 12}}>
+                                  {/* {moment(item.subscription.end_date).format(
                                   'DD MMMM YYYY',
                                 )} */}
-                                {calculateDaysLeft(item.subscription.end_date)}{' '}
-                                days left
-                              </Text>
-                            </View>
+                                  {calculateDaysLeft(
+                                    item.subscription.end_date,
+                                  )}{' '}
+                                  days left
+                                </Text>
+                              </View>
 
-                            <Image
-                              style={{
-                                width: 60,
-                                height: 60,
-                              }}
-                              source={item.profile_image.uri}
-                            />
+                              <Image
+                                style={{
+                                  width: 60,
+                                  height: 60,
+                                }}
+                                source={item.profile_image.uri}
+                              />
+                            </View>
                           </View>
-                        </View>
+                        </TouchableOpacity>
                       ) : (
                         <View key={item.id}>
                           {/* <Text>NO this week</Text> */}
@@ -361,6 +399,14 @@ export default function Home() {
             )}
           </View>
         </View>
+
+        <PreviewMemeber
+          selectedMember={selectedMember}
+          imageViewer={imageViewer}
+          setimageViewer={setimageViewer}
+          profilePreviewModal={profilePreviewModal}
+          setprofilePreviewModal={setprofilePreviewModal}
+        />
       </ScrollView>
     </View>
   );
