@@ -24,12 +24,12 @@ const wait = (timeout) => {
 
 export default function Home() {
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
-
-  const [allMembercounter, setallMembercounter] = useState('66');
+  const [gymName, setgymName] = useState('XO');
   const [allMembers, setallMembers] = useState([]);
 
   useEffect(() => {
     setallMembers(DatabaseReducer.allMembers);
+    setgymName(DatabaseReducer.gymName);
   }, [DatabaseReducer]);
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
@@ -73,7 +73,7 @@ export default function Home() {
             flex: 1,
             textAlign: 'center',
           }}>
-          GymName
+          {gymName}
         </Text>
         <TouchableOpacity
           onPress={() => {

@@ -1,6 +1,10 @@
 import React from 'react';
 import {View, Text, Button, Alert} from 'react-native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback} from '../../../theme/Icons';
@@ -50,6 +54,24 @@ export default function Settings() {
       <ScrollView style={{paddingHorizontal: '4%'}}>
         <View style={{paddingVertical: 20}} />
 
+        <TextInput
+          placeholderTextColor={'white'}
+          style={{
+            color: 'white',
+            borderWidth: 1,
+            borderColor: 'white',
+            textAlign: 'center',
+          }}
+          placeholder={'Change Gym Name'}
+          onSubmitEditing={(name) => {
+            dispatch({
+              type: 'gymName',
+              gymName: name.nativeEvent.text,
+            });
+          }}
+        />
+        <View style={{paddingVertical: 20}} />
+
         <Button
           title={'ERACE AL DATA'}
           onPress={() => {
@@ -69,6 +91,7 @@ export default function Settings() {
             );
           }}
         />
+        <View style={{paddingVertical: 20}} />
         <Button title={'Chage gym name'} />
         <View style={{paddingVertical: 20}} />
         <Button title={'set a password'} />
