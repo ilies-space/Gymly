@@ -11,13 +11,19 @@ import Colors from '../../../theme/Colors';
 import {goback} from '../../../theme/Icons';
 import moment from 'moment';
 import PreviewMemeber from './PreviewMemeber';
+import {filterList} from '../../utilities/functions';
 
 export default function MembersArchived() {
   const [archiviedMembers, setarchiviedMembers] = useState([]);
 
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+
+  const [memebersListFiltred, setmemebersListFiltred] = useState(
+    DatabaseReducer.archiviedMembers,
+  );
   useEffect(() => {
     setarchiviedMembers(DatabaseReducer.archiviedMembers);
+    setmemebersListFiltred(DatabaseReducer.archiviedMembers);
   }, [DatabaseReducer]);
 
   const [selectedMember, setselectedMember] = useState({
@@ -86,6 +92,9 @@ export default function MembersArchived() {
             flex: 1,
           }}
           placeholderTextColor={Colors.light}
+          onChangeText={(text) => {
+            setmemebersListFiltred(filterList(text, archiviedMembers));
+          }}
         />
       </View>
 
@@ -94,7 +103,7 @@ export default function MembersArchived() {
         {archiviedMembers && archiviedMembers.length ? (
           <FlatList
             keyExtractor={(item, index) => item.id + index}
-            data={archiviedMembers}
+            data={memebersListFiltred}
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
