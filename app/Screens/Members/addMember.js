@@ -41,11 +41,11 @@ export default function addMember() {
         chooseFromLibraryButtonTitle: 'Choose photo from library',
       },
       (response) => {
-        console.log('Response = ', response);
+        // console.log('Response = ', response);
         if (response.didCancel) {
-          console.log('User cancelled image picker');
+          // console.log('User cancelled image picker');
         } else if (response.error) {
-          console.log('Image Picker Error: ', response.error);
+          // console.log('Image Picker Error: ', response.error);
         } else {
           setavatarSource({
             uri: response,
@@ -92,7 +92,7 @@ export default function addMember() {
         email: memberEmail,
       };
 
-      console.log(newMember);
+      // console.log(newMember);
 
       dispatch({
         type: 'addNewMember',
@@ -184,7 +184,7 @@ export default function addMember() {
         <TouchableOpacity
           onPress={() => {
             uploadImage();
-            console.log('uploadImage();');
+            // console.log('uploadImage();');
           }}
           style={{}}>
           <View style={{width: 100, height: 100, alignSelf: 'center'}}>

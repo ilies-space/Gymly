@@ -22,7 +22,7 @@ export default function PreviewMemeber({
   profilePreviewModal,
   setprofilePreviewModal,
 }) {
-  console.log({selectedMember});
+  // console.log({selectedMember});
   //   const selectedMember = {
   //     subscription: {
   //       duration: '',

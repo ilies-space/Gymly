@@ -1,8 +1,9 @@
 import moment from 'moment';
+import {memebersList} from '../../temps/data';
 
 export function isExpired(endDate) {
   const diff = moment.duration(moment().diff(endDate)).asDays();
-  console.log(parseInt(diff));
+  // console.log(parseInt(diff));
   return diff < 0;
 }
 
@@ -29,7 +30,17 @@ export function calculateActiveMemners(memebersList) {
     }
   });
 
-  console.log(memebersList);
+  // console.log(memebersList);
 
+  return counter;
+}
+
+export function calculateHowmuchwillExpirethisWeek(mmemberlist) {
+  var counter = 0;
+  mmemberlist.forEach((elm) => {
+    if (calculateDaysLeft(elm.subscription.end_date) <= 7) {
+      counter++;
+    }
+  });
   return counter;
 }

@@ -18,6 +18,7 @@ import moment from 'moment';
 import {
   calculateActiveMemners,
   calculateDaysLeft,
+  calculateHowmuchwillExpirethisWeek,
 } from '../../utilities/functions';
 import PreviewMemeber from '../Members/PreviewMemeber';
 
@@ -29,13 +30,16 @@ const wait = (timeout) => {
 
 export default function Home() {
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
-  const [gymName, setgymName] = useState('XO');
+  const [gymName, setgymName] = useState('GymName');
   const [allMembers, setallMembers] = useState([]);
+  const [expireThisWeekCounter, setexpireThisWeekCounter] = useState(0);
 
   useEffect(() => {
     setallMembers(DatabaseReducer.allMembers);
     setgymName(DatabaseReducer.gymName);
   }, [DatabaseReducer]);
+
+  var thisWeekExpire = calculateHowmuchwillExpirethisWeek(allMembers);
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
 
@@ -133,97 +137,96 @@ export default function Home() {
         }>
         <View style={{flex: 1}}>
           {/* Total members Card */}
+
           <View
             style={{
               backgroundColor: Colors.dark,
-              borderRadius: 12,
-              padding: '3%',
               margin: '4%',
-              flexDirection: 'row',
+              borderRadius: 12,
             }}>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              <Text style={{color: Colors.light}}>All subscribers</Text>
+            {/* curret date  */}
+            <View style={{alignItems: 'center'}}>
+              <Text
+                style={{
+                  color: Colors.lightGrey,
+                  padding: 10,
+                }}>
+                {moment().format('DD MMMM YYYY')}
+              </Text>
+            </View>
+            <View
+              style={{
+                padding: '3%',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <View>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <Text style={{color: Colors.light}}>All subscribers</Text>
+
+                  <View
+                    style={{
+                      // margin: '4%',
+                      flexDirection: 'row',
+                      alignItems: 'flex-end',
+                    }}>
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: 40,
+                        paddingRight: 4,
+                        color: Colors.light,
+                      }}>
+                      {allMembers.length ? allMembers.length : '00'}
+                    </Text>
+                    {/* <Text style={{color: Colors.light, fontSize: 10}}>members</Text> */}
+                  </View>
+                </View>
+              </View>
               <View
                 style={{
-                  // margin: '4%',
-                  flexDirection: 'row',
+                  flex: 1,
                   alignItems: 'flex-end',
                 }}>
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    fontSize: 40,
-                    paddingRight: 4,
-                    color: Colors.light,
-                  }}>
-                  {allMembers.length ? allMembers.length : '00'}
-                </Text>
-                {/* <Text style={{color: Colors.light, fontSize: 10}}>members</Text> */}
+                {/* Chart graph START  */}
+                <PieChart
+                  data={[
+                    {
+                      name: 'Active',
+                      population: calculateActiveMemners(allMembers),
+                      color: Colors.mainLight,
+                      legendFontColor: Colors.light,
+                      legendFontSize: 12,
+                    },
+                    {
+                      name: 'inActive',
+                      population:
+                        allMembers.length - calculateActiveMemners(allMembers),
+                      color: Colors.red,
+                      legendFontColor: Colors.light,
+                      legendFontSize: 12,
+                    },
+                  ]}
+                  width={screenWidth / 2}
+                  height={90}
+                  chartConfig={{
+                    backgroundGradientFrom: '#1E2923',
+                    backgroundGradientTo: '#08130D',
+
+                    backgroundGradientFromOpacity: 0,
+                    backgroundGradientToOpacity: 0.5,
+                    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+                    strokeWidth: 2, // optional, default 3
+                    barPercentage: 0.5,
+                    useShadowColorFromDataset: false, // optional
+                  }}
+                  accessor={'population'}
+                  backgroundColor={'transparent'}
+                  paddingLeft={'2'}
+                  center={[2, 2]}
+                  absolute
+                />
               </View>
-            </View>
-
-            <View style={{}}>
-              {/* Chart graph START  */}
-              <PieChart
-                data={[
-                  {
-                    name: 'Active',
-                    population: calculateActiveMemners(allMembers),
-                    color: Colors.mainLight,
-                    legendFontColor: Colors.light,
-                    legendFontSize: 12,
-                  },
-                  {
-                    name: 'inActive',
-                    population:
-                      allMembers.length - calculateActiveMemners(allMembers),
-                    color: Colors.red,
-                    legendFontColor: Colors.light,
-                    legendFontSize: 12,
-                  },
-                ]}
-                width={screenWidth / 2}
-                height={90}
-                chartConfig={{
-                  backgroundGradientFrom: '#1E2923',
-                  backgroundGradientTo: '#08130D',
-
-                  backgroundGradientFromOpacity: 0,
-                  backgroundGradientToOpacity: 0.5,
-                  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-                  strokeWidth: 2, // optional, default 3
-                  barPercentage: 0.5,
-                  useShadowColorFromDataset: false, // optional
-                }}
-                accessor={'population'}
-                backgroundColor={'transparent'}
-                paddingLeft={'2'}
-                center={[2, 2]}
-                absolute
-              />
-              {/* <ProgressChart
-                data={{
-                  labels: ['active', 'inactive'], // optional
-                  data: [0.4, 0.6],
-                }}
-                width={screenWidth / 2}
-                height={100}
-                strokeWidth={5}
-                radius={20}
-                chartConfig={{
-                  backgroundGradientFrom: '#1E2923',
-                  backgroundGradientTo: '#08130D',
-
-                  backgroundGradientFromOpacity: 0,
-                  backgroundGradientToOpacity: 0.5,
-                  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-                  strokeWidth: 2, // optional, default 3
-                  barPercentage: 0.5,
-                  useShadowColorFromDataset: false, // optional
-                }}
-                hideLegend={false}
-              /> */}
-              {/* Chart graph END  */}
             </View>
           </View>
 
@@ -316,9 +319,42 @@ export default function Home() {
 
           {/* outded memebers */}
           <View style={{}}>
-            <Text style={{color: Colors.light, margin: '4%'}}>
+            <Text
+              style={{
+                color: Colors.light,
+                marginHorizontal: '4%',
+                marginTop: '4%',
+              }}>
               Expire this week
             </Text>
+
+            {calculateHowmuchwillExpirethisWeek(allMembers) > 0 ? (
+              <View
+                style={{
+                  marginHorizontal: '4%',
+                  marginTop: 2,
+                  marginBottom: 10,
+                }}>
+                <Text style={{color: Colors.lightGrey}}>
+                  {calculateHowmuchwillExpirethisWeek(allMembers)} memeber will
+                  expire this week
+                </Text>
+              </View>
+            ) : (
+              <View
+                style={{
+                  margin: '4%',
+                  backgroundColor: Colors.dark,
+                  height: 150,
+                  justifyContent: 'center',
+                }}>
+                <View style={{alignItems: 'center'}}>
+                  <Text style={{color: Colors.light}}>
+                    NO ONE will expire this week
+                  </Text>
+                </View>
+              </View>
+            )}
             {allMembers && allMembers.length > 0 ? (
               <View style={{marginVertical: 1, margin: '4%'}}>
                 {allMembers.map((item) => {
