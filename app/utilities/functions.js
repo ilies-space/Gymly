@@ -37,7 +37,10 @@ export function calculateActiveMemners(memebersList) {
 export function calculateHowmuchwillExpirethisWeek(mmemberlist) {
   var counter = 0;
   mmemberlist.forEach((elm) => {
-    if (calculateDaysLeft(elm.subscription.end_date) <= 7) {
+    if (
+      calculateDaysLeft(elm.subscription.end_date) <= 7 &&
+      calculateDaysLeft(elm.subscription.end_date) > 0
+    ) {
       counter++;
     }
   });
