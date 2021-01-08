@@ -3,7 +3,10 @@ TODO :
 
 - Connect Redux  /Done
 
-- impliment Moments JS
+- impliment Moments JS  /Done
+
+
+- walkThrought  
 
 
 ********************

@@ -1,6 +1,10 @@
 import React from 'react';
 import {View, Text, Button, Alert} from 'react-native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback} from '../../../theme/Icons';
@@ -50,32 +54,120 @@ export default function Settings() {
       <ScrollView style={{paddingHorizontal: '4%'}}>
         <View style={{paddingVertical: 20}} />
 
-        <Button
-          title={'ERACE AL DATA'}
-          onPress={() => {
-            Alert.alert(
-              'worning',
-              "this action will delete all your member and can't be returned after this action !!",
-              [
-                {
-                  text: 'Confirme',
-                  onPress: () => {
-                    dispatch({
-                      type: 'EraceAllData',
-                    });
-                  },
-                },
-              ],
-            );
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 20,
+          }}>
+          <Text style={{color: Colors.light, fontWeight: 'bold'}}>
+            Change Gym name :
+          </Text>
+        </View>
+        <TextInput
+          onSubmitEditing={(name) => {
+            dispatch({
+              type: 'setGymName',
+              gymName: name.nativeEvent.text,
+            });
+            navigation.goBack();
           }}
+          placeholderTextColor={Colors.lightGrey}
+          style={{
+            flex: 3,
+            borderColor: Colors.main,
+            borderWidth: 0.5,
+            color: Colors.light,
+            textAlign: 'center',
+          }}
+          placeholder={''}
         />
-        <Button title={'Chage gym name'} />
         <View style={{paddingVertical: 20}} />
-        <Button title={'set a password'} />
-        <View style={{paddingVertical: 20}} />
-        <Button title={'Change language'} />
-        <View style={{paddingVertical: 20}} />
-        <Button title={'extract databse exel'} />
+
+        <Text
+          style={{
+            color: Colors.lightGrey,
+            margin: '4%',
+          }}>
+          EXTRA OPTIONS :
+        </Text>
+
+        <View
+          style={{
+            backgroundColor: Colors.grey,
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 50,
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              Alert.alert(
+                'worning',
+                "this action will delete all your member and can't be returned after this action !!",
+                [
+                  {
+                    text: 'cancel',
+                  },
+                  {
+                    text: 'Confirme',
+                    onPress: () => {
+                      dispatch({
+                        type: 'EraceAllData',
+                      });
+                    },
+                  },
+                ],
+              );
+            }}>
+            <Text style={{color: Colors.red}}>ERACE ALL DATA</Text>
+          </TouchableOpacity>
+
+          <View style={{paddingVertical: 20}} />
+
+          <TouchableOpacity
+            onPress={() => {
+              alert(
+                'this feuture will be availible on the upcoming version of gymly , contact me at ilyasdzair1@gmail.com from more info .',
+              );
+            }}>
+            <Text style={{color: Colors.lightGrey}}>set a password</Text>
+          </TouchableOpacity>
+          <View style={{paddingVertical: 20}} />
+
+          <TouchableOpacity
+            onPress={() => {
+              alert(
+                'this feuture will be availible on the upcoming version of gymly , contact me at ilyasdzair1@gmail.com from more info .',
+              );
+            }}>
+            <Text style={{color: Colors.lightGrey}}>Change language</Text>
+          </TouchableOpacity>
+          <View style={{paddingVertical: 20}} />
+
+          <TouchableOpacity
+            onPress={() => {
+              alert(
+                'this feuture will be availible on the upcoming version of gymly , contact me at ilyasdzair1@gmail.com from more info .',
+              );
+            }}>
+            <Text style={{color: Colors.lightGrey}}>
+              extract all your data in exel format
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            alignItems: 'center',
+            backgroundColor: Colors.grey,
+            marginVertical: 10,
+            padding: 10,
+          }}>
+          <Text style={{color: Colors.lightGrey}}>
+            GYMLY by ilies ouldmenouer
+          </Text>
+          <Text style={{color: Colors.light}}>V 1.0.0</Text>
+        </View>
       </ScrollView>
     </View>
   );

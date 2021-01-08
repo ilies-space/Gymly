@@ -46,7 +46,18 @@ export default function Statistics() {
       </View>
 
       <ScrollView style={{paddingHorizontal: '4%'}}>
-        <Text>Statistics GOES</Text>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: Colors.grey,
+            height: 150,
+            marginVertical: 20,
+          }}>
+          <Text style={{color: Colors.light}}>
+            This feauture wil be availble on the upcoming version{' '}
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );

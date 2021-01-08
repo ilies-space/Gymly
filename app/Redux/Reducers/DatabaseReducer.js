@@ -1,10 +1,19 @@
 const initialState = {
   allMembers: [],
   archiviedMembers: [],
+  gymName: 'gymName',
 };
 
 const DatabaseReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'setGymName':
+      state.gymName = action.gymName;
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+      };
+
     case 'addNewMember':
       console.log('addNewMember');
       state.allMembers = state.allMembers
@@ -13,6 +22,21 @@ const DatabaseReducer = (state = initialState, action) => {
       return {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+      };
+
+    case 'deleteMember':
+      let _lookup = state.archiviedMembers.find(
+        (element) => element === action.member,
+      );
+
+      state.archiviedMembers = state.archiviedMembers.filter(
+        (item) => item !== _lookup,
+      );
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
       };
 
     case 'addNewMemberToArchive':
@@ -29,12 +53,14 @@ const DatabaseReducer = (state = initialState, action) => {
       return {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
       };
 
     case 'EraceAllData':
       return {
         allMembers: [],
         archiviedMembers: [],
+        gymName: 'gymName',
       };
     default:
       return state;

@@ -9,14 +9,38 @@ import {
 import {useSelector} from 'react-redux';
 import Colors from '../../../theme/Colors';
 import {goback} from '../../../theme/Icons';
+import moment from 'moment';
+import PreviewMemeber from './PreviewMemeber';
+import {filterList} from '../../utilities/functions';
 
 export default function MembersArchived() {
   const [archiviedMembers, setarchiviedMembers] = useState([]);
 
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
+
+  const [memebersListFiltred, setmemebersListFiltred] = useState(
+    DatabaseReducer.archiviedMembers,
+  );
   useEffect(() => {
     setarchiviedMembers(DatabaseReducer.archiviedMembers);
+    setmemebersListFiltred(DatabaseReducer.archiviedMembers);
   }, [DatabaseReducer]);
+
+  const [selectedMember, setselectedMember] = useState({
+    subscription: {
+      duration: '',
+      unit: '',
+      starting_date: '',
+      end_date: '',
+    },
+    profile_image: {
+      uri: require('../../../assets/profilepichholder.png'),
+    },
+    phone_number: '',
+    email: '',
+  });
+  const [imageViewer, setimageViewer] = useState(false);
+  const [profilePreviewModal, setprofilePreviewModal] = useState(false);
 
   const navigation = useNavigation();
   return (
@@ -68,6 +92,9 @@ export default function MembersArchived() {
             flex: 1,
           }}
           placeholderTextColor={Colors.light}
+          onChangeText={(text) => {
+            setmemebersListFiltred(filterList(text, archiviedMembers));
+          }}
         />
       </View>
 
@@ -76,12 +103,13 @@ export default function MembersArchived() {
         {archiviedMembers && archiviedMembers.length ? (
           <FlatList
             keyExtractor={(item, index) => item.id + index}
-            data={archiviedMembers}
+            data={memebersListFiltred}
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    alert(JSON.stringify(item));
+                    setselectedMember(item);
+                    setprofilePreviewModal(true);
                   }}>
                   <View
                     style={{
@@ -113,7 +141,9 @@ export default function MembersArchived() {
                         </Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {JSON.stringify(item.subscription.starting_date)}
+                            {moment(item.subscription.starting_date).format(
+                              'DD MMMM YYYY',
+                            )}
                           </Text>
                           <Text
                             style={{
@@ -125,7 +155,9 @@ export default function MembersArchived() {
                           </Text>
                           {console.log(item.subscription)}
                           <Text style={{color: Colors.lightGrey, fontSize: 12}}>
-                            {JSON.stringify(item.subscription.end_date)}
+                            {moment(item.subscription.end_date).format(
+                              'DD MMMM YYYY',
+                            )}
                           </Text>
                         </View>
                       </View>
@@ -135,7 +167,11 @@ export default function MembersArchived() {
                           width: 60,
                           height: 60,
                         }}
-                        source={item.profile_image}
+                        source={
+                          item.profile_image.uploaded
+                            ? item.profile_image.uri
+                            : require('../../../assets/profilepichholder.png')
+                        }
                       />
                     </View>
                   </View>
@@ -154,6 +190,15 @@ export default function MembersArchived() {
           </View>
         )}
       </View>
+
+      <PreviewMemeber
+        selectedMember={selectedMember}
+        imageViewer={imageViewer}
+        setimageViewer={setimageViewer}
+        profilePreviewModal={profilePreviewModal}
+        setprofilePreviewModal={setprofilePreviewModal}
+        action={'archive'}
+      />
     </View>
   );
 }

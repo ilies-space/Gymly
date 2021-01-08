@@ -14,14 +14,16 @@ import DatePicker from 'react-native-date-picker';
 import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch, useSelector} from 'react-redux';
+import moment from 'moment';
 
 export default function addMember() {
   const dispatch = useDispatch();
 
   const navigation = useNavigation();
-  const [avatarSource, setavatarSource] = useState(
-    require('../../../assets/profilepichholder.png'),
-  );
+  const [avatarSource, setavatarSource] = useState({
+    uri: require('../../../assets/profilepichholder.png'),
+    uploaded: false,
+  });
   const [durationUnit, setdurationUnit] = useState('Days');
   const [startingDate, setstartingDate] = useState(new Date());
   const [toggleCheckBox, setToggleCheckBox] = useState(true);
@@ -39,18 +41,32 @@ export default function addMember() {
         chooseFromLibraryButtonTitle: 'Choose photo from library',
       },
       (response) => {
-        console.log('Response = ', response);
+        // console.log('Response = ', response);
         if (response.didCancel) {
-          console.log('User cancelled image picker');
+          // console.log('User cancelled image picker');
         } else if (response.error) {
-          console.log('Image Picker Error: ', response.error);
+          // console.log('Image Picker Error: ', response.error);
         } else {
           setavatarSource({
-            uri: response.uri,
+            uri: response,
+            uploaded: true,
           });
         }
       },
     );
+  }
+
+  function calculate_end_date() {
+    switch (durationUnit) {
+      case 'Months':
+        return moment(startingDate).add(MembershipDuration * 30, 'days');
+
+      case 'Years':
+        return moment(startingDate).add(MembershipDuration * 365, 'days');
+
+      default:
+        return moment(startingDate).add(MembershipDuration, 'days');
+    }
   }
 
   function addNewMember(imageSource) {
@@ -69,12 +85,14 @@ export default function addMember() {
           duration: MembershipDuration,
           unit: durationUnit,
           starting_date: startingDate,
-          end_date: 'not calculated',
+          end_date: calculate_end_date(),
         },
         profile_image: imageSource,
         phone_number: memberPhoneNumber,
         email: memberEmail,
       };
+
+      // console.log(newMember);
 
       dispatch({
         type: 'addNewMember',
@@ -145,11 +163,12 @@ export default function addMember() {
             } else if (memberName === '') {
               alert('full name is invalide');
             } else {
-              if (avatarSource.uri) {
-                addNewMember(avatarSource);
-              } else {
-                addNewMember(require('../../../assets/profilepichholder.png'));
-              }
+              // if (avatarSource.uri) {
+              //   addNewMember(avatarSource);
+              // } else {
+              //   addNewMember(require('../../../assets/profilepichholder.png'));
+              // }
+              addNewMember(avatarSource);
             }
           }}
           style={{
@@ -165,12 +184,12 @@ export default function addMember() {
         <TouchableOpacity
           onPress={() => {
             uploadImage();
-            console.log('uploadImage();');
+            // console.log('uploadImage();');
           }}
           style={{}}>
           <View style={{width: 100, height: 100, alignSelf: 'center'}}>
             <Image
-              source={avatarSource}
+              source={avatarSource.uri}
               style={{
                 width: 90,
                 height: 90,
@@ -363,7 +382,7 @@ export default function addMember() {
                     fontWeight: 'bold',
                     flex: 1,
                   }}>
-                  {JSON.stringify(startingDate)}
+                  {moment(startingDate).format('DD MMMM YYYY')}
                 </Text>
                 {edit}
               </View>
