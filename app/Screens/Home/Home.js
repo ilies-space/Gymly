@@ -365,7 +365,6 @@ export default function Home() {
                         <TouchableOpacity
                           onPress={() => {
                             setselectedMember(item);
-
                             setprofilePreviewModal(true);
                           }}>
                           <View

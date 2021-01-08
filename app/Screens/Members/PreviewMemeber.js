@@ -21,6 +21,7 @@ export default function PreviewMemeber({
   setimageViewer,
   profilePreviewModal,
   setprofilePreviewModal,
+  action,
 }) {
   // console.log({selectedMember});
   //   const selectedMember = {
@@ -95,25 +96,49 @@ export default function PreviewMemeber({
 
           <TouchableOpacity
             onPress={() => {
-              Alert.alert(
-                'warning',
-                'confirme to archive : ' + selectedMember.fullName,
-                [
-                  {
-                    text: 'cancel',
-                  },
-                  {
-                    text: 'archive',
-                    onPress: () => {
-                      dispatch({
-                        type: 'addNewMemberToArchive',
-                        newMember: selectedMember,
-                      });
-                      setprofilePreviewModal(false);
+              if (action === 'archive') {
+                Alert.alert(
+                  'warning',
+                  'confirme to delete : ' +
+                    selectedMember.fullName +
+                    'for ever',
+                  [
+                    {
+                      text: 'cancel',
                     },
-                  },
-                ],
-              );
+                    {
+                      text: 'delete',
+                      onPress: () => {
+                        dispatch({
+                          type: 'deleteMember',
+                          member: selectedMember,
+                        });
+                        setprofilePreviewModal(false);
+                      },
+                    },
+                  ],
+                );
+              } else {
+                Alert.alert(
+                  'warning',
+                  'confirme to archive : ' + selectedMember.fullName,
+                  [
+                    {
+                      text: 'cancel',
+                    },
+                    {
+                      text: 'archive',
+                      onPress: () => {
+                        dispatch({
+                          type: 'addNewMemberToArchive',
+                          newMember: selectedMember,
+                        });
+                        setprofilePreviewModal(false);
+                      },
+                    },
+                  ],
+                );
+              }
             }}
             style={{
               alignItems: 'center',

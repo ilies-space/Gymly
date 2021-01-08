@@ -10,6 +10,7 @@ import {useSelector} from 'react-redux';
 import Colors from '../../../theme/Colors';
 import {goback} from '../../../theme/Icons';
 import moment from 'moment';
+import PreviewMemeber from './PreviewMemeber';
 
 export default function MembersArchived() {
   const [archiviedMembers, setarchiviedMembers] = useState([]);
@@ -18,6 +19,22 @@ export default function MembersArchived() {
   useEffect(() => {
     setarchiviedMembers(DatabaseReducer.archiviedMembers);
   }, [DatabaseReducer]);
+
+  const [selectedMember, setselectedMember] = useState({
+    subscription: {
+      duration: '',
+      unit: '',
+      starting_date: '',
+      end_date: '',
+    },
+    profile_image: {
+      uri: require('../../../assets/profilepichholder.png'),
+    },
+    phone_number: '',
+    email: '',
+  });
+  const [imageViewer, setimageViewer] = useState(false);
+  const [profilePreviewModal, setprofilePreviewModal] = useState(false);
 
   const navigation = useNavigation();
   return (
@@ -82,7 +99,8 @@ export default function MembersArchived() {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    alert(JSON.stringify(item));
+                    setselectedMember(item);
+                    setprofilePreviewModal(true);
                   }}>
                   <View
                     style={{
@@ -163,6 +181,15 @@ export default function MembersArchived() {
           </View>
         )}
       </View>
+
+      <PreviewMemeber
+        selectedMember={selectedMember}
+        imageViewer={imageViewer}
+        setimageViewer={setimageViewer}
+        profilePreviewModal={profilePreviewModal}
+        setprofilePreviewModal={setprofilePreviewModal}
+        action={'archive'}
+      />
     </View>
   );
 }

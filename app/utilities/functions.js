@@ -1,5 +1,4 @@
 import moment from 'moment';
-import {memebersList} from '../../temps/data';
 
 export function isExpired(endDate) {
   const diff = moment.duration(moment().diff(endDate)).asDays();

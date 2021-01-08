@@ -25,6 +25,20 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
       };
 
+    case 'deleteMember':
+      let _lookup = state.archiviedMembers.find(
+        (element) => element === action.member,
+      );
+
+      state.archiviedMembers = state.archiviedMembers.filter(
+        (item) => item !== _lookup,
+      );
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+      };
+
     case 'addNewMemberToArchive':
       console.log('addNewMemberToArchive');
       state.archiviedMembers = [action.newMember, ...state.archiviedMembers];
