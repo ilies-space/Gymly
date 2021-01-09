@@ -9,6 +9,7 @@ import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback} from '../../../theme/Icons';
 import {useDispatch} from 'react-redux';
+import LottieView from 'lottie-react-native';
 
 export default function Settings() {
   const navigation = useNavigation();
@@ -52,7 +53,16 @@ export default function Settings() {
       </View>
 
       <ScrollView style={{paddingHorizontal: '4%'}}>
-        <View style={{paddingVertical: 20}} />
+        <View style={{alignItems: 'center'}}>
+          <LottieView
+            source={require('../../../assets/setting.json')}
+            autoPlay
+            loop
+            style={{
+              height: 120,
+            }}
+          />
+        </View>
 
         <View
           style={{
@@ -148,14 +158,27 @@ export default function Settings() {
 
           <View style={{paddingVertical: 20}} />
 
-          <TouchableOpacity
-            onPress={() => {
-              alert(
-                'this feuture will be availible on the upcoming version of gymly , contact me at ilyasdzair1@gmail.com from more info .',
-              );
-            }}>
-            <Text style={{color: Colors.lightGrey}}>set a password</Text>
-          </TouchableOpacity>
+          <TextInput
+            onSubmitEditing={(name) => {
+              dispatch({
+                type: 'changePin',
+                newPin: name.nativeEvent.text,
+              });
+              alert('new password has been set succesfully');
+              navigation.goBack();
+            }}
+            placeholderTextColor={Colors.lightGrey}
+            style={{
+              flex: 3,
+              borderColor: Colors.main,
+              borderWidth: 0.5,
+              color: Colors.light,
+              textAlign: 'center',
+              width: '100%',
+            }}
+            placeholder={'new pin code'}
+          />
+
           <View style={{paddingVertical: 20}} />
 
           <TouchableOpacity

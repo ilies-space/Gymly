@@ -99,6 +99,16 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
       };
+
+    case 'changePin':
+      state.codePin = action.newPin;
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+        codePin: state.codePin,
+        AuthState: state.AuthState,
+      };
     default:
       return state;
   }
