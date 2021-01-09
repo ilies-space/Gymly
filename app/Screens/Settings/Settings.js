@@ -123,6 +123,30 @@ export default function Settings() {
           </TouchableOpacity>
 
           <View style={{paddingVertical: 20}} />
+          <TouchableOpacity
+            onPress={() => {
+              Alert.alert(
+                'wornnig',
+                'this action will lock your application and you need to enter the ipn code to unlock it next time',
+                [
+                  {
+                    text: 'cancel',
+                  },
+                  {
+                    text: 'Confirme',
+                    onPress: () => {
+                      dispatch({
+                        type: 'lock',
+                      });
+                    },
+                  },
+                ],
+              );
+            }}>
+            <Text style={{color: Colors.lightGrey}}>Lock the app </Text>
+          </TouchableOpacity>
+
+          <View style={{paddingVertical: 20}} />
 
           <TouchableOpacity
             onPress={() => {

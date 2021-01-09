@@ -7,10 +7,9 @@ import DrawerNavigation from '../../DrawerNavigation';
 export default function AuthNavigation() {
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
 
-  console.log(DatabaseReducer.codePin);
   return (
     <View style={{flex: 1}}>
-      {true ? (
+      {DatabaseReducer.AuthState ? (
         <NavigationContainer>
           <DrawerNavigation />
         </NavigationContainer>

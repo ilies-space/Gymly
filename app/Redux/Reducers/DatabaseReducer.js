@@ -2,7 +2,8 @@ const initialState = {
   allMembers: [],
   archiviedMembers: [],
   gymName: 'gymName',
-  codePin: '',
+  codePin: '0000',
+  AuthState: false, //true mean user is logedin else is logedOut
 };
 
 const DatabaseReducer = (state = initialState, action) => {
@@ -13,7 +14,8 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
-        codePin: '',
+        codePin: state.codePin,
+        AuthState: state.AuthState,
       };
 
     case 'addNewMember':
@@ -25,7 +27,8 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
-        codePin: '',
+        codePin: state.codePin,
+        AuthState: state.AuthState,
       };
 
     case 'deleteMember':
@@ -40,7 +43,8 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
-        codePin: '',
+        codePin: state.codePin,
+        AuthState: state.AuthState,
       };
 
     case 'addNewMemberToArchive':
@@ -58,7 +62,8 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
-        codePin: '',
+        codePin: state.codePin,
+        AuthState: state.AuthState,
       };
 
     case 'EraceAllData':
@@ -66,7 +71,33 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: [],
         archiviedMembers: [],
         gymName: 'gymName',
-        codePin: '',
+        codePin: state.codePin,
+        AuthState: state.AuthState,
+      };
+
+    case 'lock':
+      state.AuthState = false;
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+        codePin: state.codePin,
+        AuthState: state.AuthState,
+      };
+
+    case 'login':
+      console.log(action.codePin);
+      if (action.codePin === state.codePin) {
+        state.AuthState = true;
+      } else {
+        alert('wrong password , pleas try again');
+      }
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+        codePin: state.codePin,
+        AuthState: state.AuthState,
       };
     default:
       return state;
