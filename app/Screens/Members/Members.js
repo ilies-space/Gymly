@@ -22,7 +22,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {isExpired, filterList} from '../../utilities/functions';
 import PreviewMemeber from './PreviewMemeber';
 
-export default function Members() {
+export default function Members({route}) {
   const dispatch = useDispatch();
 
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
@@ -39,6 +39,12 @@ export default function Members() {
   const navigation = useNavigation();
   const [listFilter, setlistFilter] = useState('all');
   const [profilePreviewModal, setprofilePreviewModal] = useState(false);
+
+  useEffect(() => {
+    if (memebersList.length <= 0) {
+      navigation.push('addMember');
+    }
+  }, []);
   const [selectedMember, setselectedMember] = useState(
     // must't be undifined becaus it's been used in the modal
     memebersList.length > 0

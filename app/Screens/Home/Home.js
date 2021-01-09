@@ -21,6 +21,7 @@ import {
   calculateHowmuchwillExpirethisWeek,
 } from '../../utilities/functions';
 import PreviewMemeber from '../Members/PreviewMemeber';
+import LottieView from 'lottie-react-native';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -312,8 +313,33 @@ export default function Home() {
                 height: 150,
                 alignItems: 'center',
                 justifyContent: 'center',
+                flexDirection: 'row',
+                padding: 20,
               }}>
-              <Text style={{color: Colors.light}}>NO MEMBER YET</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Members', {
+                    firstTime: true,
+                  });
+                }}
+                style={{alignItems: 'center'}}>
+                <View
+                  style={{
+                    height: 80,
+                    width: 80,
+                    // backgroundColor: Colors.main,
+                  }}>
+                  <LottieView
+                    source={require('../../../assets/addnew.json')}
+                    autoPlay
+                    loop
+                  />
+                </View>
+                <Text style={{color: Colors.light}}>ADD new one</Text>
+              </TouchableOpacity>
+              <View style={{flex: 1, alignItems: 'center'}}>
+                <Text style={{color: Colors.light}}>NO MEMBER YET</Text>
+              </View>
             </View>
           )}
 
