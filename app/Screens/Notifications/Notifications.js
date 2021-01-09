@@ -4,6 +4,7 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback} from '../../../theme/Icons';
+import LottieView from 'lottie-react-native';
 
 export default function Notifications() {
   const navigation = useNavigation();
@@ -46,7 +47,23 @@ export default function Notifications() {
       </View>
 
       <ScrollView style={{paddingHorizontal: '4%'}}>
-        <Text style={{color: Colors.light}}>You have no notification .</Text>
+        <View
+          style={{
+            marginTop: 120,
+            height: 120,
+            // width: 80,
+            alignItems: 'center',
+            // backgroundColor: Colors.main,
+          }}>
+          <LottieView
+            source={require('../../../assets/cloud.json')}
+            autoPlay
+            loop
+          />
+        </View>
+        <View style={{alignItems: 'center'}}>
+          <Text style={{color: Colors.light}}>You have no notification .</Text>
+        </View>
       </ScrollView>
     </View>
   );

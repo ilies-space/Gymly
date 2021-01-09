@@ -4,6 +4,7 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {goback} from '../../../theme/Icons';
+import LottieView from 'lottie-react-native';
 
 export default function Statistics() {
   const navigation = useNavigation();
@@ -48,9 +49,22 @@ export default function Statistics() {
       <ScrollView style={{paddingHorizontal: '4%'}}>
         <View
           style={{
+            height: 200,
+            // width: 80,
+            alignItems: 'center',
+            // backgroundColor: Colors.main,
+          }}>
+          <LottieView
+            source={require('../../../assets/charts.json')}
+            autoPlay
+            loop
+          />
+        </View>
+        <View
+          style={{
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: Colors.grey,
+            // backgroundColor: Colors.grey,
             height: 150,
             marginVertical: 20,
           }}>

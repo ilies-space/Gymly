@@ -12,6 +12,7 @@ import {goback} from '../../../theme/Icons';
 import moment from 'moment';
 import PreviewMemeber from './PreviewMemeber';
 import {filterList} from '../../utilities/functions';
+import LottieView from 'lottie-react-native';
 
 export default function MembersArchived() {
   const [archiviedMembers, setarchiviedMembers] = useState([]);
@@ -180,13 +181,32 @@ export default function MembersArchived() {
             }}
           />
         ) : (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              flex: 1,
-            }}>
-            <Text style={{color: Colors.light}}>No member archivied</Text>
+          <View>
+            <View
+              style={{
+                height: 200,
+                // width: 80,
+                alignItems: 'center',
+                // backgroundColor: Colors.main,
+              }}>
+              <LottieView
+                source={require('../../../assets/archive2.json')}
+                autoPlay
+                loop
+              />
+            </View>
+            <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                // backgroundColor: Colors.grey,
+                height: 150,
+                marginVertical: 20,
+              }}>
+              <Text style={{color: Colors.light}}>
+                Archivied memebers will goes here ...
+              </Text>
+            </View>
           </View>
         )}
       </View>
