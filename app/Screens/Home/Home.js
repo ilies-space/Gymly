@@ -374,6 +374,19 @@ export default function Home() {
                   height: 150,
                   justifyContent: 'center',
                 }}>
+                <View
+                  style={{
+                    height: 80,
+                    // width: 80,
+                    alignItems: 'center',
+                    // backgroundColor: Colors.main,
+                  }}>
+                  <LottieView
+                    source={require('../../../assets/holder.json')}
+                    autoPlay
+                    loop
+                  />
+                </View>
                 <View style={{alignItems: 'center'}}>
                   <Text style={{color: Colors.light}}>
                     NO ONE will expire this week
@@ -454,16 +467,17 @@ export default function Home() {
                 })}
               </View>
             ) : (
-              <View
-                style={{
-                  margin: '4%',
-                  backgroundColor: Colors.dark,
-                  height: 150,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={{color: Colors.light}}>No memeberT</Text>
-              </View>
+              <View />
+              // <View
+              //   style={{
+              //     margin: '4%',
+              //     backgroundColor: Colors.dark,
+              //     height: 150,
+              //     alignItems: 'center',
+              //     justifyContent: 'center',
+              //   }}>
+              //   <Text style={{color: Colors.light}}>No memeberT</Text>
+              // </View>
             )}
           </View>
         </View>
