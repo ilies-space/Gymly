@@ -2,6 +2,7 @@ const initialState = {
   allMembers: [],
   archiviedMembers: [],
   gymName: 'gymName',
+  codePin: '',
 };
 
 const DatabaseReducer = (state = initialState, action) => {
@@ -12,6 +13,7 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
+        codePin: '',
       };
 
     case 'addNewMember':
@@ -23,6 +25,7 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
+        codePin: '',
       };
 
     case 'deleteMember':
@@ -37,6 +40,7 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
+        codePin: '',
       };
 
     case 'addNewMemberToArchive':
@@ -54,6 +58,7 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: state.allMembers,
         archiviedMembers: state.archiviedMembers,
         gymName: state.gymName,
+        codePin: '',
       };
 
     case 'EraceAllData':
@@ -61,6 +66,7 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: [],
         archiviedMembers: [],
         gymName: 'gymName',
+        codePin: '',
       };
     default:
       return state;
