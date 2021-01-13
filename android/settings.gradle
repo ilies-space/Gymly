@@ -1,4 +1,6 @@
 rootProject.name = 'Gymly'
+include ':react-native-i18n'
+project(':react-native-i18n').projectDir = new File(rootProject.projectDir, '../../../AppData/Roaming/npm/node_modules/react-native-i18n/android')
 include ':lottie-react-native'
 project(':lottie-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/lottie-react-native/src/android')
 include ':rn-fetch-blob'

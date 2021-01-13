@@ -24,6 +24,8 @@ target 'Gymly' do
 
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
+  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
+
   target 'GymlyTests' do
     inherit! :complete
     # Pods for testing
