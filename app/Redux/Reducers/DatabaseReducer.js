@@ -4,6 +4,7 @@ const initialState = {
   gymName: 'gymName',
   codePin: '0000',
   AuthState: true, //true mean user is logedin else is logedOut
+  firstTimeUse: true,
 };
 
 const DatabaseReducer = (state = initialState, action) => {
@@ -16,6 +17,7 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
         codePin: state.codePin,
         AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
       };
 
     case 'addNewMember':
@@ -29,6 +31,7 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
         codePin: state.codePin,
         AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
       };
 
     case 'deleteMember':
@@ -45,6 +48,7 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
         codePin: state.codePin,
         AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
       };
 
     case 'addNewMemberToArchive':
@@ -64,6 +68,7 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
         codePin: state.codePin,
         AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
       };
 
     case 'EraceAllData':
@@ -71,8 +76,9 @@ const DatabaseReducer = (state = initialState, action) => {
         allMembers: [],
         archiviedMembers: [],
         gymName: 'gymName',
-        codePin: state.codePin,
-        AuthState: state.AuthState,
+        codePin: '0000',
+        AuthState: true,
+        firstTimeUse: true,
       };
 
     case 'lock':
@@ -83,6 +89,7 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
         codePin: state.codePin,
         AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
       };
 
     case 'login':
@@ -98,6 +105,7 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
         codePin: state.codePin,
         AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
       };
 
     case 'changePin':
@@ -108,6 +116,18 @@ const DatabaseReducer = (state = initialState, action) => {
         gymName: state.gymName,
         codePin: state.codePin,
         AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
+      };
+
+    case 'disableOnBoarding':
+      state.firstTimeUse = false;
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+        codePin: state.codePin,
+        AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
       };
     default:
       return state;

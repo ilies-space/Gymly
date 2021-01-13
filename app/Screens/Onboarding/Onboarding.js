@@ -7,19 +7,27 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {useNavigation} from '@react-navigation/native';
 import Colors from '../../../theme/Colors';
+import {useDispatch} from 'react-redux';
 
 export default function OnboardingScreens() {
-  //   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   return (
     <View style={{flex: 1}}>
       <Onboarding
         onSkip={() => {
           console.log('DONE');
-          //   navigation.navigate('AuthNavigationNavigation');
+          navigation.navigate('DrawerNavigation');
+          dispatch({
+            type: 'disableOnBoarding',
+          });
         }}
         onDone={() => {
           console.log('DONE');
-          //   navigation.navigate('AuthNavigationNavigation');
+          navigation.navigate('DrawerNavigation');
+          dispatch({
+            type: 'disableOnBoarding',
+          });
         }}
         pages={[
           {

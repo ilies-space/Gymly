@@ -13,7 +13,7 @@ import Colors from '../../../theme/Colors';
 import {menu, notifications} from '../../../theme/Icons';
 import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
 import {
   calculateActiveMemners,
@@ -30,6 +30,8 @@ const wait = (timeout) => {
 };
 
 export default function Home() {
+  const dispatch = useDispatch();
+
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   const [gymName, setgymName] = useState('GymName');
   const [allMembers, setallMembers] = useState([]);
