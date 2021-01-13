@@ -1,6 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import LottieView from 'lottie-react-native';
@@ -13,11 +12,6 @@ export default function Auth() {
     <View
       style={{flex: 1, backgroundColor: Colors.dark, justifyContent: 'center'}}>
       <View style={{}}>
-        {/* <Image
-          style={{height: 200, width: '100%'}}
-          source={require('../../assets/redCar.jpg')}
-        /> */}
-
         <View
           style={{
             height: 200,
@@ -34,7 +28,6 @@ export default function Auth() {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            // backgroundColor: Colors.grey,
           }}>
           <Text style={{color: Colors.light}}>ENTER SECURITY PIN </Text>
         </View>

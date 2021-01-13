@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {useSelector} from 'react-redux';
 import Auth from './Auth';
 import {NavigationContainer} from '@react-navigation/native';
