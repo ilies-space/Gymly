@@ -7,11 +7,9 @@ import {
 } from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
-import {goback, camera, menu, save, edit} from '../../../theme/Icons';
+import {goback, camera, save, edit} from '../../../theme/Icons';
 import {launchCamera} from 'react-native-image-picker';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import DatePicker from 'react-native-date-picker';
-import CheckBox from '@react-native-community/checkbox';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
@@ -41,11 +39,8 @@ export default function addMember() {
         chooseFromLibraryButtonTitle: 'Choose photo from library',
       },
       (response) => {
-        // console.log('Response = ', response);
-        if (response.didCancel) {
-          // console.log('User cancelled image picker');
-        } else if (response.error) {
-          // console.log('Image Picker Error: ', response.error);
+        if (response.error) {
+          alert(response.error);
         } else {
           setavatarSource({
             uri: response,
@@ -91,8 +86,6 @@ export default function addMember() {
         phone_number: memberPhoneNumber,
         email: memberEmail,
       };
-
-      // console.log(newMember);
 
       dispatch({
         type: 'addNewMember',
@@ -163,18 +156,11 @@ export default function addMember() {
             } else if (memberName === '') {
               alert('full name is invalide');
             } else {
-              // if (avatarSource.uri) {
-              //   addNewMember(avatarSource);
-              // } else {
-              //   addNewMember(require('../../../assets/profilepichholder.png'));
-              // }
               addNewMember(avatarSource);
             }
           }}
           style={{
             alignItems: 'center',
-            // backgroundColor: Colors.mainLight,
-            // paddingHorizontal: 10,
           }}>
           {save}
         </TouchableOpacity>
@@ -184,7 +170,6 @@ export default function addMember() {
         <TouchableOpacity
           onPress={() => {
             uploadImage();
-            // console.log('uploadImage();');
           }}
           style={{}}>
           <View style={{width: 100, height: 100, alignSelf: 'center'}}>
@@ -229,19 +214,6 @@ export default function addMember() {
             )}
           </View>
         </TouchableOpacity>
-        {/* <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Text
-            style={{
-              color: Colors.light,
-              fontWeight: 'bold',
-              flex: 1,
-              textAlign: 'center',
-              justifyContent: 'center',
-              paddingTop: 12,
-            }}>
-            {memberName}
-          </Text>
-        </View> */}
 
         {/* Form  */}
 
@@ -316,21 +288,9 @@ export default function addMember() {
                 mode={'dropdown'}
                 selectedValue={durationUnit}
                 onValueChange={(itemValue) => setdurationUnit(itemValue)}>
-                <Picker.Item
-                  //  color={Colors.dark}
-                  label="Days"
-                  value="Days"
-                />
-                <Picker.Item
-                  //  color={Colors.dark}
-                  label="Months"
-                  value="Months"
-                />
-                <Picker.Item
-                  // color={Colors.light}
-                  label="Years"
-                  value="Years"
-                />
+                <Picker.Item label="Days" value="Days" />
+                <Picker.Item label="Months" value="Months" />
+                <Picker.Item label="Years" value="Years" />
               </Picker>
             </View>
           </View>
@@ -345,23 +305,6 @@ export default function addMember() {
               subscribtion starting date
             </Text>
           </View>
-          {/* <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <CheckBox
-              tintColor={Colors.light}
-              value={toggleCheckBox}
-              onValueChange={(newValue) => setToggleCheckBox(newValue)}
-            />
-            <TouchableOpacity
-              onPress={() => setToggleCheckBox(!toggleCheckBox)}>
-              <Text style={{color: Colors.light, fontWeight: 'bold'}}>
-                Start from today
-              </Text>
-            </TouchableOpacity>
-          </View> */}
 
           {/* date picker  */}
           {toggleCheckBox ? (
