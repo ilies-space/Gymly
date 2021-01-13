@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
@@ -14,7 +14,6 @@ export default function Notifications() {
       style={{
         backgroundColor: Colors.dark,
         flex: 1,
-        // padding: '4%',
       }}>
       {/* Header */}
       <View
@@ -51,9 +50,7 @@ export default function Notifications() {
           style={{
             marginTop: 120,
             height: 120,
-            // width: 80,
             alignItems: 'center',
-            // backgroundColor: Colors.main,
           }}>
           <LottieView
             source={require('../../../assets/cloud.json')}
