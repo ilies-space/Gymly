@@ -3,7 +3,7 @@ const initialState = {
   archiviedMembers: [],
   gymName: 'gymName',
   codePin: '0000',
-  AuthState: false, //true mean user is logedin else is logedOut
+  AuthState: true, //true mean user is logedin else is logedOut
 };
 
 const DatabaseReducer = (state = initialState, action) => {
