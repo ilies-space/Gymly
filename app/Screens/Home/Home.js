@@ -11,7 +11,6 @@ import {
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {menu, notifications} from '../../../theme/Icons';
-import {memebersList} from '../../../temps/data';
 import {PieChart} from 'react-native-chart-kit';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment';
@@ -30,19 +29,15 @@ const wait = (timeout) => {
 };
 
 export default function Home() {
-  const dispatch = useDispatch();
-
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   const [gymName, setgymName] = useState('GymName');
   const [allMembers, setallMembers] = useState([]);
-  const [expireThisWeekCounter, setexpireThisWeekCounter] = useState(0);
 
   useEffect(() => {
     setallMembers(DatabaseReducer.allMembers);
     setgymName(DatabaseReducer.gymName);
   }, [DatabaseReducer]);
 
-  var thisWeekExpire = calculateHowmuchwillExpirethisWeek(allMembers);
   const navigation = useNavigation();
   const screenWidth = Dimensions.get('window').width;
 
@@ -182,7 +177,6 @@ export default function Home() {
                       }}>
                       {allMembers.length ? allMembers.length : '00'}
                     </Text>
-                    {/* <Text style={{color: Colors.light, fontSize: 10}}>members</Text> */}
                   </View>
                 </View>
               </View>
@@ -329,7 +323,6 @@ export default function Home() {
                   style={{
                     height: 80,
                     width: 80,
-                    // backgroundColor: Colors.main,
                   }}>
                   <LottieView
                     source={require('../../../assets/addnew.json')}
@@ -379,9 +372,7 @@ export default function Home() {
                 <View
                   style={{
                     height: 80,
-                    // width: 80,
                     alignItems: 'center',
-                    // backgroundColor: Colors.main,
                   }}>
                   <LottieView
                     source={require('../../../assets/holder.json')}
@@ -435,9 +426,6 @@ export default function Home() {
                                     : item.fullName}
                                 </Text>
                                 <Text style={{color: Colors.red, fontSize: 12}}>
-                                  {/* {moment(item.subscription.end_date).format(
-                                  'DD MMMM YYYY',
-                                )} */}
                                   {calculateDaysLeft(
                                     item.subscription.end_date,
                                   )}{' '}
@@ -460,9 +448,7 @@ export default function Home() {
                           </View>
                         </TouchableOpacity>
                       ) : (
-                        <View key={item.id}>
-                          {/* <Text>NO this week</Text> */}
-                        </View>
+                        <View key={item.id} />
                       )}
                     </View>
                   );
@@ -470,16 +456,6 @@ export default function Home() {
               </View>
             ) : (
               <View />
-              // <View
-              //   style={{
-              //     margin: '4%',
-              //     backgroundColor: Colors.dark,
-              //     height: 150,
-              //     alignItems: 'center',
-              //     justifyContent: 'center',
-              //   }}>
-              //   <Text style={{color: Colors.light}}>No memeberT</Text>
-              // </View>
             )}
           </View>
         </View>
