@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button, Alert} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import {
   ScrollView,
   TextInput,
@@ -20,7 +20,6 @@ export default function Settings() {
       style={{
         backgroundColor: Colors.dark,
         flex: 1,
-        // padding: '4%',
       }}>
       {/* Header */}
       <View
@@ -90,7 +89,6 @@ export default function Settings() {
             color: Colors.light,
             textAlign: 'center',
           }}
-          placeholder={''}
         />
         <View style={{paddingVertical: 20}} />
 
