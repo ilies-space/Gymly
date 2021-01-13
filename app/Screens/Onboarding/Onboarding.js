@@ -1,5 +1,5 @@
-import React from 'react';
-import {View} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -7,12 +7,48 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import Colors from '../../../theme/Colors';
 import {useDispatch} from 'react-redux';
+import {Picker} from '@react-native-picker/picker';
 
 export default function OnboardingScreens() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [Language, setLanguage] = useState('EN');
   return (
     <View style={{flex: 1}}>
+      {/* Select LAnguage  */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          backgroundColor: Colors.main,
+        }}>
+        <View style={{flex: 2}}>
+          <Text>Choose your language</Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Picker
+            style={{color: Colors.dark}}
+            dropdownIconColor={Colors.dark}
+            mode={'dropdown'}
+            selectedValue={Language}
+            onValueChange={(itemValue) => {
+              alert(
+                'this feuture is not avalibale yet , Only English for now ..  ',
+              );
+              setLanguage(itemValue);
+              dispatch({
+                type: 'changeLanguage',
+                selectedLanguage: itemValue,
+              });
+            }}>
+            <Picker.Item label="English" value="EN" />
+            <Picker.Item label="العربية" value="AR" />
+            <Picker.Item label="francais" value="FR" />
+          </Picker>
+        </View>
+      </View>
       <Onboarding
         onSkip={() => {
           console.log('DONE');

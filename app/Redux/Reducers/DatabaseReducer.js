@@ -5,6 +5,7 @@ const initialState = {
   codePin: '0000',
   AuthState: true, //true mean user is logedin else is logedOut
   firstTimeUse: true,
+  Language: 'EN',
 };
 
 const DatabaseReducer = (state = initialState, action) => {
@@ -18,6 +19,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
 
     case 'addNewMember':
@@ -32,6 +34,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
 
     case 'deleteMember':
@@ -49,6 +52,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
 
     case 'addNewMemberToArchive':
@@ -69,6 +73,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
 
     case 'EraceAllData':
@@ -79,6 +84,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: '0000',
         AuthState: true,
         firstTimeUse: true,
+        Language: 'EN',
       };
 
     case 'lock':
@@ -90,6 +96,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
 
     case 'login':
@@ -106,6 +113,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
 
     case 'changePin':
@@ -117,6 +125,7 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
 
     case 'disableOnBoarding':
@@ -128,6 +137,18 @@ const DatabaseReducer = (state = initialState, action) => {
         codePin: state.codePin,
         AuthState: state.AuthState,
         firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
+      };
+    case 'changeLanguage':
+      state.Language = action.selectedLanguage;
+      return {
+        allMembers: state.allMembers,
+        archiviedMembers: state.archiviedMembers,
+        gymName: state.gymName,
+        codePin: state.codePin,
+        AuthState: state.AuthState,
+        firstTimeUse: state.firstTimeUse,
+        Language: state.Language,
       };
     default:
       return state;
