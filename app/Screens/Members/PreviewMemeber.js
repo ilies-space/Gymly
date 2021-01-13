@@ -23,21 +23,6 @@ export default function PreviewMemeber({
   setprofilePreviewModal,
   action,
 }) {
-  // console.log({selectedMember});
-  //   const selectedMember = {
-  //     subscription: {
-  //       duration: '',
-  //       unit: '',
-  //       starting_date: '',
-  //       end_date: '',
-  //     },
-  //     profile_image: {
-  //       uri: require('../../../assets/profilepichholder.png'),
-  //     },
-  //     phone_number: '',
-  //     email: '',
-  //   };
-
   const dispatch = useDispatch();
   return (
     <Modal visible={profilePreviewModal} transparent animationType={'slide'}>
@@ -62,7 +47,6 @@ export default function PreviewMemeber({
           width: '100%',
         }}>
         {/* Header */}
-        {/* Header */}
         <View
           style={{
             flexDirection: 'row',
@@ -75,7 +59,6 @@ export default function PreviewMemeber({
           }}>
           <TouchableOpacity
             onPress={() => {
-              // navigation.goBack();
               setprofilePreviewModal(false);
             }}>
             {goback}
@@ -205,7 +188,6 @@ export default function PreviewMemeber({
                 style={{
                   flexDirection: 'row',
                   justifyContent: 'space-around',
-                  // width: '100%',
                   marginVertical: 20,
                   padding: 10,
                   borderWidth: 0.5,
@@ -270,7 +252,6 @@ export default function PreviewMemeber({
             </View>
             <View
               style={{
-                alignItems: 'flex-start',
                 borderBottomWidth: 0.3,
                 paddingVertical: 12,
                 marginVertical: 5,
@@ -309,7 +290,6 @@ export default function PreviewMemeber({
 
             <View
               style={{
-                alignItems: 'flex-start',
                 borderBottomWidth: 0.3,
                 paddingVertical: 12,
                 marginVertical: 5,
@@ -384,18 +364,4 @@ export default function PreviewMemeber({
       </View>
     </Modal>
   );
-}
-
-{
-  /* <PreviewMemeber 
-     imageViewer = {imageViewer}
-     setimageViewer = {setimageViewer}
-     archive = {archive}
-     selectedMember  = {selectedMember}
-     goback = {goback}
-Colors = {Colors}
-profilePreviewModal = {profilePreviewModal}
-     setprofilePreviewModal  ={setprofilePreviewModal}
-
-     /> */
 }
