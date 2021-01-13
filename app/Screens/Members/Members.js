@@ -1,30 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  Modal,
-  Button,
-  TouchableOpacity,
-  Alert,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import {FlatList, ScrollView, TextInput} from 'react-native-gesture-handler';
-import ImagePreview from 'react-native-image-preview';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {FlatList, TextInput} from 'react-native-gesture-handler';
 import moment from 'moment';
-import {memebersList} from '../../../temps/data';
 import Colors from '../../../theme/Colors';
-import {goback, plus, archive, phone, email} from '../../../theme/Icons';
+import {plus} from '../../../theme/Icons';
 import {Picker} from '@react-native-picker/picker';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {isExpired, filterList} from '../../utilities/functions';
 import PreviewMemeber from './PreviewMemeber';
 
-export default function Members({route}) {
-  const dispatch = useDispatch();
-
+export default function Members() {
   const DatabaseReducer = useSelector((state) => state.DatabaseReducer);
   const [memebersList, setmemebersList] = useState(DatabaseReducer.allMembers);
   const [memebersListFiltred, setmemebersListFiltred] = useState(
@@ -96,21 +83,9 @@ export default function Members({route}) {
             mode={'dropdown'}
             selectedValue={listFilter}
             onValueChange={(itemValue) => setlistFilter(itemValue)}>
-            <Picker.Item
-              //  color={Colors.dark}
-              label="all"
-              value="all"
-            />
-            <Picker.Item
-              //  color={Colors.dark}
-              label="active"
-              value="active"
-            />
-            <Picker.Item
-              // color={Colors.light}
-              label="inactive"
-              value="inactive"
-            />
+            <Picker.Item label="all" value="all" />
+            <Picker.Item label="active" value="active" />
+            <Picker.Item label="inactive" value="inactive" />
           </Picker>
         </View>
       </View>
@@ -124,7 +99,6 @@ export default function Members({route}) {
             keyExtractor={(item, index) => item.id + index}
             data={memebersListFiltred}
             renderItem={({item}) => {
-              // isExpired(item.subscription.end_date)
               return (
                 <View>
                   {listFilter === 'active' ? (
@@ -182,7 +156,6 @@ export default function Members({route}) {
                                     }}>
                                     -
                                   </Text>
-                                  {/* {console.log(item.subscription)} */}
                                   <Text
                                     style={{
                                       color: Colors.lightGrey,
@@ -284,7 +257,6 @@ export default function Members({route}) {
                                     }}>
                                     -
                                   </Text>
-                                  {/* {console.log(item.subscription)} */}
                                   <Text
                                     style={{
                                       color: Colors.lightGrey,
@@ -328,7 +300,6 @@ export default function Members({route}) {
                           </View>
                         </TouchableOpacity>
                       ) : (
-                        // <Text>Not active</Text>
                         <View>
                           {isExpired(item.subscription.end_date) ? (
                             <View />
@@ -386,7 +357,6 @@ export default function Members({route}) {
                                         }}>
                                         -
                                       </Text>
-                                      {/* {console.log(item.subscription)} */}
                                       <Text
                                         style={{
                                           color: Colors.lightGrey,
