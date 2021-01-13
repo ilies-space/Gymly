@@ -1,7 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
