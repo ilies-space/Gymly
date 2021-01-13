@@ -1,13 +1,7 @@
 import React from 'react';
-import {Text} from 'react-native';
 
-import Home from './Screens/Home/Home';
-import Members from './Screens/Members/Members';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
-
-import Settings from './Screens/Settings/Settings';
 import Colors from '../theme/Colors';
 import MembersNavigation from './Screens/Members/MembersNavigation';
 import HomeStackNavigation from './Screens/Home/HomeStackNavigation';
