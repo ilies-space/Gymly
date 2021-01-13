@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../../theme/Colors';
 import {useNavigation} from '@react-navigation/native';
@@ -14,7 +14,6 @@ export default function Statistics() {
       style={{
         backgroundColor: Colors.dark,
         flex: 1,
-        // padding: '4%',
       }}>
       {/* Header */}
       <View
@@ -50,9 +49,7 @@ export default function Statistics() {
         <View
           style={{
             height: 200,
-            // width: 80,
             alignItems: 'center',
-            // backgroundColor: Colors.main,
           }}>
           <LottieView
             source={require('../../../assets/charts.json')}
@@ -64,7 +61,6 @@ export default function Statistics() {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            // backgroundColor: Colors.grey,
             height: 150,
             marginVertical: 20,
           }}>
