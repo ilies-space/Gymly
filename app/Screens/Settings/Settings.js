@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Alert} from 'react-native';
 import {
   ScrollView,
@@ -10,10 +10,12 @@ import {useNavigation} from '@react-navigation/native';
 import {goback} from '../../../theme/Icons';
 import {useDispatch} from 'react-redux';
 import LottieView from 'lottie-react-native';
+import {Picker} from '@react-native-picker/picker';
 
 export default function Settings() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [Language, setLanguage] = useState('EN');
 
   return (
     <View
@@ -199,6 +201,37 @@ export default function Settings() {
               extract all your data in exel format
             </Text>
           </TouchableOpacity>
+          <View style={{paddingVertical: 20}} />
+
+          <View style={{alignSelf: 'flex-start'}}>
+            <Text
+              style={{
+                color: Colors.lightGrey,
+              }}>
+              Choose your language
+            </Text>
+          </View>
+          <View style={{width: '100%'}}>
+            <Picker
+              style={{color: Colors.light}}
+              dropdownIconColor={Colors.light}
+              mode={'dropdown'}
+              selectedValue={Language}
+              onValueChange={(itemValue) => {
+                alert(
+                  'this feuture is not avalibale yet , Only English for now ..  ',
+                );
+                setLanguage(itemValue);
+                dispatch({
+                  type: 'changeLanguage',
+                  selectedLanguage: itemValue,
+                });
+              }}>
+              <Picker.Item label="English" value="EN" />
+              <Picker.Item label="العربية" value="AR" />
+              <Picker.Item label="francais" value="FR" />
+            </Picker>
+          </View>
         </View>
 
         <View
